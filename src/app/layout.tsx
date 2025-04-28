@@ -22,8 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${pretendard.className}`}>
-    <body>
-    {children}
+    <body className="flex justify-center min-h-screen bg-primary-200">
+      <div className="relative w-[430px] min-h-screen bg-white overflow-hidden">
+        {children}
+      </div>
     </body>
     </html>
   );

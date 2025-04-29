@@ -2,7 +2,6 @@
 
 import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
 import Link from 'next/link';
-import Button from '@/components/Button';
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);

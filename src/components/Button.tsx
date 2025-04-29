@@ -1,7 +1,7 @@
 import React from 'react';
 
 type Variant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
-type Size = 'default' | 'sm' | 'lg' | 'icon';
+type Size = 'default' | 'sm' | 'lg' | 'icon' | 'lg_icon';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
@@ -31,6 +31,7 @@ export default function Button({
     sm: 'h-8 rounded-md px-3 text-xs',
     lg: 'h-10 rounded-md px-8',
     icon: 'h-9 w-9',
+    lg_icon: 'h-12 w-12',
   };
 
   const combinedClassName = [

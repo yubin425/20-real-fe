@@ -38,7 +38,7 @@ export function Input({
             placeholder:text-gray-400
             transition-all duration-200
             hover:border-gray-400
-            focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/25
+            focus:border-gray-50 focus:outline-none focus:ring-1
             disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-100
             ${error ? 'border-red-500 ring-2 ring-red-500/25' : ''}
             ${className}

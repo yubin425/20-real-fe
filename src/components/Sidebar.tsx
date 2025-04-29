@@ -2,6 +2,7 @@
 
 import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);
@@ -12,6 +13,15 @@ export default function Sidebar() {
     { label: '공지사항', href: '/notices' },
     { label: '카테부 뉴스', href: '/news' },
   ];
+
+  // open 상태라면 overflow hidden하여 스크롤 차단
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }, [isOpen]);
 
 
   return (

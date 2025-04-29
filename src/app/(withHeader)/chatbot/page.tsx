@@ -113,6 +113,7 @@ export default function ChatbotPage() {
           variant="outline"
           className="ml-2 rounded-full shadow-md shadow-black/30"
           onClick={handleSendClick}
+          disabled={isLoading}
         >
           <Send />
         </Button>

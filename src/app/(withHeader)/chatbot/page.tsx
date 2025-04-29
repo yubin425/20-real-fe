@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { ChatMessage } from '@/features/chatbot/types/ChatMessage';
 import MyChatItem from '@/features/chatbot/components/MyChatItem';
 import ChatItem from '@/features/chatbot/components/ChatItem';
@@ -12,6 +12,7 @@ import LoadingChatItem from '@/features/chatbot/components/LoadingChatItem';
 import Image from 'next/image';
 import logo from '@/assets/logo.png';
 import SuggestQuestionItem from '@/features/chatbot/components/SuggestQuestionItem';
+import { useToastStore } from '@/stores/toastStore';
 
 const suggestQuestions: string[] = [
   "5/6 임시 공휴일에 카테부도 쉬어?",
@@ -23,11 +24,23 @@ export default function ChatbotPage() {
   const [currentInput, setCurrentInput] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const { showToast } = useToastStore();
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // 추천 검색어 클릭
   const handleSuggestQuestionClick = (text: string) => {
     loadAnswer(text)
+  }
+
+  // 채팅 입력
+  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+    const newValue = e.target.value;
+    if (newValue.length > 500) {
+      showToast('메시지는 최대 500자까지 입력 가능합니다.', 'error', 'top');
+      return;
+    }
+    setCurrentInput(newValue);
   }
 
   // 채팅 전송 버튼 클릭
@@ -103,7 +116,7 @@ export default function ChatbotPage() {
           type="text"
           placeholder="질문을 입력하세요"
           value={currentInput}
-          onChange={(e) => setCurrentInput(e.target.value)}
+          onChange={handleInputChange}
           className="shadow-md shadow-black/30"
           autoFocus={true}
         />

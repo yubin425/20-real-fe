@@ -61,3 +61,7 @@
 .max-w-app {
     max-width: 430px;
 }
+
+.min-h-app {
+    min-height: calc(100vh - 50px);
+}

@@ -57,3 +57,26 @@
         }
     }
 }
+
+@keyframes slideInFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slideInFade {
+    animation: slideInFade 0.3s ease-out;
+}
+
+.max-w-app {
+    max-width: 430px;
+}
+
+.min-h-app {
+    min-height: calc(100vh - 50px);
+}

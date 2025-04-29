@@ -2,7 +2,7 @@
 
 import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
 import Link from 'next/link';
-import Button from '@/components/Button';
+import { useEffect } from 'react';
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);
@@ -14,18 +14,27 @@ export default function Sidebar() {
     { label: '카테부 뉴스', href: '/news' },
   ];
 
+  // open 상태라면 overflow hidden하여 스크롤 차단
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+  }, [isOpen]);
+
 
   return (
     <>
       {isOpen && (
         <div
-          className="absolute inset-0 bg-black/30 z-40"
+          className="fixed inset-0 bg-black/30 z-40"
           onClick={close}
         />
       )}
 
         <aside
-          className={`absolute top-0 left-0 w-52 h-full bg-gray-700 text-white z-50 transition-transform duration-300 ${
+          className={`fixed top-0 left-0 w-52 h-full bg-gray-700 text-white z-50 transition-transform duration-300 ${
             isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >

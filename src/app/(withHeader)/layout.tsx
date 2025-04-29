@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
-import { APP_WIDTH } from '@/constatns/ui';
 
 export default function WithHeaderLayout({
                                            children,

@@ -5,12 +5,18 @@ import { ChatMessage } from '@/features/chatbot/types/ChatMessage';
 import MyChatItem from '@/features/chatbot/components/MyChatItem';
 import ChatItem from '@/features/chatbot/components/ChatItem';
 import { v4 as uuidv4 } from 'uuid';
-import { Input } from '@/components/Input';
+import Input from '@/components/Input';
 import Button from '@/components/Button';
 import { Send } from 'lucide-react';
 import LoadingChatItem from '@/features/chatbot/components/LoadingChatItem';
 import Image from 'next/image';
 import logo from '@/assets/logo.png';
+import SuggestQuestionItem from '@/features/chatbot/components/SuggestQuestionItem';
+
+const suggestQuestions: string[] = [
+  "5/6 임시 공휴일에 카테부도 쉬어?",
+  "휴가 신청하는 법을 알려줘",
+]
 
 export default function ChatbotPage() {
   const [chats, setChats] = useState<ChatMessage[]>([]);
@@ -19,18 +25,29 @@ export default function ChatbotPage() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // 추천 검색어 클릭
+  const handleSuggestQuestionClick = (text: string) => {
+    loadAnswer(text)
+  }
+
+  // 채팅 전송 버튼 클릭
   const handleSendClick = (e: FormEvent) => {
     e.preventDefault();
-    setCurrentInput('');
+    loadAnswer(currentInput)
+  };
+
+  // 현재 채팅을 chat 리스트에 등록하고, 답변 받아옴
+  const loadAnswer = (text: string) => {
     setChats(prev => [
       ...prev,
       {
         id: uuidv4(),
-        text: currentInput,
+        text: text,
         type: 'question',
       },
     ]);
 
+    setCurrentInput('');
     setIsLoading(true);
 
     setTimeout(() => {
@@ -44,10 +61,12 @@ export default function ChatbotPage() {
       ]);
       setIsLoading(false);
     }, 2000);
-  };
+  }
+
 
   useEffect(() => {
     setTimeout(() => {
+      // chat 갱신된다면, 제일 밑으로 스크롤
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 0);
   }, [chats]);
@@ -57,10 +76,12 @@ export default function ChatbotPage() {
     <div className="flex flex-col min-h-app">
       <div className="flex-1 flex flex-col gap-4 p-4 pt-10 pb-18 relative">
         {chats.length === 0 && (
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="animate-fadeIn flex flex-col items-center">
-              <Image src={logo} alt="logo" width={400} height={50} />
-            </div>
+          <div className="flex-1 flex flex-col items-center justify-center gap-2">
+            <Image src={logo} alt="logo" width={400} height={50} />
+            {suggestQuestions.map((text) =>
+              <SuggestQuestionItem key={text} text={text} onClick={handleSuggestQuestionClick}/>
+            )}
+
           </div>
         )}
 

@@ -13,6 +13,7 @@ import Image from 'next/image';
 import logo from '@/assets/logo.png';
 import SuggestQuestionItem from '@/features/chatbot/components/SuggestQuestionItem';
 import { useToastStore } from '@/stores/toastStore';
+import { HEADER_HEIGHT } from '@/constatns/ui';
 
 const suggestQuestions: string[] = [
   "5/6 임시 공휴일에 카테부도 쉬어?",
@@ -87,7 +88,7 @@ export default function ChatbotPage() {
 
   return (
     <div className="flex flex-col min-h-app">
-      <div className="flex-1 flex flex-col gap-4 p-4 pt-10 pb-18 relative">
+      <div className="flex-1 flex flex-col gap-4 p-4 pt-header pb-18 relative">
         {chats.length === 0 && (
           <div className="flex-1 flex flex-col items-center justify-center gap-2">
             <Image src={logo} alt="logo" width={400} height={50} />

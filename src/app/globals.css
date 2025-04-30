@@ -80,3 +80,7 @@
 .min-h-app {
     min-height: calc(100vh - 50px);
 }
+
+.pt-header {
+    padding-top: 50px;
+}

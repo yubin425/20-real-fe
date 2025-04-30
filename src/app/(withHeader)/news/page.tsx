@@ -1,10 +1,12 @@
 "use client"
 
 import { Clock, Flame } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HotNewsItem from '@/features/Post/components/HotNewsItem';
 import { News } from '@/features/Post/types/News';
 import NewsListItem from '@/features/Post/components/NewsListItem';
+import Link from 'next/link';
+import { useReadNewsPersistStore } from '@/stores/readNewsPersistStore';
 
 const dummyHotNews: News[] = [
   {
@@ -64,8 +66,17 @@ const dummyRecentNews: News[] = [
 
 export default function NewsListPage() {
   const [hotNews, setHotNews] = useState(dummyHotNews);
-
   const [recentNews, setRecentNews] = useState(dummyRecentNews);
+  const { markAsRead, isRead } = useReadNewsPersistStore()
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleNewsClick = (id: number) => {
+    markAsRead(id);
+  }
 
   return (
     <div className="bg-gray-50 min-h-app pb-16">
@@ -77,8 +88,12 @@ export default function NewsListPage() {
         </div>
 
         <div className="max-w-app pb-4 -mx-5 px-5 flex flex-row gap-4">
-          {hotNews.map((news) => (
-            <HotNewsItem key={news.id} news={news}/>
+          {isMounted && hotNews.map((news) => (
+            <div key={news.id} className="grow shrink basis-0 " onClick={() => handleNewsClick(news.id)}>
+              <Link href={`/news/${news.id}`}>
+                <HotNewsItem news={news} userRead={isRead(news.id)} />
+              </Link>
+            </div>
           ))}
         </div>
       </div>
@@ -92,8 +107,10 @@ export default function NewsListPage() {
           </div>
         </div>
 
-        {recentNews.map((news) => (
-          <NewsListItem key={news.id} news={news}/>
+        {isMounted && recentNews.map((news) => (
+          <Link key={news.id} href={`/news/${news.id}`} onClick={() => handleNewsClick(news.id)}>
+            <NewsListItem news={news} userRead={isRead(news.id)}/>
+          </Link>
         ))}
       </div>
 

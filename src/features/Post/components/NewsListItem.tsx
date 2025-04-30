@@ -5,9 +5,10 @@ import { formatTime } from '@/utils/formatTime';
 
 interface NewsListItemProps {
   news: News;
+  userRead: boolean;
 }
 
-export default function NewsListItem({ news }: NewsListItemProps) {
+export default function NewsListItem({ news, userRead }: NewsListItemProps) {
   const isRecent = differenceInHours(new Date(), parse(news.createdAt, 'yyyy.MM.dd HH:mm:ss', new Date())) < 24;
 
   return (
@@ -18,7 +19,7 @@ export default function NewsListItem({ news }: NewsListItemProps) {
             {isRecent && (
               <span className="bg-secondary-300 text-white text-xs py-0.5 px-2 rounded-full">NEW</span>
             )}
-            <h3 className="font-medium text-gray-800 line-clamp-1">{news.title}</h3>
+            <h3 className={`font-medium ${userRead ? "text-gray-400" : "text-gray-800"}  line-clamp-1`}>{news.title}</h3>
           </div>
           <div className="flex items-center text-xs text-gray-500">
             <span>{formatTime(news.createdAt)}</span>

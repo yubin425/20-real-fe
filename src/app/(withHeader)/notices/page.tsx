@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import NoticeListItem from '@/features/Post/components/NoticeListItem';
 import { Notice } from '@/features/Post/types/Notice';
+import Link from 'next/link';
 
 const dummyNotices: Notice[] = [
   {
@@ -59,7 +60,9 @@ export default function NoticesPage() {
 
       <div className="px-4 pb-20">
         {notices.map((notice) => (
-          <NoticeListItem key={notice.id} notice={notice}/>
+          <Link key={notice.id} href={`/notices/${notice.id}`}>
+            <NoticeListItem notice={notice}/>
+          </Link>
         ))}
       </div>
 

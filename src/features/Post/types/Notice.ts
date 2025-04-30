@@ -1,8 +1,10 @@
-export type Notice = {
+import { PostPlatform } from '@/features/Post/types/PostPlatform';
+
+export interface Notice {
   id: number;
   title: string;
   author: string;
-  platform: '디스코드' | '노션';
+  platform: PostPlatform;
   userRead: boolean;
   createdAt: string;
 }

@@ -100,9 +100,9 @@ export default function NewsDetailPage() {
           </div>
 
           <div className='flex w-full gap-3 justify-center items-center'>
-            <Input className='flex-1'/>
+            <Input className='flex-1 rounded-xl'/>
 
-            <Button variant='outline' size='icon'>
+            <Button variant='outline' size='icon' className='shrink-0'>
               <ArrowUp size={18}/>
             </Button>
           </div>

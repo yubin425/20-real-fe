@@ -54,9 +54,7 @@ export default function NoticesPage() {
 
   return (
     <div className="bg-gray-50 min-h-app">
-      <div className="bg-white px-6 pt-header pb-4 shadow-sm mb-4">
-        <h2 className="text-2xl font-bold text-gray-800">공지사항</h2>
-      </div>
+      <h2 className="pt-header px-6 pb-4 text-xl font-bold text-gray-800">Notice</h2>
 
       <div className="px-4 pb-20">
         {notices.map((notice) => (

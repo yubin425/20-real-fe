@@ -7,23 +7,31 @@ import ChatItem from '@/features/chatbot/components/ChatItem';
 import { v4 as uuidv4 } from 'uuid';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
-import { Send } from 'lucide-react';
+import { Bell, Newspaper, Send } from 'lucide-react';
 import LoadingChatItem from '@/features/chatbot/components/LoadingChatItem';
 import Image from 'next/image';
 import logo from '@/assets/logo.png';
-import SuggestQuestionItem from '@/features/chatbot/components/SuggestQuestionItem';
 import { useToastStore } from '@/stores/toastStore';
-import { HEADER_HEIGHT } from '@/constatns/ui';
+import HeadlineBanner from '@/features/chatbot/components/HeadlineBanner';
+import { Headline } from '@/features/chatbot/types/Headline';
 
 const suggestQuestions: string[] = [
-  "5/6 임시 공휴일에 카테부도 쉬어?",
-  "휴가 신청하는 법을 알려줘",
+  "휴가 신청하는 법을 알려줘.",
+  "유료 구독료 지원 일정을 알려줘."
 ]
+
+const dummyHeadlines: Headline[] = [
+  { type: 'notice', title: '시스템 점검 안내: 5월 3일 오전 2시~4시', id: 1 },
+  { type: 'news', title: '춘이네 비서실 봄맞이 새 기능 업데이트!', id: 1 },
+  { type: 'notice', title: '개인정보 처리방침 변경 안내', id: 2 },
+  { type: 'news', title: '5월 황금연휴 특별 이벤트 안내', id: 2 },
+];
 
 export default function ChatbotPage() {
   const [chats, setChats] = useState<ChatMessage[]>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [headlines, setHeadlines] = useState<Headline[]>(dummyHeadlines);
 
   const { showToast } = useToastStore();
 
@@ -87,50 +95,81 @@ export default function ChatbotPage() {
 
 
   return (
-    <div className="flex flex-col min-h-app">
-      <div className="flex-1 flex flex-col gap-4 p-4 pt-header pb-18 relative">
-        {chats.length === 0 && (
-          <div className="flex-1 flex flex-col items-center justify-center gap-2">
-            <Image src={logo} alt="logo" width={400} height={50} />
-            {suggestQuestions.map((text) =>
-              <SuggestQuestionItem key={text} text={text} onClick={handleSuggestQuestionClick}/>
-            )}
+    <div className="flex flex-col min-h-app bg-gray-50">
+      {/* 최신 공지와 뉴스 */}
+      {chats.length === 0 && headlines.length > 0 && (
+        <HeadlineBanner items={headlines}/>
+      )}
 
+      <div className="flex-1 flex flex-col gap-4 p-4 pb-32 pt-header relative">
+        {/* 로고와 추천 질문 */}
+        {chats.length === 0 && (
+          <div className="flex-1 flex flex-col items-center justify-center gap-4">
+            <div className="mb-2 transform hover:scale-105 transition-transform duration-300 px-3">
+              <Image src={logo} alt="logo" width={400} height={50} priority className="drop-shadow-md" />
+            </div>
+
+            <div className="w-full max-w-md space-y-3">
+              {suggestQuestions.map((text) => (
+                <div
+                  key={text}
+                  onClick={() => handleSuggestQuestionClick(text)}
+                  className="bg-white border border-gray-200 p-3 rounded-2xl text-sm text-gray-700 hover:bg-gray-100 hover:border-gray-300 cursor-pointer shadow-sm transition-all duration-200"
+                >
+                  {text}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        {chats.map((chat) =>
-          chat.type === 'question' ? (
-            <MyChatItem key={chat.id} text={chat.text} />
-          ) : (
-            <ChatItem key={chat.id} text={chat.text} />
-          ),
-        )}
+        {/* 채팅 메시지 */}
+        <div className="space-y-4">
+          {chats.map((chat) =>
+            chat.type === 'question' ? (
+              <MyChatItem key={chat.id} text={chat.text} />
+            ) : (
+              <ChatItem key={chat.id} text={chat.text} />
+            ),
+          )}
 
-        {isLoading && <LoadingChatItem />}
+          {isLoading && <LoadingChatItem />}
+        </div>
+
         <div ref={messagesEndRef} />
       </div>
 
-      <form
-        className="fixed bottom-0 left-0 right-0 bg-white flex flex-row items-center p-4  max-w-app mx-auto">
-        <Input
-          type="text"
-          placeholder="질문을 입력하세요"
-          value={currentInput}
-          onChange={handleInputChange}
-          className="shadow-md shadow-black/30"
-          autoFocus={true}
-        />
-        <Button
-          type="submit"
-          size="icon"
-          variant="outline"
-          className="ml-2 rounded-full shadow-md shadow-black/30"
-          onClick={handleSendClick}
-          disabled={isLoading || currentInput === ''}
-        >
-          <Send />
-        </Button>
+      {/* 입력 영역 */}
+      <form className="fixed bottom-0 left-0 right-0 max-w-app mx-auto">
+        <div className="bg-white p-4 border-t border-gray-100  rounded-t-3xl">
+          <div className="flex items-center bg-white rounded-full pr-2 gap-2 shadow-md">
+
+            <Input
+              type="text"
+              placeholder="질문을 입력하세요"
+              value={currentInput}
+              onChange={handleInputChange}
+              className="flex-1 text-gray-700 rounded-full"
+              autoFocus={true}
+            />
+
+            <Button
+              type="submit"
+              size="icon"
+              className={`text-white shrink-0 ${
+                isLoading || currentInput === '' ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              onClick={handleSendClick}
+              disabled={isLoading || currentInput === ''}
+            >
+              <Send size={18} />
+            </Button>
+          </div>
+
+          <p className="text-xs text-center text-gray-400 mt-2">
+            2025년 4월 7까지 업데이트된 챗봇입니다.
+          </p>
+        </div>
       </form>
     </div>
   );

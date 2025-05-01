@@ -1,22 +1,45 @@
 'use client';
 
-import { Menu, Bell } from 'lucide-react';
+import { Menu, Bell, ArrowLeft } from 'lucide-react';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import Button from '@/components/Button';
 import { HEADER_HEIGHT } from '@/constatns/ui';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Header() {
+  const router = useRouter();
   const openSidebar = useSidebarStore((state) => state.open);
+  const pathname = usePathname();
+  const hideBackButton = ['/chatbot', '/notices', '/news'].includes(pathname);
 
   return (
-    <header className="flex flex-row justify-between items-center" style={{height: `${HEADER_HEIGHT}px`}}>
-      <Button variant="ghost" size="lg_icon" onClick={openSidebar}>
-        <Menu />
-      </Button>
+    <header
+      className="flex items-center justify-between px-4 border-b border-gray-200 bg-white"
+      style={{ height: `${HEADER_HEIGHT}px` }}
+    >
+      {/* 왼쪽: 뒤로가기 버튼 */}
+      <div className="flex items-center gap-2 min-w-24">
+        {!hideBackButton && (
+          <Button variant="ghost" size="lg_icon" onClick={() => router.back()}>
+            <ArrowLeft />
+          </Button>
+        )}
+      </div>
 
-      <Button variant="ghost" size="lg_icon">
-        <Bell />
-      </Button>
+      {/* 가운데: 타이틀 */}
+      <div className="flex-1 flex justify-center">
+        <h1 className="text-base font-bold text-gray-900">춘이네 비서실</h1>
+      </div>
+
+      {/* 오른쪽: 알림 + 메뉴 버튼 */}
+      <div className="flex items-center gap-2 min-w-24 justify-end">
+        <Button variant="ghost" size="lg_icon">
+          <Bell />
+        </Button>
+        <Button variant="ghost" size="lg_icon" onClick={openSidebar}>
+          <Menu />
+        </Button>
+      </div>
     </header>
   );
 }

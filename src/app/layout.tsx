@@ -4,6 +4,7 @@ import './globals.css';
 import { ReactNode } from 'react';
 import { APP_WIDTH } from '@/constatns/ui';
 import ToastContainer from '@/components/ToastContainer';
+import Providers from '@/app/providers';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -25,10 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${pretendard.className}`}>
     <body className="flex justify-center bg-primary-100">
-    <div className={`relative bg-white min-h-screen`} style={{width: `${APP_WIDTH}px`}}>
-      <ToastContainer />
-      {children}
-    </div>
+    <Providers>
+      <div className={`relative bg-white min-h-screen`} style={{ width: `${APP_WIDTH}px` }}>
+        <ToastContainer />
+        {children}
+      </div>
+    </Providers>
     </body>
     </html>
   );

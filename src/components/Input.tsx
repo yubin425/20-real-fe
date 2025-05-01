@@ -29,7 +29,7 @@ export default function Input(
           ref={ref}
           type={type}
           className={`
-            w-full rounded-lg border border-gray-300 bg-white px-3 py-2
+            w-full border border-gray-300 bg-white px-3 py-2
             ${icon ? 'pl-10' : 'pl-3'}
             text-base shadow-sm
             placeholder:text-gray-400

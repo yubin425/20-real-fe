@@ -5,11 +5,9 @@ import Image from 'next/image';
 import kakaoLogin from '@/assets/kakao-login.png'
 import logo from '@/assets/logo.png'
 import { LogIn } from 'lucide-react';
-import { useLogin } from '@/queries/useAuth';
+import { oauthLogin } from '@/api/auth';
 
 export default function LoginPage() {
-  const { mutate: login, isPending, error, data} = useLogin();
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-white px-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-lg overflow-hidden">
@@ -35,7 +33,7 @@ export default function LoginPage() {
           <Button
             variant="plain"
             className="w-full py-3 rounded-xl hover:opacity-90 transition-opacity mt-2 mb-4"
-            onClick={() => login('kakao')}
+            onClick={() => oauthLogin('kakao')}
           >
             {kakaoLogin ? (
               <Image

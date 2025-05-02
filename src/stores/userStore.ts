@@ -3,7 +3,9 @@ import { User } from '@/types/User';
 
 interface UserStore {
   user: User | null;
+  isLoggedIn: boolean;
   isApproved: boolean;
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
   setIsApproved: (isApproved: boolean) =>void;
   setUser: (user: User) => void;
   cleanUser: () => void;
@@ -11,7 +13,13 @@ interface UserStore {
 
 export const useUserStore = create<UserStore>((set) => ({
   user: null,
+  isLoggedIn: false,
   isApproved: false,
+  setIsLoggedIn: (isLoggedIn: boolean) => {
+    set({
+      isLoggedIn
+    })
+  },
   setIsApproved: (isApproved: boolean) => {
     set({
       isApproved
@@ -19,12 +27,14 @@ export const useUserStore = create<UserStore>((set) => ({
   },
   setUser: (user: User) => {
     set({
-      user: user
+      user: user,
+      isLoggedIn: true,
     })
   },
   cleanUser: () => {
     set({
       user: null,
+      isLoggedIn: false,
       isApproved: false
     })
   }

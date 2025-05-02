@@ -3,7 +3,7 @@ import { BaseResponse } from '@/types/base';
 import { User } from '@/types/User';
 
 const getUserInfo = async (): Promise<BaseResponse<User>> => {
-  return await fetcher<BaseResponse<User>>('/v1/user/info');
+  return await fetcher<BaseResponse<User>>('/v1/users/info');
 };
 
 export { getUserInfo };

@@ -1,4 +1,4 @@
-import { PostPlatform } from '@/features/Post/types/PostPlatform';
+import { PostPlatform } from '@/types/post/postPlatform';
 
 export interface Notice {
   id: number;

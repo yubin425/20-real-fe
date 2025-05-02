@@ -1,19 +1,19 @@
 "use client"
 
 import { useParams } from 'next/navigation';
-import { NewsDetail } from '@/features/Post/types/NewsDetail';
-import { PostComment } from '@/features/Post/types/PostComment';
+import { NewsDetail } from '@/types/post/newsDetail';
+import { PostComment } from '@/types/post/postComment';
 import { useState } from 'react';
-import PostHeader from '@/features/Post/components/PostHeader';
-import PostSummary from '@/features/Post/components/PostSummary';
-import MarkdownViewer from '@/components/MarkdownViewer';
-import ImageCarousel from '@/components/ImageCarousel';
-import PostFileItem from '@/features/Post/components/PostFileItem';
-import Button from '@/components/Button';
+import PostHeader from '@/components/post/PostHeader';
+import PostSummary from '@/components/post/PostSummary';
+import MarkdownViewer from '@/components/common/MarkdownViewer';
+import ImageCarousel from '@/components/common/ImageCarousel';
+import PostFileItem from '@/components/post/PostFileItem';
+import Button from '@/components/common/Button';
 import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
-import Input from '@/components/Input';
-import PostCommentItem from '@/features/Post/components/PostCommentItem';
-import SingleImage from '@/components/SingleImage';
+import Input from '@/components/common/Input';
+import PostCommentItem from '@/components/post/PostCommentItem';
+import SingleImage from '@/components/common/SingleImage';
 
 const dummyNews: NewsDetail = {
   id: 1,

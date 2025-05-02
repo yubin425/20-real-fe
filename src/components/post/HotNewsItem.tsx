@@ -1,4 +1,4 @@
-import { News } from '@/features/Post/types/News';
+import { News } from '@/types/post/news';
 import Image from 'next/image';
 
 interface HotNewsItemProps {

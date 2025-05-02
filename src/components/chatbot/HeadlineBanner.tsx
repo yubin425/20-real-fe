@@ -1,4 +1,4 @@
-import { Headline } from '@/features/chatbot/types/Headline';
+import { Headline } from '@/types/common/headline';
 import { Bell, Newspaper } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';

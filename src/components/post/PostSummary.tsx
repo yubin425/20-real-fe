@@ -1,4 +1,4 @@
-import MarkdownViewer from '@/components/MarkdownViewer';
+import MarkdownViewer from '@/components/common/MarkdownViewer';
 
 interface PostSummaryProps {
   summary: string;

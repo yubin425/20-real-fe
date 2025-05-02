@@ -1,5 +1,5 @@
 import { Paperclip } from 'lucide-react';
-import { NoticeFile } from '@/features/Post/types/NoticeFile';
+import { NoticeFile } from '@/types/post/noticeFile';
 
 interface PostFileItemProps {
   file: NoticeFile;

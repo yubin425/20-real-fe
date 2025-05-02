@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import "@/app/globals.css"
 import {fn} from "@storybook/test";
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import { Loader2, Menu } from 'lucide-react';
 
 const meta: Meta<typeof Button> = {

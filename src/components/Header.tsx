@@ -20,7 +20,7 @@ export default function Header() {
       {/* 왼쪽: 뒤로가기 버튼 */}
       <div className="flex items-center gap-2 min-w-24">
         {!hideBackButton && (
-          <Button variant="ghost" size="lg_icon" onClick={() => router.back()}>
+          <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft />
           </Button>
         )}
@@ -33,10 +33,10 @@ export default function Header() {
 
       {/* 오른쪽: 알림 + 메뉴 버튼 */}
       <div className="flex items-center gap-2 min-w-24 justify-end">
-        <Button variant="ghost" size="lg_icon">
+        <Button variant="ghost" size="icon">
           <Bell />
         </Button>
-        <Button variant="ghost" size="lg_icon" onClick={openSidebar}>
+        <Button variant="ghost" size="icon" onClick={openSidebar}>
           <Menu />
         </Button>
       </div>

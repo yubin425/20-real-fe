@@ -78,9 +78,9 @@
 }
 
 .min-h-app {
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - 60px);
 }
 
 .pt-header {
-    padding-top: 50px;
+    padding-top: 60px;
 }

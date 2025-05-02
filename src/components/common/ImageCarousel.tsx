@@ -1,7 +1,7 @@
-import { NoticeFile } from '@/features/Post/types/NoticeFile';
+import { NoticeFile } from '@/types/post/noticeFile';
 import { useState } from 'react';
 import Image from 'next/image';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ImageCarouselProps {

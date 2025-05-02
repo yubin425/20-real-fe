@@ -7,7 +7,7 @@ import { APP_WIDTH } from '@/constatns/ui';
 import { useUserStore } from '@/stores/userStore';
 import Image from 'next/image';
 import { Bell, ChevronRight, MessageCircle, Newspaper, X } from 'lucide-react';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);

@@ -1,19 +1,19 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import { ChatMessage } from '@/features/chatbot/types/ChatMessage';
-import MyChatItem from '@/features/chatbot/components/MyChatItem';
-import ChatItem from '@/features/chatbot/components/ChatItem';
+import { ChatMessage } from '@/types/chatbot/chatMessage';
+import MyChatItem from '@/components/chatbot/MyChatItem';
+import ChatItem from '@/components/chatbot/ChatItem';
 import { v4 as uuidv4 } from 'uuid';
-import Input from '@/components/Input';
-import Button from '@/components/Button';
+import Input from '@/components/common/Input';
+import Button from '@/components/common/Button';
 import { Bell, Newspaper, Send } from 'lucide-react';
-import LoadingChatItem from '@/features/chatbot/components/LoadingChatItem';
+import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
 import Image from 'next/image';
 import logo from '@/assets/logo.png';
 import { useToastStore } from '@/stores/toastStore';
-import HeadlineBanner from '@/features/chatbot/components/HeadlineBanner';
-import { Headline } from '@/features/chatbot/types/Headline';
+import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
+import { Headline } from '@/types/common/headline';
 
 const suggestQuestions: string[] = [
   "휴가 신청하는 법을 알려줘.",

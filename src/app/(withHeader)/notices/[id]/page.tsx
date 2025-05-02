@@ -3,16 +3,16 @@
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { ArrowRight, ArrowUp, Heart, MessageCircle } from 'lucide-react';
-import { NoticeDetail } from '@/features/Post/types/NoticeDetail';
-import PostHeader from '@/features/Post/components/PostHeader';
-import PostSummary from '@/features/Post/components/PostSummary';
-import MarkdownViewer from '@/components/MarkdownViewer';
-import ImageCarousel from '@/components/ImageCarousel';
-import Button from '@/components/Button';
-import { PostComment } from '@/features/Post/types/PostComment';
-import PostCommentItem from '@/features/Post/components/PostCommentItem';
-import PostFileItem from '@/features/Post/components/PostFileItem';
-import Input from '@/components/Input';
+import { NoticeDetail } from '@/types/post/noticeDetail';
+import PostHeader from '@/components/post/PostHeader';
+import PostSummary from '@/components/post/PostSummary';
+import MarkdownViewer from '@/components/common/MarkdownViewer';
+import ImageCarousel from '@/components/common/ImageCarousel';
+import Button from '@/components/common/Button';
+import { PostComment } from '@/types/post/postComment';
+import PostCommentItem from '@/components/post/PostCommentItem';
+import PostFileItem from '@/components/post/PostFileItem';
+import Input from '@/components/common/Input';
 
 const dummyNotice: NoticeDetail = {
   author: 'helper.ryan(헬퍼라이언)',

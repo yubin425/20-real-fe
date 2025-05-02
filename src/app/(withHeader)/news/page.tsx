@@ -2,9 +2,9 @@
 
 import { Clock, Flame } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import HotNewsItem from '@/features/Post/components/HotNewsItem';
-import { News } from '@/features/Post/types/News';
-import NewsListItem from '@/features/Post/components/NewsListItem';
+import HotNewsItem from '@/components/post/HotNewsItem';
+import { News } from '@/types/post/news';
+import NewsListItem from '@/components/post/NewsListItem';
 import Link from 'next/link';
 import { useReadNewsPersistStore } from '@/stores/readNewsPersistStore';
 

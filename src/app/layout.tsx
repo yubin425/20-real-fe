@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { ReactNode } from 'react';
 import { APP_WIDTH } from '@/constatns/ui';
-import ToastContainer from '@/components/ToastContainer';
+import ToastContainer from '@/components/common/ToastContainer';
 import Providers from '@/app/providers';
 
 const pretendard = localFont({

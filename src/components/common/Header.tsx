@@ -2,7 +2,7 @@
 
 import { Menu, Bell, ArrowLeft } from 'lucide-react';
 import { useSidebarStore } from '@/stores/sidebarStore';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import { HEADER_HEIGHT } from '@/constatns/ui';
 import { usePathname, useRouter } from 'next/navigation';
 

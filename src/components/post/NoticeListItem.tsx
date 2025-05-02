@@ -1,4 +1,4 @@
-import { Notice } from '@/features/Post/types/Notice';
+import { Notice } from '@/types/post/notice';
 import { ChevronRight } from 'lucide-react';
 import { differenceInHours, parse } from 'date-fns'
 import Image from 'next/image';

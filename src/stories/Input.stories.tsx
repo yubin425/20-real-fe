@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import { Input } from '@/components/Input';
+import { Input } from '@/components/common/Input';
 import { Lock, Mail } from 'lucide-react';
 import '../app/globals.css'
 

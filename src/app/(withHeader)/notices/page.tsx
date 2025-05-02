@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from 'react';
-import NoticeListItem from '@/features/Post/components/NoticeListItem';
-import { Notice } from '@/features/Post/types/Notice';
+import NoticeListItem from '@/components/post/NoticeListItem';
+import { Notice } from '@/types/post/notice';
 import Link from 'next/link';
 
 const dummyNotices: Notice[] = [

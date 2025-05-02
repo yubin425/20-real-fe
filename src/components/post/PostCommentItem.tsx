@@ -1,4 +1,4 @@
-import { PostComment } from '@/features/Post/types/PostComment';
+import { PostComment } from '@/types/post/postComment';
 import { Trash } from 'lucide-react';
 import Image from 'next/image';
 

@@ -1,4 +1,4 @@
-import BotProfile from '@/features/chatbot/components/BotProfile';
+import BotProfile from '@/components/chatbot/BotProfile';
 
 type ChatItemProps = {
   text?: string;

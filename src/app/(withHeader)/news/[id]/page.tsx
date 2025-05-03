@@ -1,7 +1,6 @@
 "use client"
 
 import { useParams } from 'next/navigation';
-import { PostComment } from '@/types/post/postComment';
 import { useEffect, useState } from 'react';
 import PostHeader from '@/components/post/PostHeader';
 import PostSummary from '@/components/post/PostSummary';
@@ -12,37 +11,21 @@ import Input from '@/components/common/Input';
 import PostCommentItem from '@/components/post/PostCommentItem';
 import SingleImage from '@/components/common/SingleImage';
 import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
-
-const dummyComments: PostComment[] = [
-  {
-    id: 1,
-    nickname: 'kevin.joung(정현우)/풀스택',
-    content: '응원합니다.',
-    createdAt: '2025.04.29 11:01:00',
-    profileUrl: 'https://placehold.co/64x64.png',
-  },
-  {
-    id: 2,
-    nickname: 'arnold.kim(김세호)/풀스택',
-    content: '굿굿',
-    createdAt: '2025.04.29 11:00:00',
-    profileUrl: 'https://placehold.co/64x64.png',
-  },
-  {
-    id: 3,
-    nickname: 'kevin.joung(정현우)/풀스택',
-    content: '응원합니다!!',
-    createdAt: '2025.04.28 11:01:00',
-    profileUrl: 'https://placehold.co/64x64.png',
-  },
-];
+import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentListInfinityQuery';
+import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 export default function NewsDetailPage() {
   const params = useParams<{ id: string }>()
   const { data: news } = useNewsDetailQuery(params.id)
+  const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id)
+  const loadingRef = useInfiniteScrollObserver({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
   const [liked, setLiked] = useState<boolean | undefined>(undefined);
-  const comments = dummyComments;
 
   useEffect(() => {
     if (news) setLiked(news.userLike)
@@ -102,14 +85,16 @@ export default function NewsDetailPage() {
 
         {/* 댓글 부분 */}
         <div className="border-t border-gray-100">
-          {comments.map((comment) =>
+          {comments && comments.map((comment) =>
             <PostCommentItem comment={comment} key={comment.id} />
           )}
         </div>
 
-        <div className="flex justify-center pb-10">
-          <div className="w-8 h-8 rounded-full border-2 border-gray-300 border-t-gray-500 animate-spin"></div>
-        </div>
+        <LoadingIndicator
+          loadingRef={loadingRef}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+        />
       </div>
     </div>
   )

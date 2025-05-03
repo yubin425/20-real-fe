@@ -73,7 +73,7 @@ export default function NewsDetailPage() {
             className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
             <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-pink-500 text-pink-500' : ''}`} />
-            <span className="font-medium">{news.userLike ? news.likeCount + 1 : news.likeCount}</span>
+            <span className="font-medium">{news.likeCount}</span>
           </Button>
         </div>
 

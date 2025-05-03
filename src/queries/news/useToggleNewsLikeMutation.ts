@@ -24,6 +24,7 @@ export function useToggleNewsLikeMutation() {
           data: {
             ...prev.data,
             userLike: !prev.data.userLike,
+            likeCount: prev.data.userLike ? prev.data.likeCount - 1 : prev.data.likeCount + 1
           }
         }
       })

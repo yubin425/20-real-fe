@@ -4,6 +4,7 @@ import { BaseResponse, CursorParam, CursorResponse } from '@/types/common/base';
 import { NewsDetail } from '@/types/post/newsDetail';
 import { PostComment } from '@/types/post/postComment';
 
+// 뉴스 리스트 조회
 interface getNewsListRequest extends CursorParam {
   limit: number;
   sort: 'popular' | 'latest';
@@ -20,10 +21,12 @@ const getNewsList = async ({ cursorId = null, cursorStandard = null, limit = 10,
   return await fetcher(`/v1/news?${params}`, {method: 'GET'});
 };
 
+// 뉴스 상세 조회
 const getNewsDetail = async (newsId: string): Promise<BaseResponse<NewsDetail>> => {
   return await fetcher(`/v1/news/${newsId}`, {method: 'GET'})
 }
 
+// 뉴스 댓글 리스트 조회
 interface getNewsCommentListRequest extends CursorParam {
   limit: number;
   newsId: string;
@@ -39,4 +42,18 @@ const getNewsCommentList = async ({ newsId, cursorId = null, cursorStandard = nu
   return await fetcher(`/v1/news/${newsId}/comments?${params}`, {method: 'GET'});
 }
 
-export { getNewsList, getNewsDetail, getNewsCommentList }
+// 뉴스 댓글 작성
+interface postNewsCommetReqeust {
+  newsId: string;
+  content: string;
+}
+
+const postNewsComment = async ({ newsId, content }: postNewsCommetReqeust) => {
+  return await fetcher(`/v1/news/${newsId}/comments`, {
+    method: 'POST',
+    body: JSON.stringify({content})
+  });
+}
+
+
+export { getNewsList, getNewsDetail, getNewsCommentList, postNewsComment }

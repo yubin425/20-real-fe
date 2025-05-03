@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import PostHeader from '@/components/post/PostHeader';
 import PostSummary from '@/components/post/PostSummary';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
@@ -14,10 +14,12 @@ import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
 import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentListInfinityQuery';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { useNewsCommentMutation } from '@/queries/news/useNewsCommentMutation';
 
 export default function NewsDetailPage() {
   const params = useParams<{ id: string }>()
   const { data: news } = useNewsDetailQuery(params.id)
+  const { mutate: postComment } = useNewsCommentMutation()
   const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id)
   const loadingRef = useInfiniteScrollObserver({
     fetchNextPage,
@@ -26,10 +28,17 @@ export default function NewsDetailPage() {
   });
 
   const [liked, setLiked] = useState<boolean | undefined>(undefined);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     if (news) setLiked(news.userLike)
   }, [news]);
+
+  const handleSubmitComment = (e: FormEvent) => {
+    e.preventDefault();
+    postComment({ newsId: params.id, content: comment })
+    setComment('');
+  }
 
   if (!news) return null;
 
@@ -72,13 +81,13 @@ export default function NewsDetailPage() {
             <span className="text-sm font-medium">댓글 {news.commentCount}</span>
           </div>
 
-          <div className='flex w-full gap-3 justify-center items-center'>
-            <Input className='flex-1 rounded-xl'/>
+          <form onSubmit={handleSubmitComment} className='flex w-full gap-3 justify-center items-center'>
+            <Input className='flex-1 rounded-xl' value={comment} onChange={e => setComment(e.target.value)}/>
 
-            <Button variant='outline' size='icon' className='shrink-0'>
+            <Button variant='outline' size='icon' className='shrink-0' type='submit'>
               <ArrowUp size={18}/>
             </Button>
-          </div>
+          </form>
 
 
         </div>

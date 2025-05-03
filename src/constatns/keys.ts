@@ -1,7 +1,7 @@
 const queryKeys = {
   userInfo: 'userInfo',
   news: 'news',
-  newsComment: 'newsComment',
+  comments: 'comments',
 }
 
 export {queryKeys};

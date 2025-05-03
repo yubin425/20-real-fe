@@ -5,7 +5,7 @@ import { getNewsCommentList } from '@/api/news';
 
 const useNewsCommentListInfinityQuery = (newsId: string, limit = 10) => {
   return useInfiniteCursorQuery<PostComment>({
-    queryKey: [queryKeys.newsComment],
+    queryKey: [queryKeys.news, queryKeys.comments, newsId],
     queryFn: (pageParam) =>
       getNewsCommentList({
         ...pageParam,

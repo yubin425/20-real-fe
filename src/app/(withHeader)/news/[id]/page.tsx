@@ -1,33 +1,17 @@
 "use client"
 
 import { useParams } from 'next/navigation';
-import { NewsDetail } from '@/types/post/newsDetail';
 import { PostComment } from '@/types/post/postComment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostHeader from '@/components/post/PostHeader';
 import PostSummary from '@/components/post/PostSummary';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
-import ImageCarousel from '@/components/common/ImageCarousel';
-import PostFileItem from '@/components/post/PostFileItem';
 import Button from '@/components/common/Button';
 import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
 import Input from '@/components/common/Input';
 import PostCommentItem from '@/components/post/PostCommentItem';
 import SingleImage from '@/components/common/SingleImage';
-
-const dummyNews: NewsDetail = {
-  id: 1,
-  title: "죽을 맛에 커피 쏜다, 아아 vs 아이스티!",
-  summary: "- void가 교육생에게 커피를 샀다. ",
-  content : "오늘 void가 아이스 아메리카노와 아이스티를 카테부 교육생에게 샀다는...",
-  tag : "뉴스",
-  viewCount : 3000,
-  likeCount: 12,
-  commentCount : 3,
-  userLike : true,
-  imageUrl : 'https://placehold.co/600x400.png',
-  createdAt: "2025.04.03 14:38"
-}
+import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
 
 const dummyComments: PostComment[] = [
   {
@@ -55,10 +39,16 @@ const dummyComments: PostComment[] = [
 
 export default function NewsDetailPage() {
   const params = useParams<{ id: string }>()
+  const { data: news } = useNewsDetailQuery(params.id)
 
-  const [liked, setLiked] = useState(false);
-  const news = dummyNews;
+  const [liked, setLiked] = useState<boolean | undefined>(undefined);
   const comments = dummyComments;
+
+  useEffect(() => {
+    if (news) setLiked(news.userLike)
+  }, [news]);
+
+  if (!news) return null;
 
   return (
     <div className="flex justify-center items-center w-full pt-header">
@@ -88,7 +78,7 @@ export default function NewsDetailPage() {
             className={`flex items-center justify-center px-6 py-2 rounded-full ${liked ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
             <Heart size={16} className={`mr-2 ${liked ? 'fill-pink-500 text-pink-500' : ''}`} />
-            <span className="font-medium">{liked ? 13 : 12}</span>
+            <span className="font-medium">{liked ? news.likeCount + 1 : news.likeCount}</span>
           </Button>
         </div>
 

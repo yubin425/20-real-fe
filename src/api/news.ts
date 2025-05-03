@@ -1,6 +1,7 @@
 import { fetcher } from '@/api/fetcher';
 import { News } from '@/types/post/news';
 import { BaseResponse, CursorParam, CursorResponse } from '@/types/common/base';
+import { NewsDetail } from '@/types/post/newsDetail';
 
 interface getNewsListRequest extends CursorParam {
   limit: number;
@@ -15,7 +16,11 @@ const getNewsList = async ({ cursorId = null, cursorStandard = null, limit = 10,
     sort,
   }).toString();
 
-  return await fetcher(`/v1/news?${params}`);
+  return await fetcher(`/v1/news?${params}`, {method: 'GET'});
 };
 
-export { getNewsList }
+const getNewsDetail = async (newsId: string): Promise<BaseResponse<NewsDetail>> => {
+  return await fetcher(`/v1/news/${newsId}`, {method: 'GET'})
+}
+
+export { getNewsList, getNewsDetail }

@@ -1,12 +1,14 @@
 import { PostComment } from '@/types/post/postComment';
 import { Trash } from 'lucide-react';
 import Image from 'next/image';
+import Button from '@/components/common/Button';
 
 interface PostCommentItemProps {
   comment: PostComment;
+  onDelete: (commentId: number) => void;
 }
 
-export default function PostCommentItem({ comment }: PostCommentItemProps) {
+export default function PostCommentItem({ comment, onDelete }: PostCommentItemProps) {
   return (
     <div className="px-4 py-3 flex items-start">
       <div className="w-8 h-8 rounded-full overflow-hidden">
@@ -18,9 +20,9 @@ export default function PostCommentItem({ comment }: PostCommentItemProps) {
 
         <p className="text-gray-600 text-sm mt-1">{comment.content}</p>
       </div>
-      <div className="flex items-center">
+      <Button variant='ghost' size='icon' className="flex items-center" onClick={() => onDelete(comment.id)}>
         <Trash size={14} className="text-gray-400" />
-      </div>
+      </Button>
     </div>
   )
 }

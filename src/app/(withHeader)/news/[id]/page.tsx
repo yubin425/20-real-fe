@@ -15,11 +15,13 @@ import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentLi
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useNewsCommentMutation } from '@/queries/news/useNewsCommentMutation';
+import { useDeleteNewsCommentMutation } from '@/queries/news/useDeleteNewsCommentMutation';
 
 export default function NewsDetailPage() {
   const params = useParams<{ id: string }>()
   const { data: news } = useNewsDetailQuery(params.id)
   const { mutate: postComment } = useNewsCommentMutation()
+  const { mutate: deleteComment } = useDeleteNewsCommentMutation()
   const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id)
   const loadingRef = useInfiniteScrollObserver({
     fetchNextPage,
@@ -38,6 +40,10 @@ export default function NewsDetailPage() {
     e.preventDefault();
     postComment({ newsId: params.id, content: comment })
     setComment('');
+  }
+
+  const handleDeleteComment = (commentId: number) => {
+    deleteComment({ newsId: params.id, commentId: commentId.toString() })
   }
 
   if (!news) return null;
@@ -95,7 +101,7 @@ export default function NewsDetailPage() {
         {/* 댓글 부분 */}
         <div className="border-t border-gray-100">
           {comments && comments.map((comment) =>
-            <PostCommentItem comment={comment} key={comment.id} />
+            <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
           )}
         </div>
 

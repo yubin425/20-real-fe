@@ -43,17 +43,29 @@ const getNewsCommentList = async ({ newsId, cursorId = null, cursorStandard = nu
 }
 
 // 뉴스 댓글 작성
-interface postNewsCommetReqeust {
+interface postNewsCommentReqeust {
   newsId: string;
   content: string;
 }
 
-const postNewsComment = async ({ newsId, content }: postNewsCommetReqeust) => {
+const postNewsComment = async ({ newsId, content }: postNewsCommentReqeust) => {
   return await fetcher(`/v1/news/${newsId}/comments`, {
     method: 'POST',
     body: JSON.stringify({content})
   });
 }
 
+// 뉴스 댓글 삭제
+interface deleteNewsCommentRequest {
+  newsId: string;
+  commentId: string;
+}
 
-export { getNewsList, getNewsDetail, getNewsCommentList, postNewsComment }
+const deleteNewsComment = async ({ newsId, commentId }: deleteNewsCommentRequest) => {
+  return await fetcher(`/v1/news/${newsId}/comments/${commentId}`, {
+    method: 'DELETE',
+  })
+}
+
+
+export { getNewsList, getNewsDetail, getNewsCommentList, postNewsComment, deleteNewsComment }

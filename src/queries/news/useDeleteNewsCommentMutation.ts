@@ -1,19 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
-import { postNewsComment } from '@/api/news';
+import { deleteNewsComment } from '@/api/news';
 import { queryClient } from '@/queries/base/queryClient';
 import { queryKeys } from '@/constatns/keys';
 import { BaseResponse } from '@/types/common/base';
 import { NewsDetail } from '@/types/post/newsDetail';
 
-interface NewsCommentRequest {
+interface DeleteNewsCommentRequest {
   newsId: string;
-  content: string;
+  commentId: string;
 }
 
-export function useNewsCommentMutation() {
+export function useDeleteNewsCommentMutation() {
   return useMutation({
-    mutationFn: ({ newsId, content }: NewsCommentRequest) =>
-      postNewsComment({ newsId, content }),
+    mutationFn: ({ newsId, commentId }: DeleteNewsCommentRequest) =>
+      deleteNewsComment({ newsId, commentId }),
 
     // 성공 후 캐시 무효화 및 댓글 수 갱신
     onSuccess: (_data, variables) => {
@@ -27,10 +27,10 @@ export function useNewsCommentMutation() {
           ...prev,
           data: {
             ...prev.data,
-            commentCount: prev.data.commentCount + 1
+            commentCount: prev.data.commentCount - 1
           }
         }
       });
-    },
-  });
+    }
+  })
 }

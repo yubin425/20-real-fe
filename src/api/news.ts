@@ -7,7 +7,7 @@ interface getNewsListRequest extends CursorParam {
   sort: 'popular' | 'latest';
 }
 
-const getNewsList = async ({ cursorId, cursorStandard, limit = 10, sort }: getNewsListRequest): Promise<BaseResponse<CursorResponse<News>>> => {
+const getNewsList = async ({ cursorId = null, cursorStandard = null, limit = 10, sort }: getNewsListRequest): Promise<BaseResponse<CursorResponse<News>>> => {
   const params = new URLSearchParams({
     ...(cursorId && { cursorId: cursorId.toString() }),
     ...(cursorStandard && { cursorStandard }),

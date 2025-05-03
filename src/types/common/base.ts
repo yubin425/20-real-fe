@@ -12,7 +12,7 @@ export interface CursorResponse<TItems> {
 }
 
 export interface CursorParam {
-  cursorId: number | null;
-  cursorStandard: string | null;
+  cursorId?: number | null;
+  cursorStandard?: string | null;
 }
 

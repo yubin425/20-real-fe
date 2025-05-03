@@ -44,12 +44,12 @@ const getNewsCommentList = async ({ newsId, cursorId = null, cursorStandard = nu
 }
 
 // 뉴스 댓글 작성
-interface postNewsCommentReqeust {
+interface postNewsCommentRequest {
   newsId: string;
   content: string;
 }
 
-const postNewsComment = async ({ newsId, content }: postNewsCommentReqeust) => {
+const postNewsComment = async ({ newsId, content }: postNewsCommentRequest) => {
   return await fetcher(`/v1/news/${newsId}/comments`, {
     method: 'POST',
     body: JSON.stringify({content})

@@ -3,6 +3,7 @@ import { News } from '@/types/post/news';
 import { BaseResponse, CursorParam, CursorResponse } from '@/types/common/base';
 import { NewsDetail } from '@/types/post/newsDetail';
 import { PostComment } from '@/types/post/postComment';
+import { PostLike } from '@/types/post/postLike';
 
 // 뉴스 리스트 조회
 interface getNewsListRequest extends CursorParam {
@@ -55,6 +56,11 @@ const postNewsComment = async ({ newsId, content }: postNewsCommentReqeust) => {
   });
 }
 
+// 뉴스 좋아요 토글
+const toggleNewsLike = async (newsId: string): Promise<BaseResponse<PostLike>> => {
+  return await fetcher(`/v1/news/${newsId}/likes`, {method: 'PUT'});
+}
+
 // 뉴스 댓글 삭제
 interface deleteNewsCommentRequest {
   newsId: string;
@@ -68,4 +74,4 @@ const deleteNewsComment = async ({ newsId, commentId }: deleteNewsCommentRequest
 }
 
 
-export { getNewsList, getNewsDetail, getNewsCommentList, postNewsComment, deleteNewsComment }
+export { getNewsList, getNewsDetail, getNewsCommentList, toggleNewsLike, postNewsComment, deleteNewsComment }

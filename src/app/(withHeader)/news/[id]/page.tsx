@@ -16,10 +16,12 @@ import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useCreateNewsCommentMutation } from '@/queries/news/useCreateNewsCommentMutation';
 import { useDeleteNewsCommentMutation } from '@/queries/news/useDeleteNewsCommentMutation';
+import { useToggleNewsLikeMutation } from '@/queries/news/useToggleNewsLikeMutation';
 
 export default function NewsDetailPage() {
   const params = useParams<{ id: string }>()
   const { data: news } = useNewsDetailQuery(params.id)
+  const { mutate: toggleLike } = useToggleNewsLikeMutation()
   const { mutate: postComment } = useCreateNewsCommentMutation()
   const { mutate: deleteComment } = useDeleteNewsCommentMutation()
   const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id)
@@ -29,12 +31,7 @@ export default function NewsDetailPage() {
     isFetchingNextPage,
   });
 
-  const [liked, setLiked] = useState<boolean | undefined>(undefined);
   const [comment, setComment] = useState('');
-
-  useEffect(() => {
-    if (news) setLiked(news.userLike)
-  }, [news]);
 
   const handleSubmitComment = (e: FormEvent) => {
     e.preventDefault();
@@ -72,11 +69,11 @@ export default function NewsDetailPage() {
         <div className="px-4 mb-4 flex justify-center">
           <Button
             variant="plain"
-            onClick={() => setLiked(!liked)}
-            className={`flex items-center justify-center px-6 py-2 rounded-full ${liked ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
+            onClick={() => toggleLike({newsId: params.id})}
+            className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
-            <Heart size={16} className={`mr-2 ${liked ? 'fill-pink-500 text-pink-500' : ''}`} />
-            <span className="font-medium">{liked ? news.likeCount + 1 : news.likeCount}</span>
+            <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-pink-500 text-pink-500' : ''}`} />
+            <span className="font-medium">{news.userLike ? news.likeCount + 1 : news.likeCount}</span>
           </Button>
         </div>
 

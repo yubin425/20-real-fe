@@ -14,13 +14,13 @@ import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
 import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentListInfinityQuery';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
-import { useNewsCommentMutation } from '@/queries/news/useNewsCommentMutation';
+import { useCreateNewsCommentMutation } from '@/queries/news/useCreateNewsCommentMutation';
 import { useDeleteNewsCommentMutation } from '@/queries/news/useDeleteNewsCommentMutation';
 
 export default function NewsDetailPage() {
   const params = useParams<{ id: string }>()
   const { data: news } = useNewsDetailQuery(params.id)
-  const { mutate: postComment } = useNewsCommentMutation()
+  const { mutate: postComment } = useCreateNewsCommentMutation()
   const { mutate: deleteComment } = useDeleteNewsCommentMutation()
   const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id)
   const loadingRef = useInfiniteScrollObserver({

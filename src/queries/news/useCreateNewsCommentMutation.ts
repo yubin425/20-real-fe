@@ -5,14 +5,14 @@ import { queryKeys } from '@/constatns/keys';
 import { BaseResponse } from '@/types/common/base';
 import { NewsDetail } from '@/types/post/newsDetail';
 
-interface NewsCommentRequest {
+interface CreateNewsCommentRequest {
   newsId: string;
   content: string;
 }
 
-export function useNewsCommentMutation() {
+export function useCreateNewsCommentMutation() {
   return useMutation({
-    mutationFn: ({ newsId, content }: NewsCommentRequest) =>
+    mutationFn: ({ newsId, content }: CreateNewsCommentRequest) =>
       postNewsComment({ newsId, content }),
 
     // 성공 후 캐시 무효화 및 댓글 수 갱신

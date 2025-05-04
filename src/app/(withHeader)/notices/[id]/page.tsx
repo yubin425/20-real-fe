@@ -17,10 +17,12 @@ import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
 import { useCreateNoticeCommentMutation } from '@/queries/post/useCreateNoticeCommentMutation';
+import { useToggleNoticeLikeMutation } from '@/queries/post/useToggleNoticeLikeMutation';
 
 export default function NoticeDetailPage() {
   const params = useParams<{ id: string }>();
   const { data: notice } = useNoticeDetailQuery(params.id)
+  const { mutate: toggleLike } = useToggleNoticeLikeMutation()
   const { mutate: postComment } = useCreateNoticeCommentMutation()
   const { mutate: deleteComment } = useDeleteNoticeCommentMutation()
   const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNoticeCommentListInfinityQuery(params.id)
@@ -30,7 +32,6 @@ export default function NoticeDetailPage() {
     isFetchingNextPage,
   });
 
-  const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState('');
 
   const handleSubmitComment = (e: FormEvent) => {
@@ -80,11 +81,11 @@ export default function NoticeDetailPage() {
         <div className="px-4 mb-4 flex justify-center">
           <Button
             variant="plain"
-            onClick={() => setLiked(!liked)}
-            className={`flex items-center justify-center px-6 py-2 rounded-full ${liked ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
+            onClick={() => toggleLike({noticeId: params.id})}
+            className={`flex items-center justify-center px-6 py-2 rounded-full ${notice.userLike ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
-            <Heart size={16} className={`mr-2 ${liked ? 'fill-pink-500 text-pink-500' : ''}`} />
-            <span className="font-medium">{liked ? 13 : 12}</span>
+            <Heart size={16} className={`mr-2 ${notice.userLike ? 'fill-pink-500 text-pink-500' : ''}`} />
+            <span className="font-medium">{notice.likeCount}</span>
           </Button>
         </div>
 

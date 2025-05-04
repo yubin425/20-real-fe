@@ -6,13 +6,13 @@ import { BaseResponse } from '@/types/common/base';
 import { PostLike } from '@/types/post/postLike';
 import { NewsDetail } from '@/types/post/newsDetail';
 
-interface ToggleNewsCommentRequest {
+interface ToggleNewsLikeRequest {
   newsId: string;
 }
 
 export function useToggleNewsLikeMutation() {
   return useMutation({
-    mutationFn: ({newsId}: ToggleNewsCommentRequest) => (
+    mutationFn: ({newsId}: ToggleNewsLikeRequest) => (
       toggleNewsLike(newsId)
     ),
     // 토글 성공 후 데이터 갱신

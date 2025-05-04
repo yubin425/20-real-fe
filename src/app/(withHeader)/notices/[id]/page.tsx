@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
 import PostHeader from '@/components/post/PostHeader';
 import PostSummary from '@/components/post/PostSummary';
@@ -16,10 +16,12 @@ import { useNoticeCommentListInfinityQuery } from '@/queries/post/useNoticeComme
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
+import { useCreateNoticeCommentMutation } from '@/queries/post/useCreateNoticeCommentMutation';
 
 export default function NoticeDetailPage() {
   const params = useParams<{ id: string }>();
   const { data: notice } = useNoticeDetailQuery(params.id)
+  const { mutate: postComment } = useCreateNoticeCommentMutation()
   const { mutate: deleteComment } = useDeleteNoticeCommentMutation()
   const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNoticeCommentListInfinityQuery(params.id)
   const loadingRef = useInfiniteScrollObserver({
@@ -29,6 +31,13 @@ export default function NoticeDetailPage() {
   });
 
   const [liked, setLiked] = useState(false);
+  const [comment, setComment] = useState('');
+
+  const handleSubmitComment = (e: FormEvent) => {
+    e.preventDefault();
+    postComment({ noticeId: params.id, content: comment })
+    setComment('');
+  }
 
   const handleDeleteComment = (commentId: number) => {
     deleteComment({ noticeId: params.id, commentId: commentId.toString() })
@@ -86,13 +95,13 @@ export default function NoticeDetailPage() {
             <span className="text-sm font-medium">댓글 {notice.commentCount}</span>
           </div>
 
-          <div className='flex w-full gap-3 justify-center items-center'>
-            <Input className='flex-1 rounded-xl'/>
+          <form onSubmit={handleSubmitComment} className='flex w-full gap-3 justify-center items-center'>
+            <Input className='flex-1 rounded-xl' value={comment} onChange={e => setComment(e.target.value)}/>
 
-            <Button variant='outline' size='icon' className='shrink-0'>
+            <Button variant='outline' size='icon' className='shrink-0' type='submit'>
               <ArrowUp size={18}/>
             </Button>
-          </div>
+          </form>
 
 
         </div>

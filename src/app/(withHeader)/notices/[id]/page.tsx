@@ -15,10 +15,12 @@ import { useNoticeDetailQuery } from '@/queries/post/useNoticeDetailQuery';
 import { useNoticeCommentListInfinityQuery } from '@/queries/post/useNoticeCommentListInfinityQuery';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
 
 export default function NoticeDetailPage() {
   const params = useParams<{ id: string }>();
   const { data: notice } = useNoticeDetailQuery(params.id)
+  const { mutate: deleteComment } = useDeleteNoticeCommentMutation()
   const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNoticeCommentListInfinityQuery(params.id)
   const loadingRef = useInfiniteScrollObserver({
     fetchNextPage,
@@ -27,6 +29,10 @@ export default function NoticeDetailPage() {
   });
 
   const [liked, setLiked] = useState(false);
+
+  const handleDeleteComment = (commentId: number) => {
+    deleteComment({ noticeId: params.id, commentId: commentId.toString() })
+  }
 
   if (!notice) return null;
 
@@ -94,7 +100,7 @@ export default function NoticeDetailPage() {
         {/* 댓글 부분 */}
         <div className="border-t border-gray-100">
           {comments && comments.map((comment) =>
-            <PostCommentItem comment={comment} key={comment.id} />
+            <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
           )}
         </div>
 

@@ -1,82 +1,30 @@
-"use client"
+'use client';
 
 import { Clock, Flame } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import HotNewsItem from '@/components/post/HotNewsItem';
-import { News } from '@/types/post/news';
 import NewsListItem from '@/components/post/NewsListItem';
 import Link from 'next/link';
 import { useReadNewsPersistStore } from '@/stores/readNewsPersistStore';
-
-const dummyHotNews: News[] = [
-  {
-    id: 1,
-    title: '죽을 맛에 커피 쏜다, 아아 vs 아이스티!',
-    imageUrl: 'https://placehold.co/600x400.png',
-    commentCount: 2,
-    createdAt: '2025.04.03 13:00:00',
-  },
-  {
-    id: 2,
-    title: '죽을 맛에 커피 쏜다, 아아 vs 아이스티! 보이드 감사제 개최',
-    imageUrl: 'https://placehold.co/600x400.png',
-    commentCount: 2,
-    createdAt: '2025.04.03 13:00:00',
-  }
-]
-
-const dummyRecentNews: News[] = [
-  {
-    id: 1,
-    title: '점심 전쟁 종결! 타운홀 도시락 공식 허락 받음',
-    commentCount: 2,
-    createdAt: '2025.04.29 13:00:00',
-  },
-  {
-    id: 2,
-    title: '죽을 맛에 커피 쏜다, 아아 vs 아이스티!',
-    commentCount: 0,
-    createdAt: '2025.04.03 13:00:00',
-  },
-  {
-    id: 3,
-    title: '부트캠프 생존기: 스크럼, 코테, ... 숨 쉴 틈 無',
-    commentCount: 2,
-    createdAt: '2025.04.03 13:00:00',
-  },
-  {
-    id: 4,
-    title: '[속보] 누구나 AI를 말하지만, 진짜 중요한 건 꺾이지 않는 마음...',
-    commentCount: 0,
-    createdAt: '2025.04.03 13:00:00',
-  },
-  {
-    id: 5,
-    title: '죽을 맛에 커피 쏜다, 아아 vs 아이스티!',
-    commentCount: 0,
-    createdAt: '2025.04.03 13:00:00',
-  },
-  {
-    id: 6,
-    title: '점심 전쟁 종결! 타운홀 도시락 공식 허락 받음',
-    commentCount: 0,
-    createdAt: '2025.04.03 13:00:00',
-  }
-]
+import { useNewsListInfinityQuery } from '@/queries/news/useNewsListInfinityQuery';
+import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { useNewsListQuery } from '@/queries/news/useNewsListQuery';
 
 export default function NewsListPage() {
-  const [hotNews, setHotNews] = useState(dummyHotNews);
-  const [recentNews, setRecentNews] = useState(dummyRecentNews);
-  const { markAsRead, isRead } = useReadNewsPersistStore()
-  const [isMounted, setIsMounted] = useState(false);
+  const { data: hotNews } = useNewsListQuery('popular', 2)
+  const { markAsRead, isRead } = useReadNewsPersistStore();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const { data: news, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsListInfinityQuery('latest', 10);
+  const loadingRef = useInfiniteScrollObserver({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
   const handleNewsClick = (id: number) => {
     markAsRead(id);
-  }
+  };
 
   return (
     <div className="bg-gray-50 min-h-app pb-16">
@@ -88,7 +36,7 @@ export default function NewsListPage() {
         </div>
 
         <div className="max-w-app pb-4 -mx-5 px-5 flex flex-row gap-4">
-          {isMounted && hotNews.map((news) => (
+          {hotNews && hotNews.map((news) => (
             <div key={news.id} className="grow shrink basis-0 " onClick={() => handleNewsClick(news.id)}>
               <Link href={`/news/${news.id}`}>
                 <HotNewsItem news={news} userRead={isRead(news.id)} />
@@ -107,16 +55,19 @@ export default function NewsListPage() {
           </div>
         </div>
 
-        {isMounted && recentNews.map((news) => (
+        {news && news.map((news) => (
           <Link key={news.id} href={`/news/${news.id}`} onClick={() => handleNewsClick(news.id)}>
-            <NewsListItem news={news} userRead={isRead(news.id)}/>
+            <NewsListItem news={news} userRead={isRead(news.id)} />
           </Link>
         ))}
       </div>
 
-      <div className="flex justify-center pt-8">
-        <div className="w-8 h-8 rounded-full border-2 border-gray-300 border-t-gray-500 animate-spin"></div>
-      </div>
+
+      <LoadingIndicator
+        loadingRef={loadingRef}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+      />
     </div>
   );
 };

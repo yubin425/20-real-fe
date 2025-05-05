@@ -7,13 +7,14 @@ import ChatItem from '@/components/chatbot/ChatItem';
 import { v4 as uuidv4 } from 'uuid';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
-import { Bell, Newspaper, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
 import Image from 'next/image';
 import logo from '@/assets/logo.png';
 import { useToastStore } from '@/stores/toastStore';
 import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
 import { Headline } from '@/types/common/headline';
+import { usePostChatbotQuestion } from '@/queries/chatbot/usePostChatbotQuestion';
 
 const suggestQuestions: string[] = [
   "휴가 신청하는 법을 알려줘.",
@@ -30,8 +31,8 @@ const dummyHeadlines: Headline[] = [
 export default function ChatbotPage() {
   const [chats, setChats] = useState<ChatMessage[]>([]);
   const [currentInput, setCurrentInput] = useState('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [headlines, setHeadlines] = useState<Headline[]>(dummyHeadlines);
+  const { mutateAsync: postQuestion, isPending } = usePostChatbotQuestion()
 
   const { showToast } = useToastStore();
 
@@ -59,7 +60,7 @@ export default function ChatbotPage() {
   };
 
   // 현재 채팅을 chat 리스트에 등록하고, 답변 받아옴
-  const loadAnswer = (text: string) => {
+  const loadAnswer = async (text: string) => {
     setChats(prev => [
       ...prev,
       {
@@ -70,19 +71,16 @@ export default function ChatbotPage() {
     ]);
 
     setCurrentInput('');
-    setIsLoading(true);
+    const answer = await postQuestion(text)
 
-    setTimeout(() => {
-      setChats(prev => [
-        ...prev,
-        {
-          id: uuidv4(),
-          text: '반가워~~~',
-          type: 'answer',
-        },
-      ]);
-      setIsLoading(false);
-    }, 2000);
+    setChats(prev => [
+      ...prev,
+      {
+        id: uuidv4(),
+        text: answer.data.answer,
+        type: 'answer',
+      },
+    ]);
   }
 
 
@@ -133,7 +131,7 @@ export default function ChatbotPage() {
             ),
           )}
 
-          {isLoading && <LoadingChatItem />}
+          {isPending && <LoadingChatItem />}
         </div>
 
         <div ref={messagesEndRef} />
@@ -157,10 +155,10 @@ export default function ChatbotPage() {
               type="submit"
               size="icon"
               className={`text-white shrink-0 ${
-                isLoading || currentInput === '' ? 'opacity-50 cursor-not-allowed' : ''
+                isPending || currentInput === '' ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               onClick={handleSendClick}
-              disabled={isLoading || currentInput === ''}
+              disabled={isPending || currentInput === ''}
             >
               <Send size={18} />
             </Button>

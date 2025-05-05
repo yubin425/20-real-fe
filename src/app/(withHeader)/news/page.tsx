@@ -27,9 +27,9 @@ export default function NewsListPage() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-app pb-16">
+    <div className="bg-gray-50 pb-16 min-h-app ">
 
-      <div className="px-5 pt-header pb-4">
+      <div className="px-5 pt-4 pb-4">
         <div className="flex items-center mb-4">
           <Flame size={20} className="text-red-500 mr-2" />
           <h2 className="text-xl font-bold text-gray-800">HOT News</h2>

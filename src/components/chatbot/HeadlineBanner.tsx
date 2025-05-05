@@ -36,7 +36,7 @@ export default function HeadlineBanner({items}: HeadlineBannerProps) {
       : `/news/${currentNotice?.id}`;
 
   return (
-    <div className="bg-white mx-4 mt-[60px] rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-white mx-4 mt-4 rounded-xl shadow-sm overflow-hidden">
       <div className="h-12 relative overflow-hidden">
         <Link
           href={href}

@@ -20,6 +20,10 @@ export async function fetcher<T>(
     useUserPersistStore.getState().cleanUser();
   }
 
+  if (res.status === 403) {
+    useUserPersistStore.getState().setIsApproved(false);
+  }
+
   if (!res.ok) {
     throw new Error(`Fetch error: ${res.status}`);
   }

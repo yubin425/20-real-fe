@@ -1,14 +1,14 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/stores/userStore';
+import { useUserPersistStore } from '@/stores/userPersistStore';
 import { useEffect } from 'react';
 import { useUserInfo } from '@/queries/useUserInfoQuery';
 import { useToastStore } from '@/stores/toastStore';
 
 export default function LoginSuccessPage() {
   const router = useRouter();
-  const { setUser } = useUserStore();
+  const { setUser } = useUserPersistStore();
   const { showToast } = useToastStore();
   const { data, isError, isSuccess } = useUserInfo();
 

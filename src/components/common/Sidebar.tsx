@@ -4,7 +4,7 @@ import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { APP_WIDTH } from '@/constatns/ui';
-import { useUserStore } from '@/stores/userStore';
+import { useUserPersistStore } from '@/stores/userPersistStore';
 import Image from 'next/image';
 import { Bell, ChevronRight, MessageCircle, Newspaper, X } from 'lucide-react';
 import Button from '@/components/common/Button';
@@ -12,7 +12,7 @@ import Button from '@/components/common/Button';
 export default function Sidebar() {
   const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);
   const close = useSidebarStore((state: SidebarStore) => state.close);
-  const { user, isLoggedIn } = useUserStore()
+  const { user, isLoggedIn } = useUserPersistStore()
 
   const menuItems = [
     { label: '춘비서', href: '/chatbot', icon: <MessageCircle size={18} /> },

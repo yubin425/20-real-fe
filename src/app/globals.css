@@ -118,6 +118,10 @@
     background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--color-secondary-100) 50%, var(--color-accent-100) 100%);
 }
 
+.gradient-xs {
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-secondary-50) 50%, var(--color-accent-50) 100%);
+}
+
 .animate-slideInFade {
     animation: slideInFade 0.3s ease-out;
 }

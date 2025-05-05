@@ -25,7 +25,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.className}`}>
-    <body className="flex justify-center bg-gradient-to-br bg-accent-50 min-h-screen bg-fixed">
+    <body className="flex justify-center bg-gradient-to-br min-h-screen">
+    <Background>
     <Providers>
       <div
         className="relative bg-white/80  shadow-soft min-h-screen"
@@ -35,7 +36,22 @@ export default function RootLayout({
         {children}
       </div>
     </Providers>
+    </Background>
     </body>
     </html>
+  );
+}
+
+function Background({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full min-h-screen flex justify-center items-center overflow-hidden bg-neutral-50">
+
+      <div className="fixed top-10 left-10 h-64 w-64 rounded-full bg-pink-50 opacity-40 blur-xl" />
+      <div className="fixed bottom-20 right-20 h-80 w-80 rounded-full bg-blue-100 opacity-30 blur-xl" />
+
+      <div className="relative z-10 mx-auto">
+        {children}
+      </div>
+    </div>
   );
 }

@@ -46,7 +46,7 @@ export default function NewsDetailPage() {
   if (!news) return null;
 
   return (
-    <div className="flex justify-center items-center w-full pt-header">
+    <div className="flex justify-center items-center w-full">
       <div className="w-full max-w-app bg-white">
 
         <PostHeader

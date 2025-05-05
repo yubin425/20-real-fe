@@ -90,6 +90,7 @@ export default function Sidebar() {
               <Link
                 href="/login"
                 className="inline-block text-center w-full bg-white/60 backdrop-blur-md text-black py-2.5 rounded-xl font-medium hover:bg-white/70 active:bg-white/50 transition-colors duration-200 border border-white/40"
+                onClick={close}
               >
                 로그인
               </Link>

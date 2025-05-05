@@ -13,25 +13,21 @@ import Image from 'next/image';
 import logo from '@/assets/logo.png';
 import { useToastStore } from '@/stores/toastStore';
 import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
-import { Headline } from '@/types/common/headline';
 import { usePostChatbotQuestion } from '@/queries/chatbot/usePostChatbotQuestion';
+import { useHeadlineData } from '@/hooks/useGetHeadLine';
+import HeadlineBannerSkeleton from '@/components/chatbot/HeadlineBannerSkeleton';
 
 const suggestQuestions: string[] = [
   "휴가 신청하는 법을 알려줘.",
   "유료 구독료 지원 일정을 알려줘."
 ]
 
-const dummyHeadlines: Headline[] = [
-  { type: 'notice', title: '시스템 점검 안내: 5월 3일 오전 2시~4시', id: 1 },
-  { type: 'news', title: '춘이네 비서실 봄맞이 새 기능 업데이트!', id: 1 },
-  { type: 'notice', title: '개인정보 처리방침 변경 안내', id: 2 },
-  { type: 'news', title: '5월 황금연휴 특별 이벤트 안내', id: 2 },
-];
-
 export default function ChatbotPage() {
   const [chats, setChats] = useState<ChatMessage[]>([]);
   const [currentInput, setCurrentInput] = useState('');
-  const [headlines, setHeadlines] = useState<Headline[]>(dummyHeadlines);
+  // 상단 헤드라인 배너 가져오기
+  const { headlines, isLoading: isHeadlineLoading } = useHeadlineData();
+
   const { mutateAsync: postQuestion, isPending } = usePostChatbotQuestion()
 
   const { showToast } = useToastStore();
@@ -95,7 +91,8 @@ export default function ChatbotPage() {
   return (
     <div className="flex flex-col min-h-app bg-gray-50">
       {/* 최신 공지와 뉴스 */}
-      {chats.length === 0 && headlines.length > 0 && (
+      {isHeadlineLoading && chats.length === 0 && <HeadlineBannerSkeleton/>}
+      {!isHeadlineLoading && chats.length === 0 && headlines.length > 0 && (
         <HeadlineBanner items={headlines}/>
       )}
 

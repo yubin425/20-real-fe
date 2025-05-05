@@ -9,7 +9,7 @@ import { oauthLogin } from '@/api/auth';
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-white px-4">
+    <div className="flex flex-col items-center justify-center min-h-app bg-gradient-to-b from-blue-50 to-white px-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-lg overflow-hidden">
 
         {/* 로고 및 로그인 영역 */}

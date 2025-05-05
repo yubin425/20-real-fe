@@ -99,7 +99,7 @@ export default function ChatbotPage() {
         <HeadlineBanner items={headlines}/>
       )}
 
-      <div className="flex-1 flex flex-col gap-4 p-4 pb-32 pt-header relative">
+      <div className="flex-1 flex flex-col gap-4 p-4 pb-16 relative">
         {/* 로고와 추천 질문 */}
         {chats.length === 0 && (
           <div className="flex-1 flex flex-col items-center justify-center gap-4">
@@ -138,7 +138,7 @@ export default function ChatbotPage() {
       </div>
 
       {/* 입력 영역 */}
-      <form className="fixed bottom-0 left-0 right-0 max-w-app mx-auto">
+      <form className="relative bottom-0 w-full max-w-app">
         <div className="bg-white p-4 border-t border-gray-100  rounded-t-3xl">
           <div className="flex items-center bg-white rounded-full pr-2 gap-2 shadow-md">
 

@@ -40,10 +40,10 @@ export default function Sidebar() {
       )}
 
       <aside
-        className={`fixed top-0 w-[300px] h-full z-50
+        className={`fixed top-0 right-0 w-[300px] h-full z-50
         transition-all duration-300 ease-in-out
         ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}`}
-        style={{ right: `calc(50vw - ${APP_WIDTH / 2}px)` }}
+        style={{ right: `max(0px, calc(50vw - ${APP_WIDTH / 2}px))` }}
       >
         {/* 글래스모피즘 배경 */}
         <div className="absolute inset-0 bg-white/10 backdrop-blur-xl rounded-l-3xl shadow-lg border-l border-white/20 overflow-hidden">
@@ -90,6 +90,7 @@ export default function Sidebar() {
               <Link
                 href="/login"
                 className="inline-block text-center w-full bg-white/60 backdrop-blur-md text-black py-2.5 rounded-xl font-medium hover:bg-white/70 active:bg-white/50 transition-colors duration-200 border border-white/40"
+                onClick={close}
               >
                 로그인
               </Link>

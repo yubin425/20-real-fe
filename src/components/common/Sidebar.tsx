@@ -40,10 +40,10 @@ export default function Sidebar() {
       )}
 
       <aside
-        className={`fixed top-0 w-[300px] h-full z-50
+        className={`fixed top-0 right-0 w-[300px] h-full z-50
         transition-all duration-300 ease-in-out
         ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}`}
-        style={{ right: `calc(50vw - ${APP_WIDTH / 2}px)` }}
+        style={{ right: `max(0px, calc(50vw - ${APP_WIDTH / 2}px))` }}
       >
         {/* 글래스모피즘 배경 */}
         <div className="absolute inset-0 bg-white/10 backdrop-blur-xl rounded-l-3xl shadow-lg border-l border-white/20 overflow-hidden">

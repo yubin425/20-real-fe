@@ -25,10 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.className}`}>
-    <body className="flex justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen bg-fixed">
+    <body className="flex justify-center bg-gradient-to-br bg-accent-50 min-h-screen bg-fixed">
     <Providers>
       <div
-        className="relative bg-white/80  shadow-md min-h-screen"
+        className="relative bg-white/80  shadow-soft min-h-screen"
         style={{ width: `${APP_WIDTH}px` }}
       >
         <ToastContainer />

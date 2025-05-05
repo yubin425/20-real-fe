@@ -48,8 +48,8 @@ export default function Sidebar() {
         {/* 글래스모피즘 배경 */}
         <div className="absolute inset-0 bg-white/10 backdrop-blur-xl rounded-l-3xl shadow-lg border-l border-white/20 overflow-hidden">
           {/* 배경 그라데이션 효과 */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/5" />
-
+          {/*<div className="absolute inset-0 bg-gradient-to-br from-white/30 to-white/5" />*/}
+          <div className="absolute inset-0 bg-gradient-to-br gradient-sm" />
           {/* 상단 조명 효과 */}
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/30 to-transparent" />
         </div>

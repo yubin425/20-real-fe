@@ -79,7 +79,7 @@ export default function Modal({
         </div>
 
         {/* 바닥 그래디언트 효과 */}
-        <div className="h-1 bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 rounded-b-xl opacity-75"></div>
+        <div className="h-1 bg-gradient-to-r gradient-lg rounded-b-xl opacity-75"></div>
       </div>
     </div>
   );

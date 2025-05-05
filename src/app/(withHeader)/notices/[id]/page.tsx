@@ -18,6 +18,7 @@ import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
 import { useCreateNoticeCommentMutation } from '@/queries/post/useCreateNoticeCommentMutation';
 import { useToggleNoticeLikeMutation } from '@/queries/post/useToggleNoticeLikeMutation';
+import { useModal } from '@/stores/modalStore';
 
 export default function NoticeDetailPage() {
   const params = useParams<{ id: string }>();
@@ -32,6 +33,7 @@ export default function NoticeDetailPage() {
     isFetchingNextPage,
   });
 
+  const { openModal, closeModal } = useModal();
   const [comment, setComment] = useState('');
 
   const handleSubmitComment = (e: FormEvent) => {
@@ -40,8 +42,25 @@ export default function NoticeDetailPage() {
     setComment('');
   }
 
+  // 댓글 삭제 버튼 클릭 시
   const handleDeleteComment = (commentId: number) => {
-    deleteComment({ noticeId: params.id, commentId: commentId.toString() })
+    openModal(
+      '댓글을 삭제하시겠어요?',
+      <div className="flex justify-end gap-2">
+        <Button variant="ghost" onClick={closeModal}>
+          취소
+        </Button>
+        <Button
+          variant="destructive"
+          onClick={() => {
+            deleteComment({ noticeId: params.id, commentId: commentId.toString() });
+            closeModal();
+          }}
+        >
+          삭제
+        </Button>
+      </div>
+    );
   }
 
   if (!notice) return null;

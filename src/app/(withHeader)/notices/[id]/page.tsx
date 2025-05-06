@@ -82,11 +82,11 @@ export default function NoticeDetailPage() {
         <div className="px-4 pb-3">
           <MarkdownViewer text={notice.content} />
 
-          {notice.images && (
+          {notice.images.length > 0 && (
             <ImageCarousel images={notice.images} />
           )}
 
-          {notice.files && (
+          {notice.files.length > 0 && (
             notice.files.map((file) => (
               <div key={file.id}>
                 <PostFileItem file={file} />

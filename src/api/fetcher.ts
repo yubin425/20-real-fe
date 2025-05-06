@@ -1,4 +1,6 @@
 import { useUserPersistStore } from '@/stores/userPersistStore';
+import { useToastStore } from '@/stores/toastStore';
+import { errors } from '@/constatns/errors';
 
 export async function fetcher<T>(
   url: string,
@@ -18,14 +20,23 @@ export async function fetcher<T>(
 
   if (res.status === 401) {
     useUserPersistStore.getState().cleanUser();
-  }
-
-  if (res.status === 403) {
+    useToastStore.getState().showToast(errors.UNAUTHORIZED, 'error')
+  } else if (res.status === 403) {
     useUserPersistStore.getState().setIsApproved(false);
-  }
+    useToastStore.getState().showToast(errors.FORBIDDEN, 'error')
+  } else if (!res.ok) {
+    let message = errors.DEFAULT
 
-  if (!res.ok) {
-    throw new Error(`Fetch error: ${res.status}`);
+    try {
+      const errorBody = await res.json();
+      if (typeof errorBody?.message === 'string') {
+        message = errorBody.message;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    useToastStore.getState().showToast(message, 'error')
   }
 
   return res.json();

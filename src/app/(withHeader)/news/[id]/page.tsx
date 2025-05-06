@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams } from 'next/navigation';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import PostHeader from '@/components/post/PostHeader';
 import PostSummary from '@/components/post/PostSummary';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
@@ -17,6 +17,7 @@ import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useCreateNewsCommentMutation } from '@/queries/news/useCreateNewsCommentMutation';
 import { useDeleteNewsCommentMutation } from '@/queries/news/useDeleteNewsCommentMutation';
 import { useToggleNewsLikeMutation } from '@/queries/news/useToggleNewsLikeMutation';
+import { useModal } from '@/stores/modalStore';
 
 export default function NewsDetailPage() {
   const params = useParams<{ id: string }>()
@@ -31,6 +32,8 @@ export default function NewsDetailPage() {
     isFetchingNextPage,
   });
 
+  const { openModal, closeModal } = useModal();
+
   const [comment, setComment] = useState('');
 
   const handleSubmitComment = (e: FormEvent) => {
@@ -39,8 +42,25 @@ export default function NewsDetailPage() {
     setComment('');
   }
 
+  // 댓글 삭제 버튼 클릭 시
   const handleDeleteComment = (commentId: number) => {
-    deleteComment({ newsId: params.id, commentId: commentId.toString() })
+    openModal(
+      '댓글을 삭제하시겠어요?',
+      <div className="flex justify-end gap-2">
+        <Button variant="ghost" onClick={closeModal}>
+          취소
+        </Button>
+        <Button
+          variant="destructive"
+          onClick={() => {
+            deleteComment({ newsId: params.id, commentId: commentId.toString() });
+            closeModal();
+          }}
+        >
+          삭제
+        </Button>
+      </div>
+    );
   }
 
   if (!news) return null;
@@ -70,9 +90,9 @@ export default function NewsDetailPage() {
           <Button
             variant="plain"
             onClick={() => toggleLike({newsId: params.id})}
-            className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
+            className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-secondary-50 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
-            <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-pink-500 text-pink-500' : ''}`} />
+            <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
             <span className="font-medium">{news.likeCount}</span>
           </Button>
         </div>

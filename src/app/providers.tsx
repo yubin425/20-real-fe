@@ -4,12 +4,19 @@ import { ReactNode } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from '@/queries/base/queryClient';
+import { useModal } from '@/stores/modalStore';
+import Modal from '@/components/common/Modal';
 
 export default function Providers({ children }: { children: ReactNode }) {
+  const { isOpen, title, content, closeModal } = useModal();
+
   return (
     <QueryClientProvider client={queryClient}>
       {children}
       <ReactQueryDevtools initialIsOpen={false} />
+      <Modal isOpen={isOpen} title={title} onClose={closeModal}>
+        {content}
+      </Modal>
     </QueryClientProvider>
   );
 }

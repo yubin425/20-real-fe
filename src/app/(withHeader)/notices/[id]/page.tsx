@@ -18,6 +18,7 @@ import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
 import { useCreateNoticeCommentMutation } from '@/queries/post/useCreateNoticeCommentMutation';
 import { useToggleNoticeLikeMutation } from '@/queries/post/useToggleNoticeLikeMutation';
+import { useModal } from '@/stores/modalStore';
 
 export default function NoticeDetailPage() {
   const params = useParams<{ id: string }>();
@@ -32,6 +33,7 @@ export default function NoticeDetailPage() {
     isFetchingNextPage,
   });
 
+  const { openModal, closeModal } = useModal();
   const [comment, setComment] = useState('');
 
   const handleSubmitComment = (e: FormEvent) => {
@@ -40,8 +42,25 @@ export default function NoticeDetailPage() {
     setComment('');
   }
 
+  // 댓글 삭제 버튼 클릭 시
   const handleDeleteComment = (commentId: number) => {
-    deleteComment({ noticeId: params.id, commentId: commentId.toString() })
+    openModal(
+      '댓글을 삭제하시겠어요?',
+      <div className="flex justify-end gap-2">
+        <Button variant="ghost" onClick={closeModal}>
+          취소
+        </Button>
+        <Button
+          variant="destructive"
+          onClick={() => {
+            deleteComment({ noticeId: params.id, commentId: commentId.toString() });
+            closeModal();
+          }}
+        >
+          삭제
+        </Button>
+      </div>
+    );
   }
 
   if (!notice) return null;
@@ -82,9 +101,9 @@ export default function NoticeDetailPage() {
           <Button
             variant="plain"
             onClick={() => toggleLike({noticeId: params.id})}
-            className={`flex items-center justify-center px-6 py-2 rounded-full ${notice.userLike ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
+            className={`flex items-center justify-center px-6 py-2 rounded-full ${notice.userLike ? 'bg-secondary-50 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
-            <Heart size={16} className={`mr-2 ${notice.userLike ? 'fill-pink-500 text-pink-500' : ''}`} />
+            <Heart size={16} className={`mr-2 ${notice.userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
             <span className="font-medium">{notice.likeCount}</span>
           </Button>
         </div>

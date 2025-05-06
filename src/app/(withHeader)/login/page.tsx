@@ -9,13 +9,13 @@ import { oauthLogin } from '@/api/auth';
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-app bg-gradient-to-b from-blue-50 to-white px-4">
+    <div className="flex flex-col items-center justify-center min-h-app bg-gradient-to-b gradient-xs px-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-lg overflow-hidden">
 
         {/* 로고 및 로그인 영역 */}
-        <div className="p-8 flex flex-col items-center">
+        <div className="p-4 flex flex-col items-center">
           {/* 로고 */}
-          <div className="mb-8 w-64 h-48 flex items-center justify-center">
+          <div className="mb-6 w-64 h-48 flex items-center justify-center">
             {logo ? (
               <Image
                 src={logo}
@@ -45,7 +45,6 @@ export default function LoginPage() {
               />
             ) : (
               <div className="bg-yellow-300 text-gray-800 w-full py-3 rounded-xl flex items-center justify-center gap-2">
-                <LogIn size={18} />
                 <span>카카오 계정으로 로그인</span>
               </div>
             )}

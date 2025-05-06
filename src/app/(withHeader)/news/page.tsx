@@ -50,7 +50,7 @@ export default function NewsListPage() {
       <div className="px-5 pt-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <Clock size={20} className="text-secondary-300 mr-2" />
+            <Clock size={20} className="text-primary-500 mr-2" />
             <h2 className="text-xl font-bold text-gray-800">Recently</h2>
           </div>
         </div>

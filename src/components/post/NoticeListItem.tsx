@@ -53,7 +53,7 @@ export default function NoticeListItem({ notice }: NoticeItemProps) {
           </div>
 
           {isRecent && (
-            <span className="text-xs py-1 px-3 bg-blue-50 text-secondary-500 rounded-full">최신</span>
+            <span className="text-xs py-1 px-3 bg-primary-50 text-secondary-500 rounded-full">최신</span>
           )}
         </div>
       </div>

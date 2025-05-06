@@ -48,7 +48,7 @@ export default function HeadlineBanner({items}: HeadlineBannerProps) {
             {currentNotice?.type === 'notice' ? (
               <Bell size={16} className="text-primary-500" />
             ) : (
-              <Newspaper size={16} className="text-secondary-400" />
+              <Newspaper size={16} className="text-accent-400" />
             )}
           </div>
           <p className="text-sm font-medium flex-1 truncate mr-1">

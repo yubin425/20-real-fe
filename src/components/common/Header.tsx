@@ -33,9 +33,9 @@ export default function Header() {
 
       {/* 오른쪽: 알림 + 메뉴 버튼 */}
       <div className="flex items-center gap-2 min-w-24 justify-end">
-        <Button variant="ghost" size="icon">
-          <Bell />
-        </Button>
+        {/*<Button variant="ghost" size="icon">*/}
+        {/*  <Bell />*/}
+        {/*</Button>*/}
         <Button variant="ghost" size="icon" onClick={openSidebar}>
           <Menu />
         </Button>

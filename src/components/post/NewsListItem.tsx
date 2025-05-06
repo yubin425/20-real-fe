@@ -17,7 +17,7 @@ export default function NewsListItem({ news, userRead }: NewsListItemProps) {
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1 mr-1">
             {isRecent && (
-              <span className="bg-secondary-300 text-white text-xs py-0.5 px-2 rounded-full">NEW</span>
+              <span className="bg-primary-400 text-white text-xs py-0.5 px-2 rounded-full">NEW</span>
             )}
             <h3 className={`font-medium ${userRead ? "text-gray-400" : "text-gray-800"}  line-clamp-1`}>{news.title}</h3>
           </div>

@@ -25,7 +25,7 @@ export default function NoticeListItem({ notice }: NoticeItemProps) {
   return (
     <div
       className={`bg-white rounded-xl shadow-sm mb-4 overflow-hidden transition-all hover:shadow-md ${
-        isRecent ? 'border-l-4 border-secondary-300' : ''
+        isRecent ? 'border-l-4 border-primary-300' : ''
       }`}
     >
       <div className="p-5">
@@ -53,7 +53,7 @@ export default function NoticeListItem({ notice }: NoticeItemProps) {
           </div>
 
           {isRecent && (
-            <span className="text-xs py-1 px-3 bg-primary-50 text-secondary-500 rounded-full">최신</span>
+            <span className="text-xs py-1 px-3 bg-primary-50 text-primary-500 rounded-full">최신</span>
           )}
         </div>
       </div>

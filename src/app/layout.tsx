@@ -16,6 +16,9 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: '춘이네 비서실',
   description: '카카오테크 부트캠프에서 일어나는 일을 빠르게 확인',
+  icons: {
+    icon: "/images/favicon.ico",
+  },
 };
 
 export default function RootLayout({

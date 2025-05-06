@@ -89,7 +89,7 @@ export default function ChatbotPage() {
 
 
   return (
-    <div className="flex flex-col min-h-app bg-gray-50">
+    <div className="flex flex-col min-h-app bg-neutral-50">
       {/* 최신 공지와 뉴스 */}
       {isHeadlineLoading && chats.length === 0 && <HeadlineBannerSkeleton/>}
       {!isHeadlineLoading && chats.length === 0 && headlines.length > 0 && (
@@ -161,9 +161,9 @@ export default function ChatbotPage() {
             </Button>
           </div>
 
-          <p className="text-xs text-center text-gray-400 mt-2">
-            2025년 4월 7까지 업데이트된 챗봇입니다.
-          </p>
+          {/*<p className="text-xs text-center text-gray-400 mt-2">*/}
+          {/*  2025년 4월 7까지 업데이트된 챗봇입니다.*/}
+          {/*</p>*/}
         </div>
       </form>
     </div>

@@ -90,9 +90,9 @@ export default function NewsDetailPage() {
           <Button
             variant="plain"
             onClick={() => toggleLike({newsId: params.id})}
-            className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-pink-50 text-pink-500' : 'bg-gray-100 text-gray-500'} transition-all`}
+            className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-secondary-50 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
-            <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-pink-500 text-pink-500' : ''}`} />
+            <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
             <span className="font-medium">{news.likeCount}</span>
           </Button>
         </div>

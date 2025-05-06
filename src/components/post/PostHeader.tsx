@@ -25,13 +25,13 @@ export default function PostHeader({ tag, title, author, viewCount, createdAt, p
           <div className="flex items-center text-sm text-gray-500">
             {author && (
               <>
-                <span className="font-medium text-primary-400">{author}</span>
+                <span className="font-medium text-primary-500">{author}</span>
                 <span className="mx-1">•</span>
               </>
             )}
             {viewCount && (
               <>
-                <span className="font-medium text-primary-400">조회수 {viewCount}</span>
+                <span className="font-medium text-primary-500">조회수 {viewCount}</span>
                 <span className="mx-1">•</span>
               </>
             )}

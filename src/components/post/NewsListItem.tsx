@@ -1,7 +1,6 @@
 import { News } from '@/types/post/news';
 import { ChevronRight } from 'lucide-react';
-import { differenceInHours, parse } from 'date-fns';
-import { formatTime } from '@/utils/times';
+import { formatTime, isRecent } from '@/utils/times';
 
 interface NewsListItemProps {
   news: News;
@@ -9,14 +8,12 @@ interface NewsListItemProps {
 }
 
 export default function NewsListItem({ news, userRead }: NewsListItemProps) {
-  const isRecent = differenceInHours(new Date(), parse(news.createdAt, 'yyyy.MM.dd HH:mm:ss', new Date())) < 24;
-
   return (
     <div className="bg-white rounded-xl shadow-sm mb-3 hover:shadow-md transition-shadow">
       <div className="p-4 flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1 mr-1">
-            {isRecent && (
+            {isRecent(news.createdAt) && (
               <span className="bg-primary-400 text-white text-xs py-0.5 px-2 rounded-full">NEW</span>
             )}
             <h3 className={`font-medium ${userRead ? "text-gray-400" : "text-gray-800"}  line-clamp-1`}>{news.title}</h3>

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
 
 export type ToastType = 'default' | 'error' | 'warning' | 'success';
 export type ToastPosition = 'top' | 'bottom';
@@ -20,7 +21,7 @@ interface ToastStore {
 export const useToastStore = create<ToastStore>((set) => ({
   toast: null,
   showToast: (message, type = 'default', position = 'bottom', duration = 'long') => {
-    const id = crypto.randomUUID();
+    const id = uuidv4();
     const newToast: Toast = { id, message, type, position };
     set({ toast: newToast });
 

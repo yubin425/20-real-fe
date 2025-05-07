@@ -1,4 +1,6 @@
 import { PostPlatform } from '@/types/post/postPlatform';
+import { useEffect } from 'react';
+import { formatTime, isRecent } from '@/utils/times';
 
 interface PostHeaderProps {
   tags?: string[];
@@ -10,6 +12,12 @@ interface PostHeaderProps {
 }
 
 export default function PostHeader({ tags = [], title, author, viewCount, createdAt, platform }: PostHeaderProps) {
+  useEffect(() => {
+    if (isRecent(createdAt)) {
+      tags?.push('최신')
+    }
+  }, [createdAt]);
+
   return (
     <>
       {tags?.length > 0 && (
@@ -42,7 +50,7 @@ export default function PostHeader({ tags = [], title, author, viewCount, create
                 <span className="mx-1">•</span>
               </>
             )}
-            <span>{createdAt}</span>
+            <span>{formatTime(createdAt)}</span>
           </div>
           {platform && (
             <div className="flex items-center px-3 py-1 bg-indigo-50 rounded-full">

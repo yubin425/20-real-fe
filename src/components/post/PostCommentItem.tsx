@@ -2,6 +2,7 @@ import { PostComment } from '@/types/post/postComment';
 import { Trash } from 'lucide-react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
+import { formatTime } from '@/utils/times';
 
 interface PostCommentItemProps {
   comment: PostComment;
@@ -16,7 +17,7 @@ export default function PostCommentItem({ comment, onDelete }: PostCommentItemPr
       </div>
       <div className="ml-3 flex-1">
         <span className="font-medium text-sm pr-2 text-gray-900">{comment.nickname}</span>
-        <span className="text-gray-400 text-xs">{comment.createdAt}</span>
+        <span className="text-gray-400 text-xs">{formatTime(comment.createdAt)}</span>
 
         <p className="text-gray-600 text-sm mt-1">{comment.content}</p>
       </div>

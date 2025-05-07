@@ -12,8 +12,12 @@ export function formatTime(raw: string): string {
   if (minutes < 60) return `${minutes}분 전`;
   if (hours < 24) return `${hours}시간 전`;
   if (days < 7) return `${days}일 전`;
-
-  return format(date, 'yyyy.MM.dd');
+  try {
+    return format(date, 'yyyy.MM.dd');
+  } catch (error) {
+    console.log(error);
+    return raw;
+  }
 }
 
 export function isRecent(createdAt: string): boolean {

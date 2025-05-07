@@ -1,5 +1,4 @@
 import { PostPlatform } from '@/types/post/postPlatform';
-import { useEffect } from 'react';
 import { formatTime, isRecent } from '@/utils/times';
 
 interface PostHeaderProps {
@@ -12,9 +11,16 @@ interface PostHeaderProps {
   originalUrl?: string | null;
 }
 
-export default function PostHeader({ tags = [], title, author, viewCount, createdAt, originalUrl, platform }: PostHeaderProps) {
+export default function PostHeader({
+  tags = [],
+  title,
+  author,
+  viewCount,
+  createdAt,
+  originalUrl,
+  platform,
+}: PostHeaderProps) {
   const displayTags = isRecent(createdAt) ? ['최신', ...tags] : tags;
-  console.log(displayTags);
 
   return (
     <>
@@ -23,12 +29,11 @@ export default function PostHeader({ tags = [], title, author, viewCount, create
           {displayTags.map((tag) => (
             <div
               key={tag}
-              className={`inline-block ${tag === '최신' ? "bg-primary-50 text-primary-500" : "bg-neutral-100 text-neutral-600"}  rounded-full px-3 py-1 text-xs font-semibold`}
+              className={`inline-block ${tag === '최신' ? 'bg-primary-50 text-primary-500' : 'bg-neutral-100 text-neutral-600'}  rounded-full px-3 py-1 text-xs font-semibold`}
             >
               {tag}
             </div>
           ))}
-
         </div>
       )}
 

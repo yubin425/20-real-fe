@@ -29,19 +29,23 @@ export default function AdminNoticeNewPage() {
   const [files, setFiles] = useState<File[]>([]);
 
   const handleSubmit = async () => {
+    const notice = {
+      title,
+      content,
+      tag,
+      userName,
+      originalUrl,
+    };
+
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('tag', tag);
-    formData.append('userName', userName);
-    formData.append('originalUrl', originalUrl);
+    formData.append('notice', new Blob([JSON.stringify(notice)], { type: 'application/json' }));
     images.forEach((img) => formData.append('images', img));
     files.forEach((file) => formData.append('files', file));
 
     console.log(formData);
 
-    // const res = await fetch('http://localhost:8080/api/v1/admin/notices', {
-    const res = await fetch('http://test.kakaotech.com/api/v1/admin/notices', {
+    // const res = await fetch('http://localhost:8080/api/v1/notices/tmp', {
+    const res = await fetch('http://test.kakaotech.com/api/v1/notices/tmp', {
       method: 'POST',
       body: formData,
     });

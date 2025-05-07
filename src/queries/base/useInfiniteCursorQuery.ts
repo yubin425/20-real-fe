@@ -4,13 +4,16 @@ import { useInfiniteQuery, UseInfiniteQueryOptions, UseInfiniteQueryResult } fro
 interface UseInfiniteCursorQueryParams<TItem> {
   queryKey: string[];
   queryFn: (params: CursorParam) => Promise<BaseResponse<CursorResponse<TItem>>>;
-  options?: UseInfiniteQueryOptions<
-    BaseResponse<CursorResponse<TItem>>,  // queryFn으로 가져오는 데이터
-    Error,
-    TItem[],  // select 후 반환하는 데이터
-    BaseResponse<CursorResponse<TItem>>,  // getNextPageParam의 lastPage 타입
-    string[],  // query key 타입
-    CursorParam | null  // queryFn의 pageParam 타입
+  options?: Omit<
+    UseInfiniteQueryOptions<
+      BaseResponse<CursorResponse<TItem>>,  // queryFn으로 가져오는 데이터
+      Error,
+      TItem[],  // select 후 반환하는 데이터
+      BaseResponse<CursorResponse<TItem>>,  // getNextPageParam의 lastPage 타입
+      string[],  // query key 타입
+      CursorParam | null  // queryFn의 pageParam 타입
+    >,
+    'queryKey' | 'getNextPageParam' | 'initialPageParam'
   >;
 }
 

@@ -1,12 +1,3 @@
----
-name: Trouble Shooting Log
-about: 트러블 슈팅 로그
-title: ''
-labels: ''
-assignees: ''
-
----
-
 # 2025-04-16 API 토큰 인증 오류
 
 ## 🐞 에러 내용

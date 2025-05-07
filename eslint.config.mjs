@@ -28,7 +28,7 @@ const eslintConfig = [
           ],
         },
       ],
-      'simple-import-sort/exports': 'error',
+      'simple-import-sort/exports': 'off',
 
       // unusedImport
       'unused-imports/no-unused-imports': 'error',

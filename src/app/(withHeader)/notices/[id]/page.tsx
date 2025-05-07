@@ -90,7 +90,14 @@ export default function NoticeDetailPage() {
           {notice.files.length > 0 && (
             notice.files.map((file) => (
               <div key={file.id}>
-                <PostFileItem file={file} />
+                <a
+                  href={file.fileUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <PostFileItem file={file} />
+                </a>
               </div>
             ))
           )}

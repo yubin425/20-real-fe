@@ -59,6 +59,15 @@ export default function AdminNoticeNewPage() {
 
     if (res.ok) {
       alert('업로드 성공');
+      setTitle('');
+      setContent('');
+      setTag(tags[0]);
+      setPlatform(platforms[0]);
+      setUserName(userNames[0].value)
+      setOriginalUrl('')
+      setImages([])
+      setFiles([])
+
     } else {
       alert('업로드 실패');
     }

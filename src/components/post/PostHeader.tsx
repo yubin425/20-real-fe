@@ -13,23 +13,20 @@ interface PostHeaderProps {
 }
 
 export default function PostHeader({ tags = [], title, author, viewCount, createdAt, originalUrl, platform }: PostHeaderProps) {
-  useEffect(() => {
-    if (isRecent(createdAt)) {
-      tags?.push('최신')
-    }
-  }, [createdAt]);
+  const displayTags = isRecent(createdAt) ? ['최신', ...tags] : tags;
+  console.log(displayTags);
 
   return (
     <>
-      {tags?.length > 0 && (
-        <div className="px-4 pt-4 pb-2">
-          {tags.map((tag) => (
-            <span
+      {displayTags.length > 0 && (
+        <div className="flex flex-row px-4 pt-4 pb-2 gap-2">
+          {displayTags.map((tag) => (
+            <div
               key={tag}
-              className="inline-block bg-gray-100 text-gray-600 rounded-full px-3 py-1 text-xs font-semibold"
+              className={`inline-block ${tag === '최신' ? "bg-primary-50 text-primary-500" : "bg-neutral-100 text-neutral-600"}  rounded-full px-3 py-1 text-xs font-semibold`}
             >
               {tag}
-            </span>
+            </div>
           ))}
 
         </div>

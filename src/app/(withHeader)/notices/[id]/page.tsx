@@ -70,7 +70,7 @@ export default function NoticeDetailPage() {
       <div className="w-full max-w-app bg-white">
 
         <PostHeader
-          tag={notice.tag}
+          tags={[notice.tag]}
           title={notice.title}
           author={notice.author}
           createdAt={notice.createdAt}

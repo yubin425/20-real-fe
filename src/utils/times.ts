@@ -15,3 +15,7 @@ export function formatTime(raw: string): string {
 
   return format(date, 'yyyy.MM.dd');
 }
+
+export function isRecent(createdAt: string): boolean {
+  return differenceInHours(new Date(), parse(createdAt, 'yyyy.MM.dd HH:mm:ss', new Date())) < 24;
+}

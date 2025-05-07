@@ -70,7 +70,7 @@ export default function NewsDetailPage() {
       <div className="w-full max-w-app bg-white">
 
         <PostHeader
-          tag={news.tag}
+          tags={[news.tag]}
           title={news.title}
           viewCount={news.viewCount}
           createdAt={news.createdAt}

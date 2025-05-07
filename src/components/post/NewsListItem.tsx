@@ -1,7 +1,7 @@
 import { News } from '@/types/post/news';
 import { ChevronRight } from 'lucide-react';
 import { differenceInHours, parse } from 'date-fns';
-import { formatTime } from '@/utils/formatTime';
+import { formatTime } from '@/utils/times';
 
 interface NewsListItemProps {
   news: News;

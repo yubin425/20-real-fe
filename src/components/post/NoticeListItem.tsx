@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { differenceInHours, parse } from 'date-fns'
 import Image from 'next/image';
 import helperRyan from '@/assets/helper-ryan.png'
-import { formatTime } from '@/utils/formatTime';
+import { formatTime } from '@/utils/times';
 
 type NoticeItemProps = {
   notice: Notice;

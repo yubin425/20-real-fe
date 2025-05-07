@@ -9,9 +9,10 @@ interface PostHeaderProps {
   viewCount?: number | null;
   createdAt: string;
   platform?: PostPlatform | null;
+  originalUrl?: string | null;
 }
 
-export default function PostHeader({ tags = [], title, author, viewCount, createdAt, platform }: PostHeaderProps) {
+export default function PostHeader({ tags = [], title, author, viewCount, createdAt, originalUrl, platform }: PostHeaderProps) {
   useEffect(() => {
     if (isRecent(createdAt)) {
       tags?.push('최신')
@@ -52,11 +53,11 @@ export default function PostHeader({ tags = [], title, author, viewCount, create
             )}
             <span>{formatTime(createdAt)}</span>
           </div>
-          {platform && (
+          {originalUrl && platform && (
             <div className="flex items-center px-3 py-1 bg-indigo-50 rounded-full">
-              <span className="text-xs font-medium text-primary-500 flex items-center">
+              <a href={originalUrl} className="text-xs font-medium text-primary-500 flex items-center">
                 {platform}
-              </span>
+              </a>
             </div>
           )}
         </div>

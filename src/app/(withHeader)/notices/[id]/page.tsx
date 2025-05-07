@@ -75,6 +75,7 @@ export default function NoticeDetailPage() {
           author={notice.author}
           createdAt={notice.createdAt}
           platform={notice.platform}
+          originalUrl={notice.originalUrl}
         />
 
         <PostSummary summary={notice.summary} />

@@ -1,7 +1,7 @@
 import { PostPlatform } from '@/types/post/postPlatform';
 
 interface PostHeaderProps {
-  tag?: string | null;
+  tags?: string[];
   title: string;
   author?: string | null;
   viewCount?: number | null;
@@ -9,13 +9,20 @@ interface PostHeaderProps {
   platform?: PostPlatform | null;
 }
 
-export default function PostHeader({ tag, title, author, viewCount, createdAt, platform }: PostHeaderProps) {
+export default function PostHeader({ tags = [], title, author, viewCount, createdAt, platform }: PostHeaderProps) {
   return (
     <>
-      {tag && (
+      {tags?.length > 0 && (
         <div className="px-4 pt-4 pb-2">
-          <span
-            className="inline-block bg-gray-100 text-gray-600 rounded-full px-3 py-1 text-xs font-semibold">{tag}</span>
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="inline-block bg-gray-100 text-gray-600 rounded-full px-3 py-1 text-xs font-semibold"
+            >
+              {tag}
+            </span>
+          ))}
+
         </div>
       )}
 

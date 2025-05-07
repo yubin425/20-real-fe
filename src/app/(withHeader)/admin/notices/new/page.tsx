@@ -52,7 +52,7 @@ export default function AdminNoticeNewPage() {
     console.log(formData);
 
     // const res = await fetch('http://localhost:8080/api/v1/notices/tmp', {
-    const res = await fetch('http://test.kakaotech.com/api/v1/notices/tmp', {
+    const res = await fetch('http://www.kakaotech.com/api/v1/notices/tmp', {
       method: 'POST',
       body: formData,
     });

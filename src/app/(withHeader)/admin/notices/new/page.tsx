@@ -19,10 +19,16 @@ const tags = [
   '클라우드 공지'
 ];
 
+const platforms = [
+  '디스코드',
+  '노션'
+]
+
 export default function AdminNoticeNewPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState(tags[0]);
+  const [platform, setPlatform] = useState(platforms[0]);
   const [userName, setUserName] = useState(userNames[0].value);
   const [originalUrl, setOriginalUrl] = useState('');
   const [images, setImages] = useState<File[]>([]);
@@ -33,6 +39,7 @@ export default function AdminNoticeNewPage() {
       title,
       content,
       tag,
+      platform,
       userName,
       originalUrl,
     };
@@ -94,6 +101,12 @@ export default function AdminNoticeNewPage() {
 
       <select className="w-full border p-2" value={tag} onChange={(e) => setTag(e.target.value)}>
         {tags.map((t) => (
+          <option key={t} value={t}>{t}</option>
+        ))}
+      </select>
+
+      <select className="w-full border p-2" value={tag} onChange={(e) => setPlatform(e.target.value)}>
+        {platforms.map((t) => (
           <option key={t} value={t}>{t}</option>
         ))}
       </select>

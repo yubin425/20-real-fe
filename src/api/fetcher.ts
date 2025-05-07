@@ -6,6 +6,7 @@ export async function fetcher<T>(
   url: string,
   options?: RequestInit,
 ): Promise<T> {
+  const timeout = url.includes('/v1/chatbots') ? 60000 : 5000;
   const res = await fetch(
     process.env.NEXT_PUBLIC_API_URL + url,
     {
@@ -15,7 +16,7 @@ export async function fetcher<T>(
         ...(options?.headers ?? {}),
       },
       credentials: 'include',
-      signal: AbortSignal.timeout(5000)
+      signal: AbortSignal.timeout(timeout)
     });
 
   if (res.status === 401) {

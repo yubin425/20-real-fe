@@ -9,26 +9,24 @@ interface PostHeaderProps {
   viewCount?: number | null;
   createdAt: string;
   platform?: PostPlatform | null;
+  originalUrl?: string | null;
 }
 
-export default function PostHeader({ tags = [], title, author, viewCount, createdAt, platform }: PostHeaderProps) {
-  useEffect(() => {
-    if (isRecent(createdAt)) {
-      tags?.push('최신')
-    }
-  }, [createdAt]);
+export default function PostHeader({ tags = [], title, author, viewCount, createdAt, originalUrl, platform }: PostHeaderProps) {
+  const displayTags = isRecent(createdAt) ? ['최신', ...tags] : tags;
+  console.log(displayTags);
 
   return (
     <>
-      {tags?.length > 0 && (
-        <div className="px-4 pt-4 pb-2">
-          {tags.map((tag) => (
-            <span
+      {displayTags.length > 0 && (
+        <div className="flex flex-row px-4 pt-4 pb-2 gap-2">
+          {displayTags.map((tag) => (
+            <div
               key={tag}
-              className="inline-block bg-gray-100 text-gray-600 rounded-full px-3 py-1 text-xs font-semibold"
+              className={`inline-block ${tag === '최신' ? "bg-primary-50 text-primary-500" : "bg-neutral-100 text-neutral-600"}  rounded-full px-3 py-1 text-xs font-semibold`}
             >
               {tag}
-            </span>
+            </div>
           ))}
 
         </div>
@@ -52,11 +50,11 @@ export default function PostHeader({ tags = [], title, author, viewCount, create
             )}
             <span>{formatTime(createdAt)}</span>
           </div>
-          {platform && (
+          {originalUrl && platform && (
             <div className="flex items-center px-3 py-1 bg-indigo-50 rounded-full">
-              <span className="text-xs font-medium text-primary-500 flex items-center">
+              <a href={originalUrl} className="text-xs font-medium text-primary-500 flex items-center">
                 {platform}
-              </span>
+              </a>
             </div>
           )}
         </div>

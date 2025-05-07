@@ -1,12 +1,20 @@
 import { useNewsListQuery } from '@/queries/news/useNewsListQuery';
 import { useNoticeListInfinityQuery } from '@/queries/post/useNoticeListInfinityQuery';
 import { Headline } from '@/types/common/headline';
+import { useUserPersistStore } from '@/stores/userPersistStore';
 
 export const useHeadlineData = () => {
-  const { data: news, isLoading: isLoadingNews } = useNewsListQuery('latest', 2);
-  const { data: notices, isLoading: isLoadingNotices } = useNoticeListInfinityQuery(2);
+  const { isLoggedIn, isApproved } = useUserPersistStore(); // 로그인 여부 가져오기
 
-  const isLoading = isLoadingNews || isLoadingNotices;
+  const { data: news, isLoading: isLoadingNews } = useNewsListQuery('latest', 2);
+
+  // 로그인 여부에 따라 쿼리 활성화 여부 결정
+  const {
+    data: notices,
+    isLoading: isLoadingNotices
+  } = useNoticeListInfinityQuery({limit: 2, options: {enabled: isLoggedIn && isApproved}});
+
+  const isLoading = isLoadingNews || (isLoggedIn && isApproved && isLoadingNotices);
 
   const headlines = [
     ...(news?.map((item): Headline => ({
@@ -15,11 +23,13 @@ export const useHeadlineData = () => {
       id: item.id,
     })) ?? []),
 
-    ...(notices?.map((item): Headline => ({
-      type: 'notice',
-      title: item.title,
-      id: item.id,
-    })) ?? []),
+    ...(isLoggedIn && notices
+      ? notices.map((item): Headline => ({
+        type: 'notice',
+        title: item.title,
+        id: item.id,
+      }))
+      : []),
   ];
 
   return { headlines, isLoading };

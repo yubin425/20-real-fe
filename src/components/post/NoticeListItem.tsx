@@ -1,17 +1,14 @@
 import { Notice } from '@/types/post/notice';
 import { ChevronRight } from 'lucide-react';
-import { differenceInHours, parse } from 'date-fns'
 import Image from 'next/image';
 import helperRyan from '@/assets/helper-ryan.png'
-import { formatTime } from '@/utils/times';
+import { formatTime, isRecent } from '@/utils/times';
 
 type NoticeItemProps = {
   notice: Notice;
 }
 
 export default function NoticeListItem({ notice }: NoticeItemProps) {
-  const isRecent = differenceInHours(new Date(), parse(notice.createdAt, 'yyyy.MM.dd HH:mm:ss', new Date())) < 24;
-
   const renderAvatar = () => {
     if (notice.author.includes('helper.ryan')) {
       return (
@@ -25,7 +22,7 @@ export default function NoticeListItem({ notice }: NoticeItemProps) {
   return (
     <div
       className={`bg-white rounded-xl shadow-sm mb-4 overflow-hidden transition-all hover:shadow-md ${
-        isRecent ? 'border-l-4 border-primary-300' : ''
+        isRecent(notice.createdAt) ? 'border-l-4 border-primary-300' : ''
       }`}
     >
       <div className="p-5">
@@ -52,7 +49,7 @@ export default function NoticeListItem({ notice }: NoticeItemProps) {
             <span className="text-sm text-gray-600">{notice.author}</span>
           </div>
 
-          {isRecent && (
+          {isRecent(notice.createdAt) && (
             <span className="text-xs py-1 px-3 bg-primary-50 text-primary-500 rounded-full">최신</span>
           )}
         </div>

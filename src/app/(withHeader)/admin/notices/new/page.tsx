@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useState } from 'react';
 
@@ -12,17 +12,9 @@ const userNames = [
   { value: 'diana.kim(김예슬)/관리자' },
 ];
 
-const tags = [
-  '공지',
-  '풀스택 공지',
-  '인공지능 공지',
-  '클라우드 공지'
-];
+const tags = ['공지', '풀스택 공지', '인공지능 공지', '클라우드 공지'];
 
-const platforms = [
-  '디스코드',
-  '노션'
-]
+const platforms = ['디스코드', '노션'];
 
 export default function AdminNoticeNewPage() {
   const [title, setTitle] = useState('');
@@ -49,8 +41,6 @@ export default function AdminNoticeNewPage() {
     images.forEach((img) => formData.append('images', img));
     files.forEach((file) => formData.append('files', file));
 
-    console.log(formData);
-
     // const res = await fetch('http://localhost:8080/api/v1/notices/tmp', {
     const res = await fetch('http://test.kakaotech.com/api/v1/notices/tmp', {
       method: 'POST',
@@ -63,11 +53,10 @@ export default function AdminNoticeNewPage() {
       setContent('');
       setTag(tags[0]);
       setPlatform(platforms[0]);
-      setUserName(userNames[0].value)
-      setOriginalUrl('')
-      setImages([])
-      setFiles([])
-
+      setUserName(userNames[0].value);
+      setOriginalUrl('');
+      setImages([]);
+      setFiles([]);
     } else {
       alert('업로드 실패');
     }
@@ -110,19 +99,25 @@ export default function AdminNoticeNewPage() {
 
       <select className="w-full border p-2" value={tag} onChange={(e) => setTag(e.target.value)}>
         {tags.map((t) => (
-          <option key={t} value={t}>{t}</option>
+          <option key={t} value={t}>
+            {t}
+          </option>
         ))}
       </select>
 
       <select className="w-full border p-2" value={tag} onChange={(e) => setPlatform(e.target.value)}>
         {platforms.map((t) => (
-          <option key={t} value={t}>{t}</option>
+          <option key={t} value={t}>
+            {t}
+          </option>
         ))}
       </select>
 
       <select className="w-full border p-2" value={userName} onChange={(e) => setUserName(e.target.value)}>
         {userNames.map((a) => (
-          <option key={a.value} value={a.value}>{a.value}</option>
+          <option key={a.value} value={a.value}>
+            {a.value}
+          </option>
         ))}
       </select>
 
@@ -154,10 +149,7 @@ export default function AdminNoticeNewPage() {
           {images.map((file, idx) => (
             <li key={idx} className="flex items-center justify-between">
               <span>{file.name}</span>
-              <button
-                onClick={() => removeImage(idx)}
-                className="text-red-500 hover:underline"
-              >
+              <button onClick={() => removeImage(idx)} className="text-red-500 hover:underline">
                 X
               </button>
             </li>
@@ -192,10 +184,7 @@ export default function AdminNoticeNewPage() {
           {files.map((file, idx) => (
             <li key={idx} className="flex items-center justify-between">
               <span>{file.name}</span>
-              <button
-                onClick={() => removeFile(idx)}
-                className="text-red-500 hover:underline"
-              >
+              <button onClick={() => removeFile(idx)} className="text-red-500 hover:underline">
                 X
               </button>
             </li>
@@ -203,10 +192,7 @@ export default function AdminNoticeNewPage() {
         </ul>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
+      <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
         등록하기
       </button>
     </div>

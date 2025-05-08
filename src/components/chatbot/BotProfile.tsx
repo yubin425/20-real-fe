@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import choon from '@/assets/choon.png';
 
 export default function BotProfile() {

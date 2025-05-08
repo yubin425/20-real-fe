@@ -1,13 +1,15 @@
-import { Headline } from '@/types/common/headline';
 import { Bell, Newspaper } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+import { useEffect, useState } from 'react';
+
+import { Headline } from '@/types/common/headline';
+
 interface HeadlineBannerProps {
-  items: Headline[]
+  items: Headline[];
 }
 
-export default function HeadlineBanner({items}: HeadlineBannerProps) {
+export default function HeadlineBanner({ items }: HeadlineBannerProps) {
   const [currentNoticeIndex, setCurrentNoticeIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -30,10 +32,7 @@ export default function HeadlineBanner({items}: HeadlineBannerProps) {
 
   const currentNotice = items[currentNoticeIndex];
 
-  const href =
-    currentNotice?.type === 'notice'
-      ? `/notices/${currentNotice?.id}`
-      : `/news/${currentNotice?.id}`;
+  const href = currentNotice?.type === 'notice' ? `/notices/${currentNotice?.id}` : `/news/${currentNotice?.id}`;
 
   return (
     <div className="bg-white mx-4 mt-4 rounded-xl shadow-sm overflow-hidden">
@@ -51,14 +50,12 @@ export default function HeadlineBanner({items}: HeadlineBannerProps) {
               <Newspaper size={16} className="text-accent-400" />
             )}
           </div>
-          <p className="text-sm font-medium flex-1 truncate mr-1">
-            {currentNotice?.title}
-          </p>
+          <p className="text-sm font-medium flex-1 truncate mr-1">{currentNotice?.title}</p>
           <span className="text-xs text-gray-500">
-          {currentNoticeIndex + 1}/{items.length}
-        </span>
+            {currentNoticeIndex + 1}/{items.length}
+          </span>
         </Link>
       </div>
     </div>
-  )
+  );
 }

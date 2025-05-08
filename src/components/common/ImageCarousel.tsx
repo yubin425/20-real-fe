@@ -1,8 +1,10 @@
-import { NoticeFile } from '@/types/post/noticeFile';
-import { useState } from 'react';
-import Image from 'next/image';
-import Button from '@/components/common/Button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
+
+import { useState } from 'react';
+
+import Button from '@/components/common/Button';
+import { NoticeFile } from '@/types/post/noticeFile';
 
 interface ImageCarouselProps {
   images: NoticeFile[];
@@ -40,24 +42,23 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
 
         {current > 0 && (
           <Button
-            variant='plain'
+            variant="plain"
             className="flex justify-center items-center absolute left-2 top-2/5 rounded-full bg-white w-9 h-9 opacity-80"
             onClick={() => setCurrent(current - 1)}
           >
-            <ChevronLeft/>
+            <ChevronLeft />
           </Button>
         )}
 
         {current < images.length - 1 && (
           <Button
-            variant='plain'
+            variant="plain"
             className="flex justify-center items-center absolute right-2 top-2/5 rounded-full bg-white w-9 h-9 opacity-80"
             onClick={() => setCurrent(current + 1)}
           >
-            <ChevronRight/>
+            <ChevronRight />
           </Button>
         )}
-
       </div>
 
       {/* 네비게이션 점 */}

@@ -1,31 +1,33 @@
-"use client"
+'use client';
 
+import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
 import { useParams } from 'next/navigation';
+
 import { FormEvent, useState } from 'react';
+
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
+import MarkdownViewer from '@/components/common/MarkdownViewer';
+import SingleImage from '@/components/common/SingleImage';
+import PostCommentItem from '@/components/post/PostCommentItem';
 import PostHeader from '@/components/post/PostHeader';
 import PostSummary from '@/components/post/PostSummary';
-import MarkdownViewer from '@/components/common/MarkdownViewer';
-import Button from '@/components/common/Button';
-import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
-import Input from '@/components/common/Input';
-import PostCommentItem from '@/components/post/PostCommentItem';
-import SingleImage from '@/components/common/SingleImage';
-import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
-import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentListInfinityQuery';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
-import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { useCreateNewsCommentMutation } from '@/queries/news/useCreateNewsCommentMutation';
 import { useDeleteNewsCommentMutation } from '@/queries/news/useDeleteNewsCommentMutation';
+import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentListInfinityQuery';
+import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
 import { useToggleNewsLikeMutation } from '@/queries/news/useToggleNewsLikeMutation';
 import { useModal } from '@/stores/modalStore';
 
 export default function NewsDetailPage() {
-  const params = useParams<{ id: string }>()
-  const { data: news } = useNewsDetailQuery(params.id)
-  const { mutate: toggleLike } = useToggleNewsLikeMutation()
-  const { mutate: postComment } = useCreateNewsCommentMutation()
-  const { mutate: deleteComment } = useDeleteNewsCommentMutation()
-  const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id)
+  const params = useParams<{ id: string }>();
+  const { data: news } = useNewsDetailQuery(params.id);
+  const { mutate: toggleLike } = useToggleNewsLikeMutation();
+  const { mutate: postComment } = useCreateNewsCommentMutation();
+  const { mutate: deleteComment } = useDeleteNewsCommentMutation();
+  const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id);
   const loadingRef = useInfiniteScrollObserver({
     fetchNextPage,
     hasNextPage,
@@ -38,9 +40,9 @@ export default function NewsDetailPage() {
 
   const handleSubmitComment = (e: FormEvent) => {
     e.preventDefault();
-    postComment({ newsId: params.id, content: comment })
+    postComment({ newsId: params.id, content: comment });
     setComment('');
-  }
+  };
 
   // 댓글 삭제 버튼 클릭 시
   const handleDeleteComment = (commentId: number) => {
@@ -59,22 +61,16 @@ export default function NewsDetailPage() {
         >
           삭제
         </Button>
-      </div>
+      </div>,
     );
-  }
+  };
 
   if (!news) return null;
 
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-full max-w-app bg-white">
-
-        <PostHeader
-          tags={[news.tag]}
-          title={news.title}
-          viewCount={news.viewCount}
-          createdAt={news.createdAt}
-        />
+        <PostHeader tags={[news.tag]} title={news.title} viewCount={news.viewCount} createdAt={news.createdAt} />
 
         <PostSummary summary={news.summary} />
 
@@ -82,14 +78,13 @@ export default function NewsDetailPage() {
           <MarkdownViewer text={news.content} />
 
           <SingleImage imageUrl={news.imageUrl} />
-
         </div>
 
         {/* 좋아요 버튼 */}
         <div className="px-4 mb-4 flex justify-center">
           <Button
             variant="plain"
-            onClick={() => toggleLike({newsId: params.id})}
+            onClick={() => toggleLike({ newsId: params.id })}
             className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-secondary-50 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
             <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
@@ -104,31 +99,25 @@ export default function NewsDetailPage() {
             <span className="text-sm font-medium">댓글 {news.commentCount}</span>
           </div>
 
-          <form onSubmit={handleSubmitComment} className='flex w-full gap-3 justify-center items-center'>
-            <Input className='flex-1 rounded-xl' value={comment} onChange={e => setComment(e.target.value)}/>
+          <form onSubmit={handleSubmitComment} className="flex w-full gap-3 justify-center items-center">
+            <Input className="flex-1 rounded-xl" value={comment} onChange={(e) => setComment(e.target.value)} />
 
-            <Button variant='outline' size='icon' className='shrink-0' type='submit'>
-              <ArrowUp size={18}/>
+            <Button variant="outline" size="icon" className="shrink-0" type="submit">
+              <ArrowUp size={18} />
             </Button>
           </form>
-
-
         </div>
 
         {/* 댓글 부분 */}
         <div className="border-t border-gray-100">
-          {comments && comments.map((comment) =>
-            <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
-          )}
+          {comments &&
+            comments.map((comment) => (
+              <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
+            ))}
         </div>
 
-        <LoadingIndicator
-          loadingRef={loadingRef}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-        />
+        <LoadingIndicator loadingRef={loadingRef} hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} />
       </div>
     </div>
-  )
-
+  );
 }

@@ -1,5 +1,6 @@
-import { News } from '@/types/post/news';
 import { ChevronRight } from 'lucide-react';
+
+import { News } from '@/types/post/news';
 import { formatTime, isRecent } from '@/utils/times';
 
 interface NewsListItemProps {
@@ -16,14 +17,14 @@ export default function NewsListItem({ news, userRead }: NewsListItemProps) {
             {isRecent(news.createdAt) && (
               <span className="bg-primary-400 text-white text-xs py-0.5 px-2 rounded-full">NEW</span>
             )}
-            <h3 className={`font-medium ${userRead ? "text-gray-400" : "text-gray-800"}  line-clamp-1`}>{news.title}</h3>
+            <h3 className={`font-medium ${userRead ? 'text-gray-400' : 'text-gray-800'}  line-clamp-1`}>
+              {news.title}
+            </h3>
           </div>
           <div className="flex items-center text-xs text-gray-500">
             <span>{formatTime(news.createdAt)}</span>
             {news.commentCount > 0 && (
-              <span className="ml-2 text-primary-500 font-medium">
-              댓글 {news.commentCount}
-            </span>
+              <span className="ml-2 text-primary-500 font-medium">댓글 {news.commentCount}</span>
             )}
           </div>
         </div>

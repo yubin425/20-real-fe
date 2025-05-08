@@ -1,5 +1,5 @@
-import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
+import { create } from 'zustand';
 
 export type ToastType = 'default' | 'error' | 'warning' | 'success';
 export type ToastPosition = 'top' | 'bottom';
@@ -25,9 +25,12 @@ export const useToastStore = create<ToastStore>((set) => ({
     const newToast: Toast = { id, message, type, position };
     set({ toast: newToast });
 
-    setTimeout(() => {
-      set({ toast: null });
-    }, duration === 'long' ? 5000 : 3000);
+    setTimeout(
+      () => {
+        set({ toast: null });
+      },
+      duration === 'long' ? 5000 : 3000,
+    );
   },
   clearToast: () => set({ toast: null }),
 }));

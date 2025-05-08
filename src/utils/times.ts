@@ -1,4 +1,4 @@
-import { differenceInMinutes, differenceInHours, differenceInDays, format, parse } from 'date-fns';
+import { differenceInDays, differenceInHours, differenceInMinutes, format, parse } from 'date-fns';
 
 export function formatTime(raw: string): string {
   const date = parse(raw, 'yyyy.MM.dd HH:mm:ss', new Date());
@@ -15,7 +15,7 @@ export function formatTime(raw: string): string {
   try {
     return format(date, 'yyyy.MM.dd');
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return raw;
   }
 }

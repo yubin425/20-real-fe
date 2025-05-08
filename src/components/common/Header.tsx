@@ -1,10 +1,11 @@
 'use client';
 
-import { Menu, Bell, ArrowLeft } from 'lucide-react';
-import { useSidebarStore } from '@/stores/sidebarStore';
+import { ArrowLeft, Menu } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+
 import Button from '@/components/common/Button';
 import { HEADER_HEIGHT } from '@/constatns/ui';
-import { usePathname, useRouter } from 'next/navigation';
+import { useSidebarStore } from '@/stores/sidebarStore';
 
 export default function Header() {
   const router = useRouter();

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 
 interface ReadNewsStore {
   readNewsIds: Set<number>;
@@ -7,18 +7,19 @@ interface ReadNewsStore {
   isRead: (id: number) => boolean;
 }
 
-export const useReadNewsPersistStore =  create<ReadNewsStore>()(
+export const useReadNewsPersistStore = create<ReadNewsStore>()(
   persist(
     (set, get) => ({
       readNewsIds: new Set<number>(),
-      markAsRead: (id: number) => set((state) => {
-        if (state.readNewsIds.has(id)) return state;
+      markAsRead: (id: number) =>
+        set((state) => {
+          if (state.readNewsIds.has(id)) return state;
 
-        const updatedSet = new Set(state.readNewsIds)
-        updatedSet.add(id)
+          const updatedSet = new Set(state.readNewsIds);
+          updatedSet.add(id);
 
-        return { readNewsIds: updatedSet }
-      }),
+          return { readNewsIds: updatedSet };
+        }),
 
       isRead: (id: number) => get().readNewsIds.has(id),
     }),
@@ -48,7 +49,7 @@ export const useReadNewsPersistStore =  create<ReadNewsStore>()(
           localStorage.setItem(name, str);
         },
         removeItem: (name) => localStorage.removeItem(name),
-      }
+      },
     },
-  )
-)
+  ),
+);

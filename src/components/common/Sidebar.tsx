@@ -1,18 +1,20 @@
 'use client';
 
-import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { APP_WIDTH } from '@/constatns/ui';
-import { useUserPersistStore } from '@/stores/userPersistStore';
-import Image from 'next/image';
 import { Bell, ChevronRight, MessageCircle, Newspaper, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { useEffect } from 'react';
+
 import Button from '@/components/common/Button';
+import { APP_WIDTH } from '@/constatns/ui';
+import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
+import { useUserPersistStore } from '@/stores/userPersistStore';
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);
   const close = useSidebarStore((state: SidebarStore) => state.close);
-  const { user, isLoggedIn } = useUserPersistStore()
+  const { user, isLoggedIn } = useUserPersistStore();
 
   const menuItems = [
     { label: '춘비서', href: '/chatbot', icon: <MessageCircle size={18} /> },
@@ -28,7 +30,6 @@ export default function Sidebar() {
       document.body.classList.remove('overflow-hidden');
     }
   }, [isOpen]);
-
 
   return (
     <>
@@ -59,7 +60,7 @@ export default function Sidebar() {
             <h2 className="text-xl font-medium text-black/90">메뉴</h2>
             <Button
               onClick={close}
-              variant='plain'
+              variant="plain"
               className="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/20 text-gray-700 hover:bg-black/5 transition-colors duration-200"
             >
               <X size={16} />
@@ -71,12 +72,7 @@ export default function Sidebar() {
             <div className="mx-6 p-4 rounded-2xl bg-white/40 backdrop-blur-md border border-white/20 shadow-md">
               <div className="flex items-center">
                 <div className="relative shrink-0 w-12 h-12 rounded-full overflow-hidden border border-white/30 shadow-inner">
-                  <Image
-                    src={user.profileUrl}
-                    alt={user.nickname}
-                    layout="fill"
-                    objectFit="cover"
-                  />
+                  <Image src={user.profileUrl} alt={user.nickname} layout="fill" objectFit="cover" />
                 </div>
                 <div className="ml-3">
                   <p className="font-medium text-black/90">{user.nickname}</p>

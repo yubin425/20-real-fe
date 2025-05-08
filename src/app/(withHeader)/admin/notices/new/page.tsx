@@ -23,6 +23,7 @@ export default function AdminNoticeNewPage() {
   const [platform, setPlatform] = useState(platforms[0]);
   const [userName, setUserName] = useState(userNames[0].value);
   const [originalUrl, setOriginalUrl] = useState('');
+  const [createdAt, setCreatedAt] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [files, setFiles] = useState<File[]>([]);
 
@@ -34,6 +35,7 @@ export default function AdminNoticeNewPage() {
       platform,
       userName,
       originalUrl,
+      createdAt,
     };
 
     const formData = new FormData();
@@ -55,6 +57,7 @@ export default function AdminNoticeNewPage() {
       setPlatform(platforms[0]);
       setUserName(userNames[0].value);
       setOriginalUrl('');
+      setCreatedAt('');
       setImages([]);
       setFiles([]);
     } else {
@@ -95,6 +98,13 @@ export default function AdminNoticeNewPage() {
         className="w-full border p-2"
         value={originalUrl}
         onChange={(e) => setOriginalUrl(e.target.value)}
+      />
+
+      <input
+        type="datetime-local"
+        className="w-full border p-2"
+        value={createdAt}
+        onChange={(e) => setCreatedAt(e.target.value)}
       />
 
       <select className="w-full border p-2" value={tag} onChange={(e) => setTag(e.target.value)}>

@@ -1,3 +1,4 @@
+import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
 import Markdown from 'react-markdown';
@@ -11,7 +12,7 @@ export default function MarkdownViewer({ text }: MarkdownViewerProps) {
   return (
     <div className="text-black text-sm/6">
       <Markdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkBreaks]}
         components={{
           h1: (props) => <h1 className="text-2xl font-bold mt-6 pb-2 mb-2 border-b-1 border-gray-300" {...props} />,
           h2: (props) => <h2 className="text-xl font-bold mt-5 pb-2 mb-2 border-b-1 border-gray-300" {...props} />,

@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { getNoticeDetail } from '@/api/post';
+import MarkdownViewer from '@/components/common/MarkdownViewer';
 
 const userNames = [
   { value: 'helper.ryan(헬퍼라이언)' },
@@ -38,6 +39,8 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
   const [images, setImages] = useState<File[]>([]);
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const [isPreview, setIsPreview] = useState(false);
 
   const handleSubmit = async () => {
     const notice = {
@@ -128,12 +131,33 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      <textarea
-        placeholder="내용"
-        className="w-full border p-2 h-96"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
+      <div className="flex gap-2 text-sm">
+        <button
+          type="button"
+          className={`px-3 py-1 rounded ${!isPreview ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+          onClick={() => setIsPreview(false)}
+        >
+          편집
+        </button>
+        <button
+          type="button"
+          className={`px-3 py-1 rounded ${isPreview ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+          onClick={() => setIsPreview(true)}
+        >
+          미리보기
+        </button>
+      </div>
+
+      {isPreview && <MarkdownViewer text={content} />}
+
+      {!isPreview && (
+        <textarea
+          placeholder="내용"
+          className="w-full border p-2 h-96"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+      )}
 
       <input
         type="text"

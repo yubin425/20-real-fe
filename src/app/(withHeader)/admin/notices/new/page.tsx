@@ -115,7 +115,7 @@ export default function AdminNoticeNewPage() {
         ))}
       </select>
 
-      <select className="w-full border p-2" value={tag} onChange={(e) => setPlatform(e.target.value)}>
+      <select className="w-full border p-2" value={platform} onChange={(e) => setPlatform(e.target.value)}>
         {platforms.map((t) => (
           <option key={t} value={t}>
             {t}

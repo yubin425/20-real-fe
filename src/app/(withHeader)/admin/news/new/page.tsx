@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useState } from 'react';
 
@@ -19,8 +19,6 @@ export default function AdminNewsNewPage() {
       formData.append('image', image);
     }
 
-    console.log(formData);
-
     // const res = await fetch('http://localhost:8080/api/v1/news', {
     const res = await fetch('http://test.kakaotech.com/api/v1/news', {
       method: 'POST',
@@ -31,14 +29,14 @@ export default function AdminNewsNewPage() {
       alert('업로드 성공');
       setTitle('');
       setContent('');
-      setImage(null)
+      setImage(null);
     } else {
       alert('업로드 실패');
     }
   };
 
   const removeImage = () => {
-    setImage(null)
+    setImage(null);
   };
 
   return (
@@ -87,22 +85,15 @@ export default function AdminNewsNewPage() {
           <ul className="mt-2 text-sm text-gray-700 space-y-1">
             <li className="flex items-center justify-between">
               <span>{image?.name}</span>
-              <button
-                onClick={() => removeImage()}
-                className="text-red-500 hover:underline"
-              >
+              <button onClick={() => removeImage()} className="text-red-500 hover:underline">
                 X
               </button>
             </li>
           </ul>
         )}
-
       </div>
 
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
+      <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
         등록하기
       </button>
     </div>

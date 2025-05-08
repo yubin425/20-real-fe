@@ -1,6 +1,6 @@
 import { fetcher } from '@/api/fetcher';
-import { News } from '@/types/post/news';
 import { BaseResponse, CursorParam, CursorResponse } from '@/types/common/base';
+import { News } from '@/types/post/news';
 import { NewsDetail } from '@/types/post/newsDetail';
 import { PostComment } from '@/types/post/postComment';
 import { PostLike } from '@/types/post/postLike';
@@ -11,7 +11,12 @@ interface getNewsListRequest extends CursorParam {
   sort: 'popular' | 'latest';
 }
 
-const getNewsList = async ({ cursorId = null, cursorStandard = null, limit = 10, sort }: getNewsListRequest): Promise<BaseResponse<CursorResponse<News>>> => {
+const getNewsList = async ({
+  cursorId = null,
+  cursorStandard = null,
+  limit = 10,
+  sort,
+}: getNewsListRequest): Promise<BaseResponse<CursorResponse<News>>> => {
   const params = new URLSearchParams({
     ...(cursorId && { cursorId: cursorId.toString() }),
     ...(cursorStandard && { cursorStandard }),
@@ -19,13 +24,13 @@ const getNewsList = async ({ cursorId = null, cursorStandard = null, limit = 10,
     sort,
   }).toString();
 
-  return await fetcher(`/v1/news?${params}`, {method: 'GET'});
+  return await fetcher(`/v1/news?${params}`, { method: 'GET' });
 };
 
 // 뉴스 상세 조회
 const getNewsDetail = async (newsId: string): Promise<BaseResponse<NewsDetail>> => {
-  return await fetcher(`/v1/news/${newsId}`, {method: 'GET'})
-}
+  return await fetcher(`/v1/news/${newsId}`, { method: 'GET' });
+};
 
 // 뉴스 댓글 리스트 조회
 interface getNewsCommentListRequest extends CursorParam {
@@ -33,15 +38,20 @@ interface getNewsCommentListRequest extends CursorParam {
   newsId: string;
 }
 
-const getNewsCommentList = async ({ newsId, cursorId = null, cursorStandard = null, limit = 10 }: getNewsCommentListRequest): Promise<BaseResponse<CursorResponse<PostComment>>> => {
+const getNewsCommentList = async ({
+  newsId,
+  cursorId = null,
+  cursorStandard = null,
+  limit = 10,
+}: getNewsCommentListRequest): Promise<BaseResponse<CursorResponse<PostComment>>> => {
   const params = new URLSearchParams({
     ...(cursorId && { cursorId: cursorId.toString() }),
     ...(cursorStandard && { cursorStandard }),
     limit: limit.toString(),
   }).toString();
 
-  return await fetcher(`/v1/news/${newsId}/comments?${params}`, {method: 'GET'});
-}
+  return await fetcher(`/v1/news/${newsId}/comments?${params}`, { method: 'GET' });
+};
 
 // 뉴스 댓글 작성
 interface postNewsCommentRequest {
@@ -52,14 +62,14 @@ interface postNewsCommentRequest {
 const postNewsComment = async ({ newsId, content }: postNewsCommentRequest) => {
   return await fetcher(`/v1/news/${newsId}/comments`, {
     method: 'POST',
-    body: JSON.stringify({content})
+    body: JSON.stringify({ content }),
   });
-}
+};
 
 // 뉴스 좋아요 토글
 const toggleNewsLike = async (newsId: string): Promise<BaseResponse<PostLike>> => {
-  return await fetcher(`/v1/news/${newsId}/likes`, {method: 'PUT'});
-}
+  return await fetcher(`/v1/news/${newsId}/likes`, { method: 'PUT' });
+};
 
 // 뉴스 댓글 삭제
 interface deleteNewsCommentRequest {
@@ -70,8 +80,7 @@ interface deleteNewsCommentRequest {
 const deleteNewsComment = async ({ newsId, commentId }: deleteNewsCommentRequest) => {
   return await fetcher(`/v1/news/${newsId}/comments/${commentId}`, {
     method: 'DELETE',
-  })
-}
+  });
+};
 
-
-export { getNewsList, getNewsDetail, getNewsCommentList, toggleNewsLike, postNewsComment, deleteNewsComment }
+export { getNewsList, getNewsDetail, getNewsCommentList, toggleNewsLike, postNewsComment, deleteNewsComment };

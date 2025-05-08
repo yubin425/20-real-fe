@@ -1,26 +1,25 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import { ChatMessage } from '@/types/chatbot/chatMessage';
-import MyChatItem from '@/components/chatbot/MyChatItem';
-import ChatItem from '@/components/chatbot/ChatItem';
-import { v4 as uuidv4 } from 'uuid';
-import Input from '@/components/common/Input';
-import Button from '@/components/common/Button';
 import { Send } from 'lucide-react';
-import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
 import Image from 'next/image';
-import logo from '@/assets/logo.png';
-import { useToastStore } from '@/stores/toastStore';
-import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
-import { usePostChatbotQuestion } from '@/queries/chatbot/usePostChatbotQuestion';
-import { useHeadlineData } from '@/hooks/useGetHeadLine';
-import HeadlineBannerSkeleton from '@/components/chatbot/HeadlineBannerSkeleton';
+import { v4 as uuidv4 } from 'uuid';
 
-const suggestQuestions: string[] = [
-  "휴가 신청하는 법을 알려줘.",
-  "유료 구독료 지원 일정을 알려줘."
-]
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+
+import logo from '@/assets/logo.png';
+import ChatItem from '@/components/chatbot/ChatItem';
+import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
+import HeadlineBannerSkeleton from '@/components/chatbot/HeadlineBannerSkeleton';
+import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
+import MyChatItem from '@/components/chatbot/MyChatItem';
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import { useHeadlineData } from '@/hooks/useGetHeadLine';
+import { usePostChatbotQuestion } from '@/queries/chatbot/usePostChatbotQuestion';
+import { useToastStore } from '@/stores/toastStore';
+import { ChatMessage } from '@/types/chatbot/chatMessage';
+
+const suggestQuestions: string[] = ['휴가 신청하는 법을 알려줘.', '유료 구독료 지원 일정을 알려줘.'];
 
 export default function ChatbotPage() {
   const [chats, setChats] = useState<ChatMessage[]>([]);
@@ -28,7 +27,7 @@ export default function ChatbotPage() {
   // 상단 헤드라인 배너 가져오기
   const { headlines, isLoading: isHeadlineLoading } = useHeadlineData();
 
-  const { mutateAsync: postQuestion, isPending } = usePostChatbotQuestion()
+  const { mutateAsync: postQuestion, isPending } = usePostChatbotQuestion();
 
   const { showToast } = useToastStore();
 
@@ -36,8 +35,8 @@ export default function ChatbotPage() {
 
   // 추천 검색어 클릭
   const handleSuggestQuestionClick = (text: string) => {
-    loadAnswer(text)
-  }
+    loadAnswer(text);
+  };
 
   // 채팅 입력
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
@@ -52,12 +51,12 @@ export default function ChatbotPage() {
   // 채팅 전송 버튼 클릭
   const handleSendClick = (e: FormEvent) => {
     e.preventDefault();
-    loadAnswer(currentInput)
+    loadAnswer(currentInput);
   };
 
   // 현재 채팅을 chat 리스트에 등록하고, 답변 받아옴
   const loadAnswer = async (text: string) => {
-    setChats(prev => [
+    setChats((prev) => [
       ...prev,
       {
         id: uuidv4(),
@@ -67,9 +66,9 @@ export default function ChatbotPage() {
     ]);
 
     setCurrentInput('');
-    const answer = await postQuestion(text)
+    const answer = await postQuestion(text);
 
-    setChats(prev => [
+    setChats((prev) => [
       ...prev,
       {
         id: uuidv4(),
@@ -77,8 +76,7 @@ export default function ChatbotPage() {
         type: 'answer',
       },
     ]);
-  }
-
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -87,14 +85,11 @@ export default function ChatbotPage() {
     }, 0);
   }, [chats]);
 
-
   return (
     <div className="flex flex-col min-h-app bg-neutral-50">
       {/* 최신 공지와 뉴스 */}
-      {isHeadlineLoading && chats.length === 0 && <HeadlineBannerSkeleton/>}
-      {!isHeadlineLoading && chats.length === 0 && headlines.length > 0 && (
-        <HeadlineBanner items={headlines}/>
-      )}
+      {isHeadlineLoading && chats.length === 0 && <HeadlineBannerSkeleton />}
+      {!isHeadlineLoading && chats.length === 0 && headlines.length > 0 && <HeadlineBanner items={headlines} />}
 
       <div className="flex-1 flex flex-col gap-4 p-4 pb-16 relative">
         {/* 로고와 추천 질문 */}
@@ -138,7 +133,6 @@ export default function ChatbotPage() {
       <form className="relative bottom-0 w-full max-w-app">
         <div className="bg-white p-4 border-t border-gray-100  rounded-t-3xl">
           <div className="flex items-center bg-white rounded-full pr-2 gap-2 shadow-md">
-
             <Input
               type="text"
               placeholder="질문을 입력하세요"

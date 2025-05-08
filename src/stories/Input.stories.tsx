@@ -1,7 +1,10 @@
-import {Meta, StoryObj} from "@storybook/react";
-import { Input } from '@/components/common/Input';
 import { Lock, Mail } from 'lucide-react';
-import '../app/globals.css'
+
+import { Meta, StoryObj } from '@storybook/react';
+
+import Input from '@/components/common/Input';
+
+import '../app/globals.css';
 
 const meta: Meta<typeof Input> = {
   title: 'Common/Input',
@@ -10,10 +13,10 @@ const meta: Meta<typeof Input> = {
   args: {
     placeholder: '입력하세요',
   },
-}
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {

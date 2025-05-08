@@ -1,19 +1,18 @@
-import { Notice } from '@/types/post/notice';
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-import helperRyan from '@/assets/helper-ryan.png'
+
+import helperRyan from '@/assets/helper-ryan.png';
+import { Notice } from '@/types/post/notice';
 import { formatTime, isRecent } from '@/utils/times';
 
 type NoticeItemProps = {
   notice: Notice;
-}
+};
 
 export default function NoticeListItem({ notice }: NoticeItemProps) {
   const renderAvatar = () => {
     if (notice.author.includes('helper.ryan')) {
-      return (
-        <Image src={helperRyan} alt="helper.ryan(헬퍼라이언)"/>
-      );
+      return <Image src={helperRyan} alt="helper.ryan(헬퍼라이언)" />;
     }
     const firstChar = notice.author.trim().charAt(0).toUpperCase();
     return <span className="text-sm font-bold text-gray-700">{firstChar}</span>;
@@ -27,7 +26,7 @@ export default function NoticeListItem({ notice }: NoticeItemProps) {
     >
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <h3 className={`text-lg font-semibold line-clamp-1 ${notice.userRead ? "text-gray-400" : "text-gray-800"}`}>
+          <h3 className={`text-lg font-semibold line-clamp-1 ${notice.userRead ? 'text-gray-400' : 'text-gray-800'}`}>
             {notice.title}
           </h3>
           <ChevronRight size={20} className="text-gray-400 mt-1" />
@@ -36,9 +35,7 @@ export default function NoticeListItem({ notice }: NoticeItemProps) {
         <div className="flex items-center text-sm text-gray-500 mb-3">
           <span>{formatTime(notice.createdAt)}</span>
           <span className="mx-2">•</span>
-          <span className="text-gray-700">
-            {notice.platform}
-          </span>
+          <span className="text-gray-700">{notice.platform}</span>
         </div>
 
         <div className="pt-3 border-t border-gray-100 flex items-center justify-between">

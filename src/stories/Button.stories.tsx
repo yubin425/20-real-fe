@@ -1,8 +1,11 @@
-import {Meta, StoryObj} from "@storybook/react";
-import "@/app/globals.css"
-import {fn} from "@storybook/test";
-import Button from '@/components/common/Button';
 import { Loader2, Menu } from 'lucide-react';
+
+import { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+
+import Button from '@/components/common/Button';
+
+import '@/app/globals.css';
 
 const meta: Meta<typeof Button> = {
   title: 'Common/Button',
@@ -17,13 +20,13 @@ const meta: Meta<typeof Button> = {
     },
   },
   args: {
-    children: "버튼",
+    children: '버튼',
     onClick: fn(),
-  }
-}
+  },
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -97,5 +100,5 @@ export const Loading: Story = {
     <Button disabled>
       <Loader2 className="animate-spin" /> 로딩 중
     </Button>
-  )
-}
+  ),
+};

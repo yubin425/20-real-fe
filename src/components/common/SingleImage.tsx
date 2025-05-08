@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import Image from 'next/image';
+
+import { useState } from 'react';
 
 interface SingleImageProps {
   imageUrl: string;
@@ -7,7 +8,6 @@ interface SingleImageProps {
 
 export default function SingleImage({ imageUrl }: SingleImageProps) {
   const [modalImage, setModalImage] = useState<string | null>(null);
-
 
   return (
     <div>

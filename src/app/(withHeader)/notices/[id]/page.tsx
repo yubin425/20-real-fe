@@ -1,32 +1,39 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import { FormEvent, useState } from 'react';
 import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
-import PostHeader from '@/components/post/PostHeader';
-import PostSummary from '@/components/post/PostSummary';
-import MarkdownViewer from '@/components/common/MarkdownViewer';
-import ImageCarousel from '@/components/common/ImageCarousel';
+import { useParams } from 'next/navigation';
+
+import { FormEvent, useState } from 'react';
+
 import Button from '@/components/common/Button';
+import ImageCarousel from '@/components/common/ImageCarousel';
+import Input from '@/components/common/Input';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
+import MarkdownViewer from '@/components/common/MarkdownViewer';
 import PostCommentItem from '@/components/post/PostCommentItem';
 import PostFileItem from '@/components/post/PostFileItem';
-import Input from '@/components/common/Input';
-import { useNoticeDetailQuery } from '@/queries/post/useNoticeDetailQuery';
-import { useNoticeCommentListInfinityQuery } from '@/queries/post/useNoticeCommentListInfinityQuery';
+import PostHeader from '@/components/post/PostHeader';
+import PostSummary from '@/components/post/PostSummary';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
-import LoadingIndicator from '@/components/common/LoadingIndicator';
-import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
 import { useCreateNoticeCommentMutation } from '@/queries/post/useCreateNoticeCommentMutation';
+import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
+import { useNoticeCommentListInfinityQuery } from '@/queries/post/useNoticeCommentListInfinityQuery';
+import { useNoticeDetailQuery } from '@/queries/post/useNoticeDetailQuery';
 import { useToggleNoticeLikeMutation } from '@/queries/post/useToggleNoticeLikeMutation';
 import { useModal } from '@/stores/modalStore';
 
 export default function NoticeDetailPage() {
   const params = useParams<{ id: string }>();
-  const { data: notice } = useNoticeDetailQuery(params.id)
-  const { mutate: toggleLike } = useToggleNoticeLikeMutation()
-  const { mutate: postComment } = useCreateNoticeCommentMutation()
-  const { mutate: deleteComment } = useDeleteNoticeCommentMutation()
-  const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNoticeCommentListInfinityQuery(params.id)
+  const { data: notice } = useNoticeDetailQuery(params.id);
+  const { mutate: toggleLike } = useToggleNoticeLikeMutation();
+  const { mutate: postComment } = useCreateNoticeCommentMutation();
+  const { mutate: deleteComment } = useDeleteNoticeCommentMutation();
+  const {
+    data: comments,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useNoticeCommentListInfinityQuery(params.id);
   const loadingRef = useInfiniteScrollObserver({
     fetchNextPage,
     hasNextPage,
@@ -38,9 +45,9 @@ export default function NoticeDetailPage() {
 
   const handleSubmitComment = (e: FormEvent) => {
     e.preventDefault();
-    postComment({ noticeId: params.id, content: comment })
+    postComment({ noticeId: params.id, content: comment });
     setComment('');
-  }
+  };
 
   // 댓글 삭제 버튼 클릭 시
   const handleDeleteComment = (commentId: number) => {
@@ -59,16 +66,15 @@ export default function NoticeDetailPage() {
         >
           삭제
         </Button>
-      </div>
+      </div>,
     );
-  }
+  };
 
   if (!notice) return null;
 
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-full max-w-app bg-white">
-
         <PostHeader
           tags={[notice.tag]}
           title={notice.title}
@@ -83,32 +89,23 @@ export default function NoticeDetailPage() {
         <div className="px-4 pb-3">
           <MarkdownViewer text={notice.content} />
 
-          {notice.images.length > 0 && (
-            <ImageCarousel images={notice.images} />
-          )}
+          {notice.images.length > 0 && <ImageCarousel images={notice.images} />}
 
-          {notice.files.length > 0 && (
+          {notice.files.length > 0 &&
             notice.files.map((file) => (
               <div key={file.id}>
-                <a
-                  href={file.fileUrl}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={file.fileUrl} download target="_blank" rel="noopener noreferrer">
                   <PostFileItem file={file} />
                 </a>
               </div>
-            ))
-          )}
-
+            ))}
         </div>
 
         {/* 좋아요 버튼 */}
         <div className="px-4 mb-4 flex justify-center">
           <Button
             variant="plain"
-            onClick={() => toggleLike({noticeId: params.id})}
+            onClick={() => toggleLike({ noticeId: params.id })}
             className={`flex items-center justify-center px-6 py-2 rounded-full ${notice.userLike ? 'bg-secondary-50 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
           >
             <Heart size={16} className={`mr-2 ${notice.userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
@@ -123,31 +120,25 @@ export default function NoticeDetailPage() {
             <span className="text-sm font-medium">댓글 {notice.commentCount}</span>
           </div>
 
-          <form onSubmit={handleSubmitComment} className='flex w-full gap-3 justify-center items-center'>
-            <Input className='flex-1 rounded-xl' value={comment} onChange={e => setComment(e.target.value)}/>
+          <form onSubmit={handleSubmitComment} className="flex w-full gap-3 justify-center items-center">
+            <Input className="flex-1 rounded-xl" value={comment} onChange={(e) => setComment(e.target.value)} />
 
-            <Button variant='outline' size='icon' className='shrink-0' type='submit'>
-              <ArrowUp size={18}/>
+            <Button variant="outline" size="icon" className="shrink-0" type="submit">
+              <ArrowUp size={18} />
             </Button>
           </form>
-
-
         </div>
 
         {/* 댓글 부분 */}
         <div className="border-t border-gray-100">
-          {comments && comments.map((comment) =>
-            <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
-          )}
+          {comments &&
+            comments.map((comment) => (
+              <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
+            ))}
         </div>
 
-        <LoadingIndicator
-          loadingRef={loadingRef}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-        />
+        <LoadingIndicator loadingRef={loadingRef} hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} />
       </div>
     </div>
   );
-
 }

@@ -1,5 +1,5 @@
-import { queryKeys } from '@/constatns/keys';
 import { getNewsList } from '@/api/news';
+import { queryKeys } from '@/constatns/keys';
 import { useInfiniteCursorQuery } from '@/queries/base/useInfiniteCursorQuery';
 import { News } from '@/types/post/news';
 
@@ -16,4 +16,3 @@ const useNewsListInfinityQuery = (sort: 'popular' | 'latest', limit = 10) => {
 };
 
 export { useNewsListInfinityQuery };
-

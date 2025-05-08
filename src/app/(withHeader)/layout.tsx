@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
+
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/common/Sidebar';
 
 export default function WithHeaderLayout({
-                                           children,
-                                         }: Readonly<{
+  children,
+}: Readonly<{
   children: ReactNode;
 }>) {
   return (
@@ -15,9 +16,7 @@ export default function WithHeaderLayout({
 
       <Sidebar />
 
-      <main className="flex-1 mt-header h-full">
-        {children}
-      </main>
+      <main className="flex-1 mt-header h-full">{children}</main>
     </div>
   );
 }

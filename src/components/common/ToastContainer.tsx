@@ -1,6 +1,7 @@
 'use client';
 
-import { CheckCircle, AlertTriangle, Info, XCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Info, XCircle } from 'lucide-react';
+
 import { useToastStore } from '@/stores/toastStore';
 
 const iconMap = {
@@ -15,9 +16,7 @@ export default function ToastContainer() {
 
   if (!toast) return null;
 
-  const positionClasses = toast.position === 'top'
-    ? 'top-4'
-    : 'bottom-4';
+  const positionClasses = toast.position === 'top' ? 'top-4' : 'bottom-4';
 
   return (
     <div

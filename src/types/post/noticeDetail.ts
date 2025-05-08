@@ -1,5 +1,5 @@
-import { PostPlatform } from '@/types/post/postPlatform';
 import { NoticeFile } from '@/types/post/noticeFile';
+import { PostPlatform } from '@/types/post/postPlatform';
 
 export interface NoticeDetail {
   id: number;

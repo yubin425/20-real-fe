@@ -235,7 +235,12 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
             className="absolute left-0 top-0 opacity-0 w-full h-full cursor-pointer"
             onChange={(e) => {
               const files = e.target.files;
-              if (files) setImages(Array.from(files).slice(0, 10));
+              if (files) {
+                const newFiles = Array.from(files);
+                setImages((prev) => [...prev, ...newFiles].slice(0, 10));
+              }
+
+              e.target.value = '';
             }}
           />
         </div>
@@ -270,7 +275,12 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
             className="absolute left-0 top-0 opacity-0 w-full h-full cursor-pointer"
             onChange={(e) => {
               const files = e.target.files;
-              if (files) setFiles(Array.from(files).slice(0, 10));
+              if (files) {
+                const newFiles = Array.from(files);
+                setFiles((prev) => [...prev, ...newFiles].slice(0, 10));
+              }
+
+              e.target.value = '';
             }}
           />
         </div>

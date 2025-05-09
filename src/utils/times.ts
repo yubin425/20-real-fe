@@ -1,6 +1,8 @@
 import { differenceInDays, differenceInHours, differenceInMinutes, format, parse } from 'date-fns';
 
-export function formatTime(raw: string): string {
+export function formatTime(raw?: string): string {
+  if (!raw) return '';
+
   const date = parse(raw, 'yyyy.MM.dd HH:mm:ss', new Date());
   const now = new Date();
 

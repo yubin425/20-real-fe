@@ -1,4 +1,5 @@
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
@@ -18,7 +19,18 @@ export default function MarkdownViewer({ text, className }: MarkdownViewerProps)
     <div className={cn(`text-black text-sm/6 break-all`, className)}>
       <Markdown
         remarkPlugins={[remarkGfm, remarkBreaks]}
-        rehypePlugins={[rehypeRaw]}
+        rehypePlugins={[
+          rehypeRaw,
+          [
+            rehypeSanitize,
+            {
+              ...defaultSchema,
+              tagNames: defaultSchema.tagNames?.filter(
+                (tag) => !['script', 'style', 'iframe', 'object', 'embed', 'form'].includes(tag),
+              ),
+            },
+          ],
+        ]}
         components={{
           h1: (props) => <h1 className="text-2xl font-bold mt-6 pb-2 mb-2 border-b-1 border-gray-300" {...props} />,
           h2: (props) => <h2 className="text-xl font-bold mt-5 pb-2 mb-2 border-b-1 border-gray-300" {...props} />,

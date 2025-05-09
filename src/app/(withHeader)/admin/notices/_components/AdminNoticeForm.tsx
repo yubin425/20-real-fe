@@ -59,20 +59,14 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
     images.forEach((img) => formData.append('images', img));
     files.forEach((file) => formData.append('files', file));
 
-    const url =
-      type === 'new'
-        ? `${process.env.NEXT_PUBLIC_API_URL}/v1/notices/tmp`
-        : `${process.env.NEXT_PUBLIC_API_URL}/v1/notices/${id}`;
-    const method = type === 'new' ? 'POST' : 'PUT';
-
-    const res = await fetch(url, {
-      method: method,
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/notices/tmp`, {
+      method: 'POST',
       body: formData,
       credentials: 'include',
     });
 
     if (res.ok) {
-      alert(type === 'new' ? '업로드 성공' : '수정 성공');
+      alert('업로드 성공');
       setTitle('');
       setContent('');
       setTag(tags[0]);
@@ -83,7 +77,41 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
       setImages([]);
       setFiles([]);
     } else {
-      alert(type === 'new' ? '업로드 실패' : '수정 실패');
+      alert('업로드 실패');
+    }
+  };
+
+  const handleEdit = async () => {
+    const notice = {
+      title,
+      content,
+      tag,
+      platform,
+      userName,
+      originalUrl,
+      createdAt,
+    };
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/notices/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(notice),
+      credentials: 'include',
+    });
+
+    if (res.ok) {
+      alert('수정 성공');
+      setTitle('');
+      setContent('');
+      setTag(tags[0]);
+      setPlatform(platforms[0]);
+      setUserName(userNames[0].value);
+      setOriginalUrl('');
+      setCreatedAt('');
+    } else {
+      alert('수정 실패');
     }
   };
 
@@ -216,95 +244,107 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
         ))}
       </select>
 
-      <div>
-        <label className="block mb-1">사진 업로드 (최대 10장)</label>
+      {type === 'new' && (
+        <>
+          <div>
+            <label className="block mb-1">사진 업로드 (최대 10장)</label>
 
-        <div className="relative inline-block">
-          <button
-            type="button"
-            className="border px-4 py-2 rounded-full text-sm bg-white hover:bg-gray-100"
-            onClick={() => document.getElementById('image-upload-input')?.click()}
-          >
-            사진 선택
-          </button>
-          <input
-            id="image-upload-input"
-            type="file"
-            multiple
-            accept="image/*"
-            className="absolute left-0 top-0 opacity-0 w-full h-full cursor-pointer"
-            onChange={(e) => {
-              const files = e.target.files;
-              if (files) {
-                const newFiles = Array.from(files);
-                setImages((prev) => [...prev, ...newFiles].slice(0, 10));
-              }
-
-              e.target.value = '';
-            }}
-          />
-        </div>
-
-        <ul className="mt-2 text-sm text-gray-700 space-y-1">
-          {images.map((file, idx) => (
-            <li key={idx} className="flex items-center justify-between">
-              <span>{file.name}</span>
-              <button onClick={() => removeImage(idx)} className="text-red-500 hover:underline">
-                X
+            <div className="relative inline-block">
+              <button
+                type="button"
+                className="border px-4 py-2 rounded-full text-sm bg-white hover:bg-gray-100"
+                onClick={() => document.getElementById('image-upload-input')?.click()}
+              >
+                사진 선택
               </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+              <input
+                id="image-upload-input"
+                type="file"
+                multiple
+                accept="image/*"
+                className="absolute left-0 top-0 opacity-0 w-full h-full cursor-pointer"
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files) {
+                    const newFiles = Array.from(files);
+                    setImages((prev) => [...prev, ...newFiles].slice(0, 10));
+                  }
 
-      <div>
-        <label className="block mb-1">파일 업로드 (최대 10장)</label>
+                  e.target.value = '';
+                }}
+              />
+            </div>
 
-        <div className="relative inline-block">
-          <button
-            type="button"
-            className="border px-4 py-2 rounded-full text-sm bg-white hover:bg-gray-100"
-            onClick={() => document.getElementById('file-upload-input')?.click()}
-          >
-            파일 선택
-          </button>
-          <input
-            id="file-upload-input"
-            type="file"
-            multiple
-            className="absolute left-0 top-0 opacity-0 w-full h-full cursor-pointer"
-            onChange={(e) => {
-              const files = e.target.files;
-              if (files) {
-                const newFiles = Array.from(files);
-                setFiles((prev) => [...prev, ...newFiles].slice(0, 10));
-              }
+            <ul className="mt-2 text-sm text-gray-700 space-y-1">
+              {images.map((file, idx) => (
+                <li key={idx} className="flex items-center justify-between">
+                  <span>{file.name}</span>
+                  <button onClick={() => removeImage(idx)} className="text-red-500 hover:underline">
+                    X
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-              e.target.value = '';
-            }}
-          />
-        </div>
+          <div>
+            <label className="block mb-1">파일 업로드 (최대 10장)</label>
 
-        <ul className="mt-2 text-sm text-gray-700 space-y-1">
-          {files.map((file, idx) => (
-            <li key={idx} className="flex items-center justify-between">
-              <span>{file.name}</span>
-              <button onClick={() => removeFile(idx)} className="text-red-500 hover:underline">
-                X
+            <div className="relative inline-block">
+              <button
+                type="button"
+                className="border px-4 py-2 rounded-full text-sm bg-white hover:bg-gray-100"
+                onClick={() => document.getElementById('file-upload-input')?.click()}
+              >
+                파일 선택
               </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+              <input
+                id="file-upload-input"
+                type="file"
+                multiple
+                className="absolute left-0 top-0 opacity-0 w-full h-full cursor-pointer"
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files) {
+                    const newFiles = Array.from(files);
+                    setFiles((prev) => [...prev, ...newFiles].slice(0, 10));
+                  }
 
-      <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-        {type === 'new' ? '등록하기' : '편집하기'}
-      </button>
+                  e.target.value = '';
+                }}
+              />
+            </div>
+
+            <ul className="mt-2 text-sm text-gray-700 space-y-1">
+              {files.map((file, idx) => (
+                <li key={idx} className="flex items-center justify-between">
+                  <span>{file.name}</span>
+                  <button onClick={() => removeFile(idx)} className="text-red-500 hover:underline">
+                    X
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+
+      {type === 'new' && (
+        <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          {type === 'new' ? '등록하기' : '편집하기'}
+        </button>
+      )}
 
       {type === 'edit' && (
-        <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded ml-4">
-          삭제하기
-        </button>
+        <>
+          <button onClick={handleEdit} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            편집하기
+          </button>
+
+          <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded ml-4">
+            삭제하기
+          </button>
+        </>
       )}
     </div>
   );

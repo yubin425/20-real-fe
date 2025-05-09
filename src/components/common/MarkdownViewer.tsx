@@ -1,3 +1,4 @@
+import rehypeRaw from 'rehype-raw';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
@@ -17,6 +18,7 @@ export default function MarkdownViewer({ text, className }: MarkdownViewerProps)
     <div className={cn(`text-black text-sm/6 break-all`, className)}>
       <Markdown
         remarkPlugins={[remarkGfm, remarkBreaks]}
+        rehypePlugins={[rehypeRaw]}
         components={{
           h1: (props) => <h1 className="text-2xl font-bold mt-6 pb-2 mb-2 border-b-1 border-gray-300" {...props} />,
           h2: (props) => <h2 className="text-xl font-bold mt-5 pb-2 mb-2 border-b-1 border-gray-300" {...props} />,
@@ -37,9 +39,13 @@ export default function MarkdownViewer({ text, className }: MarkdownViewerProps)
           blockquote: (props) => (
             <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4" {...props} />
           ),
-          table: (props) => <table className="table-auto border border-gray-600 border-collapse w-full" {...props} />,
+          table: (props) => (
+            <div className="overflow-x-auto">
+              <table className="table-auto border border-gray-600 border-collapse w-full min-w-[600px]" {...props} />
+            </div>
+          ),
           th: (props) => <th className="border border-gray-600 px-2 py-1 bg-gray-100 text-left" {...props} />,
-          td: (props) => <td className="border border-gray-600 px-2 py-1" {...props} />,
+          td: (props) => <td className="border border-gray-600 px-2 py-1 whitespace-pre-line break-words" {...props} />,
           aside: (props) => <aside {...props} />,
           tr: (props) => <tr className="even:bg-gray-50" {...props} />,
           code: ({ children, className }) => {

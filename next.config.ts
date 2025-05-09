@@ -12,7 +12,8 @@ const nextConfig: NextConfig = {
         hostname: '**'
       }
     ]
-  }
+  },
+  allowedDevOrigins: ['http://test.kakaotech.com'],
 };
 
 export default nextConfig;

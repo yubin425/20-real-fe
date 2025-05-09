@@ -5,6 +5,7 @@ import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 import { cn } from '@/utils/cn';
+import { normalizeMarkdown } from '@/utils/normalizeMarkdown';
 
 interface MarkdownViewerProps {
   text: string;
@@ -61,7 +62,8 @@ export default function MarkdownViewer({ text, className }: MarkdownViewerProps)
           },
         }}
       >
-        {text}
+        {normalizeMarkdown(text)}
+        {/*{text}*/}
       </Markdown>
     </div>
   );

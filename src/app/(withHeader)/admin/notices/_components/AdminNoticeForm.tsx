@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 
@@ -28,6 +28,7 @@ interface AdminNoticeFormProps {
 export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
   const params = useParams();
   const id = params?.id;
+  const router = useRouter();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -58,20 +59,20 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
     images.forEach((img) => formData.append('images', img));
     files.forEach((file) => formData.append('files', file));
 
-    // const url = type === 'new' ? 'http://localhost:8080/api/v1/notices/tmp' : `http://localhost:8080/api/v1/notices/${id}`
     const url =
       type === 'new'
-        ? 'http://test.kakaotech.com/api/v1/notices/tmp'
-        : `http://test.kakaotech.com/api/v1/notices/${id}`;
+        ? `${process.env.NEXT_PUBLIC_API_URL}/v1/notices/tmp`
+        : `${process.env.NEXT_PUBLIC_API_URL}/v1/notices/${id}`;
     const method = type === 'new' ? 'POST' : 'PUT';
 
     const res = await fetch(url, {
       method: method,
       body: formData,
+      credentials: 'include',
     });
 
     if (res.ok) {
-      alert('업로드 성공');
+      alert(type === 'new' ? '업로드 성공' : '수정 성공');
       setTitle('');
       setContent('');
       setTag(tags[0]);
@@ -82,7 +83,24 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
       setImages([]);
       setFiles([]);
     } else {
-      alert('업로드 실패');
+      alert(type === 'new' ? '업로드 실패' : '수정 실패');
+    }
+  };
+
+  const handleDelete = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/notices/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (res.ok) {
+      alert('삭제 성공');
+      router.push('/notices');
+    } else {
+      alert('삭제 실패');
     }
   };
 
@@ -274,7 +292,7 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
       </button>
 
       {type === 'edit' && (
-        <button onClick={handleSubmit} className="bg-red-600 text-white px-4 py-2 rounded ml-4">
+        <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded ml-4">
           삭제하기
         </button>
       )}

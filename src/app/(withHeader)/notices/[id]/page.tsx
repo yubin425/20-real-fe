@@ -1,6 +1,4 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 import ImageCarousel from '@/components/common/ImageCarousel';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
@@ -10,12 +8,33 @@ import PostFileItem from '@/components/post/PostFileItem';
 import PostHeader from '@/components/post/PostHeader';
 import PostLikeButton from '@/components/post/PostLikeButton';
 import PostSummary from '@/components/post/PostSummary';
-import { useNoticeDetailQuery } from '@/queries/post/useNoticeDetailQuery';
+import { BaseResponse } from '@/types/common/base';
+import { NoticeDetail } from '@/types/post/noticeDetail';
 import { PostTypes } from '@/types/post/postType';
 
-export default function NoticeDetailPage() {
-  const params = useParams<{ id: string }>();
-  const { data: notice } = useNoticeDetailQuery(params.id);
+interface NoticeDetailPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function NoticeDetailPage({ params }: NoticeDetailPageProps) {
+  const cookie = (await cookies()).toString();
+  const { id } = await params;
+  let notice: NoticeDetail | null = null;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/notices/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: cookie,
+      },
+    });
+
+    const { code, data }: BaseResponse<NoticeDetail> = await res.json();
+    if (code === 200 && data) notice = data;
+  } catch (e) {
+    console.error('fetch failed:', e);
+  }
 
   if (!notice) return null;
 

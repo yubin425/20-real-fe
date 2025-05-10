@@ -1,6 +1,4 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 import MarkdownViewer from '@/components/common/MarkdownViewer';
 import SingleImage from '@/components/common/SingleImage';
@@ -9,12 +7,33 @@ import PostCommentList from '@/components/post/PostCommentList';
 import PostHeader from '@/components/post/PostHeader';
 import PostLikeButton from '@/components/post/PostLikeButton';
 import PostSummary from '@/components/post/PostSummary';
-import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
+import { BaseResponse } from '@/types/common/base';
+import { NewsDetail } from '@/types/post/newsDetail';
 import { PostTypes } from '@/types/post/postType';
 
-export default function NewsDetailPage() {
-  const params = useParams<{ id: string }>();
-  const { data: news } = useNewsDetailQuery(params.id);
+interface NewsDetailPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
+  const cookie = (await cookies()).toString();
+  const { id } = await params;
+  let news: NewsDetail | null = null;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/news/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: cookie,
+      },
+    });
+
+    const { code, data }: BaseResponse<NewsDetail> = await res.json();
+    if (code === 200 && data) news = data;
+  } catch (e) {
+    console.error('fetch failed:', e);
+  }
 
   if (!news) return null;
 

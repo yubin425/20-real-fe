@@ -22,9 +22,12 @@ export default function PostCommentItem({ comment, onDelete }: PostCommentItemPr
 
         <p className="text-gray-600 text-sm mt-1">{comment.content}</p>
       </div>
-      <Button variant="ghost" size="icon" className="flex items-center" onClick={() => onDelete(comment.id)}>
-        <Trash size={14} className="text-gray-400" />
-      </Button>
+
+      {comment.isAuthor && (
+        <Button variant="ghost" size="icon" className="flex items-center" onClick={() => onDelete(comment.id)}>
+          <Trash size={14} className="text-gray-400" />
+        </Button>
+      )}
     </div>
   );
 }

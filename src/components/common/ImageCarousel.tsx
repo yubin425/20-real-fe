@@ -1,11 +1,11 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import Image from 'next/image';
 
 import { useState } from 'react';
 
 import Button from '@/components/common/Button';
+import SafeImage from '@/components/common/SafeImage';
 import { NoticeFile } from '@/types/post/noticeFile';
 
 interface ImageCarouselProps {
@@ -31,7 +31,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
               index === current ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
           >
-            <Image
+            <SafeImage
               src={image.fileUrl}
               alt={image.fileName}
               className="w-full h-full object-cover object-center cursor-pointer"
@@ -85,7 +85,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
           onClick={() => setModalImage(null)}
         >
           <div className="relative w-full max-w-3xl p-4">
-            <Image
+            <SafeImage
               src={modalImage.fileUrl}
               alt={modalImage.fileName}
               width={1200}

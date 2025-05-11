@@ -1,7 +1,7 @@
 import { Trash } from 'lucide-react';
-import Image from 'next/image';
 
 import Button from '@/components/common/Button';
+import SafeImage from '@/components/common/SafeImage';
 import { PostComment } from '@/types/post/postComment';
 import { formatTime } from '@/utils/times';
 
@@ -14,7 +14,7 @@ export default function PostCommentItem({ comment, onDelete }: PostCommentItemPr
   return (
     <div className="px-4 py-3 flex items-start">
       <div className="w-8 h-8 rounded-full overflow-hidden">
-        <Image src={comment.profileUrl} alt={comment.nickname} width={32} height={32} />
+        <SafeImage src={comment.profileUrl} alt={comment.nickname} width={32} height={32} />
       </div>
       <div className="ml-3 flex-1">
         <span className="font-medium text-sm pr-2 text-gray-900">{comment.nickname}</span>

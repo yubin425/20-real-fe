@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react';
-import Image from 'next/image';
 
 import helperRyan from '@/assets/helper-ryan.png';
+import SafeImage from '@/components/common/SafeImage';
 import { Notice } from '@/types/post/notice';
 import { formatTime, isRecent } from '@/utils/times';
 
@@ -12,7 +12,7 @@ type NoticeItemProps = {
 export default function NoticeListItem({ notice }: NoticeItemProps) {
   const renderAvatar = () => {
     if (notice.author.includes('helper.ryan')) {
-      return <Image src={helperRyan} alt="helper.ryan(헬퍼라이언)" />;
+      return <SafeImage src={helperRyan} alt="helper.ryan(헬퍼라이언)" width={64} height={64} />;
     }
     const firstChar = notice.author.trim().charAt(0).toUpperCase();
     return <span className="text-sm font-bold text-gray-700">{firstChar}</span>;

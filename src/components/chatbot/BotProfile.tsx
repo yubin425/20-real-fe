@@ -1,10 +1,9 @@
-import Image from 'next/image';
-
 import choon from '@/assets/choon.png';
+import SafeImage from '@/components/common/SafeImage';
 
 export default function BotProfile() {
   return (
-    <Image
+    <SafeImage
       src={choon}
       alt="프로필 이미지"
       width={32}

@@ -1,7 +1,6 @@
 'use client';
 
 import { Send } from 'lucide-react';
-import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
@@ -14,6 +13,7 @@ import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
 import MyChatItem from '@/components/chatbot/MyChatItem';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import SafeImage from '@/components/common/SafeImage';
 import { useHeadlineData } from '@/hooks/useGetHeadLine';
 import { usePostChatbotQuestion } from '@/queries/chatbot/usePostChatbotQuestion';
 import { useToastStore } from '@/stores/toastStore';
@@ -96,7 +96,7 @@ export default function ChatbotPage() {
         {chats.length === 0 && (
           <div className="flex-1 flex flex-col items-center justify-center gap-4">
             <div className="mb-2 transform hover:scale-105 transition-transform duration-300 px-3">
-              <Image src={logo} alt="logo" width={400} height={50} priority className="drop-shadow-md" />
+              <SafeImage src={logo} alt="logo" width={400} height={50} priority className="drop-shadow-md" />
             </div>
 
             <div className="w-full max-w-md space-y-3">

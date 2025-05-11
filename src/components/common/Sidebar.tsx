@@ -1,12 +1,12 @@
 'use client';
 
 import { Bell, ChevronRight, MessageCircle, Newspaper, X } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { useEffect } from 'react';
 
 import Button from '@/components/common/Button';
+import SafeImage from '@/components/common/SafeImage';
 import { APP_WIDTH } from '@/constatns/ui';
 import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';
@@ -72,7 +72,7 @@ export default function Sidebar() {
             <div className="mx-6 p-4 rounded-2xl bg-white/40 backdrop-blur-md border border-white/20 shadow-md">
               <div className="flex items-center">
                 <div className="relative shrink-0 w-12 h-12 rounded-full overflow-hidden border border-white/30 shadow-inner">
-                  <Image src={user.profileUrl} alt={user.nickname} layout="fill" objectFit="cover" />
+                  <SafeImage src={user.profileUrl} alt={user.nickname} width={64} height={64} />
                 </div>
                 <div className="ml-3">
                   <p className="font-medium text-black/90">{user.nickname}</p>

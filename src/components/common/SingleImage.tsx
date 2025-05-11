@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
-
 import { useState } from 'react';
+
+import SafeImage from '@/components/common/SafeImage';
 
 interface SingleImageProps {
   imageUrl: string;
@@ -15,7 +15,7 @@ export default function SingleImage({ imageUrl }: SingleImageProps) {
     <div>
       {/* 이미지 */}
       <div className="rounded-xl overflow-hidden mb-3 shadow-sm relative w-full h-48">
-        <Image
+        <SafeImage
           src={imageUrl}
           alt={imageUrl}
           className="w-full h-full object-cover object-center cursor-pointer"
@@ -32,7 +32,7 @@ export default function SingleImage({ imageUrl }: SingleImageProps) {
           onClick={() => setModalImage(null)}
         >
           <div className="relative w-full max-w-3xl p-4">
-            <Image
+            <SafeImage
               src={modalImage}
               alt={modalImage}
               width={1200}

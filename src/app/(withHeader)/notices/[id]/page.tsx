@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 
+import { fetcher } from '@/api/fetcher';
 import ImageCarousel from '@/components/common/ImageCarousel';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
 import PostCommentForm from '@/components/post/PostCommentForm';
@@ -22,16 +23,14 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
   let notice: NoticeDetail | null = null;
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/notices/${id}`, {
+    const { data } = await fetcher<BaseResponse<NoticeDetail>>(`/v1/notices/${id}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         Cookie: cookie,
       },
     });
 
-    const { code, data }: BaseResponse<NoticeDetail> = await res.json();
-    if (code === 200 && data) notice = data;
+    if (data) notice = data;
   } catch (e) {
     console.error('fetch failed:', e);
   }

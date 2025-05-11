@@ -1,69 +1,38 @@
-'use client';
+import { cookies } from 'next/headers';
 
-import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
-import { useParams } from 'next/navigation';
-
-import { FormEvent, useState } from 'react';
-
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { fetcher } from '@/api/fetcher';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
 import SingleImage from '@/components/common/SingleImage';
-import PostCommentItem from '@/components/post/PostCommentItem';
+import PostCommentForm from '@/components/post/PostCommentForm';
+import PostCommentList from '@/components/post/PostCommentList';
 import PostHeader from '@/components/post/PostHeader';
+import PostLikeButton from '@/components/post/PostLikeButton';
 import PostSummary from '@/components/post/PostSummary';
-import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
-import { useCreateNewsCommentMutation } from '@/queries/news/useCreateNewsCommentMutation';
-import { useDeleteNewsCommentMutation } from '@/queries/news/useDeleteNewsCommentMutation';
-import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentListInfinityQuery';
-import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
-import { useToggleNewsLikeMutation } from '@/queries/news/useToggleNewsLikeMutation';
-import { useModal } from '@/stores/modalStore';
+import { BaseResponse } from '@/types/common/base';
+import { NewsDetail } from '@/types/post/newsDetail';
+import { PostTypes } from '@/types/post/postType';
 
-export default function NewsDetailPage() {
-  const params = useParams<{ id: string }>();
-  const { data: news } = useNewsDetailQuery(params.id);
-  const { mutate: toggleLike } = useToggleNewsLikeMutation();
-  const { mutate: postComment } = useCreateNewsCommentMutation();
-  const { mutate: deleteComment } = useDeleteNewsCommentMutation();
-  const { data: comments, fetchNextPage, hasNextPage, isFetchingNextPage } = useNewsCommentListInfinityQuery(params.id);
-  const loadingRef = useInfiniteScrollObserver({
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  });
+interface NewsDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
-  const { openModal, closeModal } = useModal();
+export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
+  const cookie = (await cookies()).toString();
+  const { id } = await params;
+  let news: NewsDetail | null = null;
 
-  const [comment, setComment] = useState('');
+  try {
+    const { data } = await fetcher<BaseResponse<NewsDetail>>(`/v1/news/${id}`, {
+      method: 'GET',
+      headers: {
+        Cookie: cookie,
+      },
+    });
 
-  const handleSubmitComment = (e: FormEvent) => {
-    e.preventDefault();
-    postComment({ newsId: params.id, content: comment });
-    setComment('');
-  };
-
-  // 댓글 삭제 버튼 클릭 시
-  const handleDeleteComment = (commentId: number) => {
-    openModal(
-      '댓글을 삭제하시겠어요?',
-      <div className="flex justify-end gap-2">
-        <Button variant="ghost" onClick={closeModal}>
-          취소
-        </Button>
-        <Button
-          variant="destructive"
-          onClick={() => {
-            deleteComment({ newsId: params.id, commentId: commentId.toString() });
-            closeModal();
-          }}
-        >
-          삭제
-        </Button>
-      </div>,
-    );
-  };
+    if (data) news = data;
+  } catch (e) {
+    console.error('fetch failed:', e);
+  }
 
   if (!news) return null;
 
@@ -80,43 +49,11 @@ export default function NewsDetailPage() {
           <SingleImage imageUrl={news.imageUrl} />
         </div>
 
-        {/* 좋아요 버튼 */}
-        <div className="px-4 mb-4 flex justify-center">
-          <Button
-            variant="plain"
-            onClick={() => toggleLike({ newsId: params.id })}
-            className={`flex items-center justify-center px-6 py-2 rounded-full ${news.userLike ? 'bg-secondary-50 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
-          >
-            <Heart size={16} className={`mr-2 ${news.userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
-            <span className="font-medium">{news.likeCount}</span>
-          </Button>
-        </div>
+        <PostLikeButton type={PostTypes.News} postId={news.id} userLike={news.userLike} likeCount={news.likeCount} />
 
-        {/* 댓글 */}
-        <div className="px-4 py-3 border-t border-gray-100 flex flex-col justify-between items-start gap-3">
-          <div className="flex items-center text-gray-500">
-            <MessageCircle size={16} className="mr-1" />
-            <span className="text-sm font-medium">댓글 {news.commentCount}</span>
-          </div>
+        <PostCommentForm type={PostTypes.News} postId={news.id} commentCount={news.commentCount} />
 
-          <form onSubmit={handleSubmitComment} className="flex w-full gap-3 justify-center items-center">
-            <Input className="flex-1 rounded-xl" value={comment} onChange={(e) => setComment(e.target.value)} />
-
-            <Button variant="outline" size="icon" className="shrink-0" type="submit">
-              <ArrowUp size={18} />
-            </Button>
-          </form>
-        </div>
-
-        {/* 댓글 부분 */}
-        <div className="border-t border-gray-100">
-          {comments &&
-            comments.map((comment) => (
-              <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
-            ))}
-        </div>
-
-        <LoadingIndicator loadingRef={loadingRef} hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} />
+        <PostCommentList type={PostTypes.News} postId={news.id} />
       </div>
     </div>
   );

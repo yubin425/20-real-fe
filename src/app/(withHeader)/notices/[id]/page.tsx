@@ -1,74 +1,39 @@
-'use client';
+import { cookies } from 'next/headers';
 
-import { ArrowUp, Heart, MessageCircle } from 'lucide-react';
-import { useParams } from 'next/navigation';
-
-import { FormEvent, useState } from 'react';
-
-import Button from '@/components/common/Button';
+import { fetcher } from '@/api/fetcher';
 import ImageCarousel from '@/components/common/ImageCarousel';
-import Input from '@/components/common/Input';
-import LoadingIndicator from '@/components/common/LoadingIndicator';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
-import PostCommentItem from '@/components/post/PostCommentItem';
+import PostCommentForm from '@/components/post/PostCommentForm';
+import PostCommentList from '@/components/post/PostCommentList';
 import PostFileItem from '@/components/post/PostFileItem';
 import PostHeader from '@/components/post/PostHeader';
+import PostLikeButton from '@/components/post/PostLikeButton';
 import PostSummary from '@/components/post/PostSummary';
-import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
-import { useCreateNoticeCommentMutation } from '@/queries/post/useCreateNoticeCommentMutation';
-import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
-import { useNoticeCommentListInfinityQuery } from '@/queries/post/useNoticeCommentListInfinityQuery';
-import { useNoticeDetailQuery } from '@/queries/post/useNoticeDetailQuery';
-import { useToggleNoticeLikeMutation } from '@/queries/post/useToggleNoticeLikeMutation';
-import { useModal } from '@/stores/modalStore';
+import { BaseResponse } from '@/types/common/base';
+import { NoticeDetail } from '@/types/post/noticeDetail';
+import { PostTypes } from '@/types/post/postType';
 
-export default function NoticeDetailPage() {
-  const params = useParams<{ id: string }>();
-  const { data: notice } = useNoticeDetailQuery(params.id);
-  const { mutate: toggleLike } = useToggleNoticeLikeMutation();
-  const { mutate: postComment } = useCreateNoticeCommentMutation();
-  const { mutate: deleteComment } = useDeleteNoticeCommentMutation();
-  const {
-    data: comments,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useNoticeCommentListInfinityQuery(params.id);
-  const loadingRef = useInfiniteScrollObserver({
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  });
+interface NoticeDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
-  const { openModal, closeModal } = useModal();
-  const [comment, setComment] = useState('');
+export default async function NoticeDetailPage({ params }: NoticeDetailPageProps) {
+  const cookie = (await cookies()).toString();
+  const { id } = await params;
+  let notice: NoticeDetail | null = null;
 
-  const handleSubmitComment = (e: FormEvent) => {
-    e.preventDefault();
-    postComment({ noticeId: params.id, content: comment });
-    setComment('');
-  };
+  try {
+    const { data } = await fetcher<BaseResponse<NoticeDetail>>(`/v1/notices/${id}`, {
+      method: 'GET',
+      headers: {
+        Cookie: cookie,
+      },
+    });
 
-  // 댓글 삭제 버튼 클릭 시
-  const handleDeleteComment = (commentId: number) => {
-    openModal(
-      '댓글을 삭제하시겠어요?',
-      <div className="flex justify-end gap-2">
-        <Button variant="ghost" onClick={closeModal}>
-          취소
-        </Button>
-        <Button
-          variant="destructive"
-          onClick={() => {
-            deleteComment({ noticeId: params.id, commentId: commentId.toString() });
-            closeModal();
-          }}
-        >
-          삭제
-        </Button>
-      </div>,
-    );
-  };
+    if (data) notice = data;
+  } catch (e) {
+    console.error('fetch failed:', e);
+  }
 
   if (!notice) return null;
 
@@ -101,43 +66,16 @@ export default function NoticeDetailPage() {
             ))}
         </div>
 
-        {/* 좋아요 버튼 */}
-        <div className="px-4 mb-4 flex justify-center">
-          <Button
-            variant="plain"
-            onClick={() => toggleLike({ noticeId: params.id })}
-            className={`flex items-center justify-center px-6 py-2 rounded-full ${notice.userLike ? 'bg-secondary-50 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
-          >
-            <Heart size={16} className={`mr-2 ${notice.userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
-            <span className="font-medium">{notice.likeCount}</span>
-          </Button>
-        </div>
+        <PostLikeButton
+          type={PostTypes.Notice}
+          postId={notice.id}
+          userLike={notice.userLike}
+          likeCount={notice.likeCount}
+        />
 
-        {/* 댓글 */}
-        <div className="px-4 py-3 border-t border-gray-100 flex flex-col justify-between items-start gap-3">
-          <div className="flex items-center text-gray-500">
-            <MessageCircle size={16} className="mr-1" />
-            <span className="text-sm font-medium">댓글 {notice.commentCount}</span>
-          </div>
+        <PostCommentForm type={PostTypes.Notice} postId={notice.id} commentCount={notice.commentCount} />
 
-          <form onSubmit={handleSubmitComment} className="flex w-full gap-3 justify-center items-center">
-            <Input className="flex-1 rounded-xl" value={comment} onChange={(e) => setComment(e.target.value)} />
-
-            <Button variant="outline" size="icon" className="shrink-0" type="submit">
-              <ArrowUp size={18} />
-            </Button>
-          </form>
-        </div>
-
-        {/* 댓글 부분 */}
-        <div className="border-t border-gray-100">
-          {comments &&
-            comments.map((comment) => (
-              <PostCommentItem comment={comment} key={comment.id} onDelete={handleDeleteComment} />
-            ))}
-        </div>
-
-        <LoadingIndicator loadingRef={loadingRef} hasNextPage={hasNextPage} isFetchingNextPage={isFetchingNextPage} />
+        <PostCommentList type={PostTypes.Notice} postId={notice.id} />
       </div>
     </div>
   );

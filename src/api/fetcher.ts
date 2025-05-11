@@ -14,6 +14,8 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
     signal: AbortSignal.timeout(timeout),
   });
 
+  const responseBody = await res.json();
+
   if (res.status === 401) {
     useUserPersistStore.getState().cleanUser();
     useToastStore.getState().showToast(errors.UNAUTHORIZED, 'error');
@@ -23,17 +25,12 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
   } else if (!res.ok) {
     let message = errors.DEFAULT;
 
-    try {
-      const errorBody = await res.json();
-      if (typeof errorBody?.message === 'string') {
-        message = errorBody.message;
-      }
-    } catch (e) {
-      console.error(e);
+    if (typeof responseBody?.message === 'string') {
+      message = responseBody.message;
     }
 
     useToastStore.getState().showToast(message, 'error');
   }
 
-  return res.json();
+  return responseBody;
 }

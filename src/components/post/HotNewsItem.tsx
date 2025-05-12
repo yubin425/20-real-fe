@@ -1,5 +1,4 @@
-import Image from 'next/image';
-
+import SafeImage from '@/components/common/SafeImage';
 import { News } from '@/types/post/news';
 
 interface HotNewsItemProps {
@@ -9,8 +8,10 @@ interface HotNewsItemProps {
 
 export default function HotNewsItem({ news, userRead }: HotNewsItemProps) {
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden mt-1 transition-transform hover:translate-y-[-3px] hover:shadow-md">
-      <Image src={news.imageUrl ?? ''} alt={news.title} className="w-full h-32 object-cover" width={200} height={100} />
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden mt-1 transition-transform hover:-translate-y-1 hover:shadow-md">
+      <div className="relative w-full aspect-[3/2]">
+        <SafeImage src={news.imageUrl ?? ''} alt={news.title} className="object-cover rounded-t-xl" fill />
+      </div>
       <div className="p-4">
         <h3 className={`font-medium ${userRead ? 'text-gray-400' : 'text-gray-800'} line-clamp-2 h-12`}>
           {news.title}

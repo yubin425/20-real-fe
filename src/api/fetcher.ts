@@ -14,23 +14,26 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<T>
     signal: AbortSignal.timeout(timeout),
   });
 
-  const responseBody = await res.json();
+  let responseBody: T | undefined;
 
-  if (res.status === 401) {
-    useUserPersistStore.getState().cleanUser();
-    useToastStore.getState().showToast(errors.UNAUTHORIZED, 'error');
-  } else if (res.status === 403) {
-    useUserPersistStore.getState().setIsApproved(false);
-    useToastStore.getState().showToast(errors.FORBIDDEN, 'error');
-  } else if (!res.ok) {
-    let message = errors.DEFAULT;
-
-    if (typeof responseBody?.message === 'string') {
-      message = responseBody.message;
-    }
-
-    useToastStore.getState().showToast(message, 'error');
+  try {
+    responseBody = await res.json();
+  } catch (error) {
+    console.error('Failed to parse JSON response:', error);
   }
 
-  return responseBody;
+  if (!res.ok) {
+    if (res.status === 401) {
+      useUserPersistStore.getState().cleanUser();
+      useToastStore.getState().showToast(errors.UNAUTHORIZED, 'error');
+    } else if (res.status === 403) {
+      useUserPersistStore.getState().setIsApproved(false);
+      useToastStore.getState().showToast(errors.FORBIDDEN, 'error');
+    } else {
+      console.error(res.status);
+      useToastStore.getState().showToast(errors.DEFAULT, 'error');
+    }
+  }
+
+  return responseBody as T;
 }

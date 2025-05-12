@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 
 import { fetcher } from '@/api/fetcher';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
+import NotFound from '@/components/common/NotFound';
 import SingleImage from '@/components/common/SingleImage';
 import PostCommentForm from '@/components/post/PostCommentForm';
 import PostCommentList from '@/components/post/PostCommentList';
@@ -34,7 +35,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     console.error('fetch failed:', e);
   }
 
-  if (!news) return null;
+  if (!news) return <NotFound />;
 
   return (
     <div className="flex justify-center items-center w-full">

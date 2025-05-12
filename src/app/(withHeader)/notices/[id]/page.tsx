@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { fetcher } from '@/api/fetcher';
 import ImageCarousel from '@/components/common/ImageCarousel';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
+import NotFound from '@/components/common/NotFound';
 import PostCommentForm from '@/components/post/PostCommentForm';
 import PostCommentList from '@/components/post/PostCommentList';
 import PostFileItem from '@/components/post/PostFileItem';
@@ -35,7 +36,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
     console.error('fetch failed:', e);
   }
 
-  if (!notice) return null;
+  if (!notice) return <NotFound />;
 
   return (
     <div className="flex justify-center items-center w-full">

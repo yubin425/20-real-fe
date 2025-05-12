@@ -9,7 +9,7 @@ export default function WithHeaderLayout({
   children: ReactNode;
 }>) {
   return (
-    <div className="relative flex flex-col min-h-screen overflow-hidden">
+    <div className="relative flex flex-col min-h-screen overflow-hidden w-[100vw] max-w-app">
       <div className={`relative top-0 w-full z-10 bg-white max-w-app`}>
         <Header />
       </div>

@@ -24,14 +24,14 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
   let notice: NoticeDetail | null = null;
 
   try {
-    const { data } = await fetcher<BaseResponse<NoticeDetail>>(`/v1/notices/${id}`, {
+    const res = await fetcher<BaseResponse<NoticeDetail>>(`/v1/notices/${id}`, {
       method: 'GET',
       headers: {
         Cookie: cookie,
       },
     });
 
-    if (data) notice = data;
+    if (res) notice = res.data.data;
   } catch (e) {
     console.error('fetch failed:', e);
   }

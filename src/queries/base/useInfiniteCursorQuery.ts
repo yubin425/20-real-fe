@@ -32,7 +32,7 @@ export function useInfiniteCursorQuery<TItem>({
       }),
     initialPageParam: null,
     getNextPageParam: (lastPage) => {
-      if (!lastPage.data.hasNext) return undefined;
+      if (!lastPage?.data?.hasNext) return undefined;
       return {
         cursorId: lastPage.data.nextCursorId,
         cursorStandard: lastPage.data.nextCursorStandard,

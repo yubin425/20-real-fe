@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <header
-      className="flex items-center justify-between px-4 border-b border-gray-200 bg-white"
+      className="fixed max-w-app w-full flex items-center justify-between px-4 border-b border-gray-200 bg-white"
       style={{ height: `${HEADER_HEIGHT}px` }}
     >
       {/* 왼쪽: 뒤로가기 버튼 */}

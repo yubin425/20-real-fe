@@ -3,7 +3,8 @@ import { differenceInDays, differenceInHours, differenceInMinutes, format, parse
 export function formatTime(raw?: string): string {
   if (!raw) return '';
 
-  const date = parse(raw, 'yyyy.MM.dd HH:mm:ss', new Date());
+  const date = parse(raw, 'yyyy.MM.dd HH:mm', new Date());
+
   const now = new Date();
 
   const minutes = differenceInMinutes(now, date);

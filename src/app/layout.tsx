@@ -5,7 +5,6 @@ import { ReactNode } from 'react';
 
 import Providers from '@/app/providers';
 import ToastContainer from '@/components/common/ToastContainer';
-import { APP_WIDTH } from '@/constatns/ui';
 
 import './globals.css';
 
@@ -34,7 +33,7 @@ export default function RootLayout({
       <body className="flex justify-center bg-gradient-to-br min-h-screen">
         <Background>
           <Providers>
-            <div className="relative bg-white/80  shadow-soft min-h-screen" style={{ width: `${APP_WIDTH}px` }}>
+            <div className="relative bg-white/80  shadow-soft min-h-screen max-w-app w-full">
               <ToastContainer />
               {children}
             </div>

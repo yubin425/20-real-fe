@@ -1,0 +1,22 @@
+import { ReactNode } from 'react';
+
+import Header from '@/components/common/Header';
+import Sidebar from '@/components/common/Sidebar';
+
+export default function WithHeaderLayout({
+  children,
+}: Readonly<{
+  children: ReactNode;
+}>) {
+  return (
+    <div className="relative flex flex-col min-h-screen overflow-hidden">
+      <div className={`relative top-0 w-full z-10 bg-white max-w-app`}>
+        <Header />
+      </div>
+
+      <Sidebar />
+
+      <main className="flex-1 mt-header h-full">{children}</main>
+    </div>
+  );
+}

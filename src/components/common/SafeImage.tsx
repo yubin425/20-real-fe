@@ -4,30 +4,62 @@ import Image, { ImageProps, StaticImageData } from 'next/image';
 
 import { useState } from 'react';
 
-interface SafeImageProps extends Omit<ImageProps, 'src' | 'alt'> {
-  src: string | StaticImageData;
-  alt: string;
-  width: number;
-  height: number;
+type SafeImageBaseProps = Omit<ImageProps, 'src' | 'alt'> & {
+  src?: string | StaticImageData | null;
+  alt?: string | null;
   className?: string;
   fallbackSrc?: string | StaticImageData;
-}
+};
 
-export default function SafeImage({ src, alt, width, height, className = '', fallbackSrc, ...props }: SafeImageProps) {
+// fill 옵션을 사용한 경우 크기를 지정하지 않음
+type SafeImageWithFill = SafeImageBaseProps & {
+  fill: true;
+  width?: never;
+  height?: never;
+};
+
+// fill 옵션을 사용핮 않으면 반드시 크기를 지정해야함
+type SafeImageWithDimensions = SafeImageBaseProps & {
+  fill?: false;
+  width: number;
+  height: number;
+};
+
+type SafeImageProps = SafeImageWithFill | SafeImageWithDimensions;
+
+export default function SafeImage({
+  src,
+  alt,
+  className = '',
+  fallbackSrc,
+  fill,
+  width,
+  height,
+  ...props
+}: SafeImageProps) {
   const [hasError, setHasError] = useState(false);
-  const safeAlt = alt || 'Image';
+  const safeAlt = alt || '이미지';
+  const isValidSrc = src && (typeof src !== 'string' || src.trim() !== '');
 
-  if (hasError) {
+  if (!isValidSrc || hasError) {
     if (fallbackSrc) {
-      // error 발생 && fallbackSrc가 있는 경우
-      return <Image {...props} src={fallbackSrc} alt={safeAlt} width={width} height={height} className={className} />;
+      return (
+        <Image
+          {...props}
+          src={fallbackSrc}
+          alt={safeAlt}
+          className={className}
+          fill={fill}
+          width={width}
+          height={height}
+        />
+      );
     }
 
-    // fallbackSrc 없으면 Placeholder
     return (
       <div
-        style={{ width, height }}
-        className={`bg-gray-200 flex items-center justify-center text-gray-500 text-xs ${className}`}
+        style={fill ? {} : { width, height }}
+        className={`w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs ${className}`}
       ></div>
     );
   }
@@ -35,11 +67,12 @@ export default function SafeImage({ src, alt, width, height, className = '', fal
   return (
     <Image
       {...props}
-      src={src}
+      src={src!}
       alt={safeAlt}
+      className={className}
+      fill={fill}
       width={width}
       height={height}
-      className={className}
       onError={() => setHasError(true)}
     />
   );

@@ -45,6 +45,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
         {current > 0 && (
           <Button
             variant="plain"
+            size="icon"
             className="flex justify-center items-center absolute left-2 top-2/5 rounded-full bg-white w-9 h-9 opacity-80"
             onClick={() => setCurrent(current - 1)}
           >
@@ -55,6 +56,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
         {current < images.length - 1 && (
           <Button
             variant="plain"
+            size="icon"
             className="flex justify-center items-center absolute right-2 top-2/5 rounded-full bg-white w-9 h-9 opacity-80"
             onClick={() => setCurrent(current + 1)}
           >

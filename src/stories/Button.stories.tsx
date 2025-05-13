@@ -1,4 +1,4 @@
-import { Loader2, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
@@ -14,8 +14,7 @@ const meta: Meta<typeof Button> = {
   parameters: {
     docs: {
       description: {
-        // 추가
-        component: `type올 조절해 submit 버튼으로 활용도 가능하나 useForm을 사용한다면 SubmitButton이 따로 존재합니다.`,
+        component: ``,
       },
     },
   },
@@ -28,9 +27,9 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Primary: Story = {
   args: {
-    variant: 'default',
+    variant: 'primary',
     size: 'default',
   },
 };
@@ -47,7 +46,7 @@ export const Destructive: Story = {
   args: {
     variant: 'destructive',
     size: 'default',
-    children: 'Delete',
+    children: 'Destructive',
   },
 };
 
@@ -64,14 +63,6 @@ export const Ghost: Story = {
     variant: 'ghost',
     size: 'default',
     children: 'Ghost',
-  },
-};
-
-export const Link: Story = {
-  args: {
-    variant: 'link',
-    size: 'default',
-    children: 'Link Button',
   },
 };
 
@@ -97,8 +88,8 @@ export const WithIcon: Story = {
 
 export const Loading: Story = {
   render: () => (
-    <Button disabled>
-      <Loader2 className="animate-spin" /> 로딩 중
+    <Button variant="primary" loading>
+      제출하기
     </Button>
   ),
 };

@@ -11,9 +11,25 @@ on:
       - '**/*.stories.tsx'
 
 jobs:
-  chromatic:
+  # PR 시 빌드 테스트 수행
+  storybook_build_check:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Storybook Build Test
+        run: pnpm build-storybook  # 빌드 성공 여부만 검증
+
+  # main에 push(merge) 시 Publish 수행
+  chromatic_publish:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v3
         with:

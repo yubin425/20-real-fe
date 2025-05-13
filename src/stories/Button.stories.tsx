@@ -1,5 +1,6 @@
 import { Menu } from 'lucide-react';
 
+import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
@@ -86,10 +87,21 @@ export const WithIcon: Story = {
   ),
 };
 
-export const Loading: Story = {
-  render: () => (
-    <Button variant="primary" loading>
-      제출하기
+const LoadingButtonDemo = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2000); // 2초 후 loading 해제
+  };
+
+  return (
+    <Button loading={loading} onClick={handleClick}>
+      서버로 전송하기
     </Button>
-  ),
+  );
+};
+
+export const LoadingState: Story = {
+  render: () => <LoadingButtonDemo />,
 };

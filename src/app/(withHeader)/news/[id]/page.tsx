@@ -9,7 +9,6 @@ import PostCommentList from '@/components/post/PostCommentList';
 import PostHeader from '@/components/post/PostHeader';
 import PostLikeButton from '@/components/post/PostLikeButton';
 import PostSummary from '@/components/post/PostSummary';
-import { BaseResponse } from '@/types/common/base';
 import { NewsDetail } from '@/types/post/newsDetail';
 import { PostTypes } from '@/types/post/postType';
 
@@ -23,14 +22,14 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   let news: NewsDetail | null = null;
 
   try {
-    const res = await fetcher<BaseResponse<NewsDetail>>(`/v1/news/${id}`, {
+    const res = await fetcher<NewsDetail>(`/v1/news/${id}`, {
       method: 'GET',
       headers: {
         Cookie: cookie,
       },
     });
 
-    if (res) news = res.data.data;
+    if (res) news = res.data;
   } catch (e) {
     console.error('fetch failed:', e);
   }

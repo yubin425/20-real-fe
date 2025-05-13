@@ -10,7 +10,7 @@ import { useUserPersistStore } from '@/stores/userPersistStore';
 import '@/app/globals.css';
 
 const meta: Meta<typeof Sidebar> = {
-  title: 'Components/Sidebar',
+  title: 'Common/Sidebar',
   component: Sidebar,
   tags: ['autodocs'],
   parameters: {

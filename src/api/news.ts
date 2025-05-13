@@ -16,7 +16,7 @@ const getNewsList = async ({
   cursorStandard = null,
   limit = 10,
   sort,
-}: getNewsListRequest): Promise<BaseResponse<CursorResponse<News>>> => {
+}: getNewsListRequest): Promise<CursorResponse<News>> => {
   const params = new URLSearchParams({
     ...(cursorId && { cursorId: cursorId.toString() }),
     ...(cursorStandard && { cursorStandard }),
@@ -24,11 +24,22 @@ const getNewsList = async ({
     sort,
   }).toString();
 
-  return await fetcher(`/v1/news?${params}`, { method: 'GET' });
+  const res = await fetcher<CursorResponse<News>>(`/v1/news?${params}`, { method: 'GET' });
+
+  if (!res || !res?.data) {
+    return {
+      items: [],
+      hasNext: false,
+      nextCursorStandard: null,
+      nextCursorId: null,
+    };
+  }
+
+  return res.data;
 };
 
 // 뉴스 상세 조회
-const getNewsDetail = async (newsId: string): Promise<BaseResponse<NewsDetail>> => {
+const getNewsDetail = async (newsId: string): Promise<BaseResponse<NewsDetail> | undefined> => {
   return await fetcher(`/v1/news/${newsId}`, { method: 'GET' });
 };
 
@@ -43,14 +54,25 @@ const getNewsCommentList = async ({
   cursorId = null,
   cursorStandard = null,
   limit = 10,
-}: getNewsCommentListRequest): Promise<BaseResponse<CursorResponse<PostComment>>> => {
+}: getNewsCommentListRequest): Promise<CursorResponse<PostComment>> => {
   const params = new URLSearchParams({
     ...(cursorId && { cursorId: cursorId.toString() }),
     ...(cursorStandard && { cursorStandard }),
     limit: limit.toString(),
   }).toString();
 
-  return await fetcher(`/v1/news/${newsId}/comments?${params}`, { method: 'GET' });
+  const res = await fetcher<CursorResponse<PostComment>>(`/v1/news/${newsId}/comments?${params}`, { method: 'GET' });
+
+  if (!res || !res?.data) {
+    return {
+      items: [],
+      hasNext: false,
+      nextCursorStandard: null,
+      nextCursorId: null,
+    };
+  }
+
+  return res.data;
 };
 
 // 뉴스 댓글 작성
@@ -67,7 +89,7 @@ const postNewsComment = async ({ newsId, content }: postNewsCommentRequest) => {
 };
 
 // 뉴스 좋아요 토글
-const toggleNewsLike = async (newsId: string): Promise<BaseResponse<PostLike>> => {
+const toggleNewsLike = async (newsId: string): Promise<BaseResponse<PostLike> | undefined> => {
   return await fetcher(`/v1/news/${newsId}/likes`, { method: 'PUT' });
 };
 

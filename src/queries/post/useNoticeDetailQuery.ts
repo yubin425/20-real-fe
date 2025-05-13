@@ -7,7 +7,7 @@ const useNoticeDetailQuery = (id: string) => {
   return useQuery({
     queryKey: [queryKeys.notice, id],
     queryFn: () => getNoticeDetail(id),
-    select: (data) => data.data,
+    select: (data) => data?.data,
   });
 };
 

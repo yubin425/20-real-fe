@@ -23,14 +23,14 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   let news: NewsDetail | null = null;
 
   try {
-    const { data } = await fetcher<BaseResponse<NewsDetail>>(`/v1/news/${id}`, {
+    const res = await fetcher<BaseResponse<NewsDetail>>(`/v1/news/${id}`, {
       method: 'GET',
       headers: {
         Cookie: cookie,
       },
     });
 
-    if (data) news = data;
+    if (res) news = res.data.data;
   } catch (e) {
     console.error('fetch failed:', e);
   }

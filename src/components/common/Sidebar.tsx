@@ -36,7 +36,7 @@ export default function Sidebar() {
 
   const handleLogout = async () => {
     const res = await logout();
-    if (res.code === 204) {
+    if (res && res.code === 204) {
       close();
       cleanUser();
       showToast('로그아웃 되었습니다.', 'success');

@@ -146,6 +146,7 @@ export default function AdminNoticeForm({ type }: AdminNoticeFormProps) {
         setLoading(true);
         try {
           const res = await getNoticeDetail(id.toString());
+          if (!res) return;
           const data = res.data;
           setTitle(data.title);
           setContent(data.content);

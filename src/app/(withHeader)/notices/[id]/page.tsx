@@ -10,7 +10,6 @@ import PostFileItem from '@/components/post/PostFileItem';
 import PostHeader from '@/components/post/PostHeader';
 import PostLikeButton from '@/components/post/PostLikeButton';
 import PostSummary from '@/components/post/PostSummary';
-import { BaseResponse } from '@/types/common/base';
 import { NoticeDetail } from '@/types/post/noticeDetail';
 import { PostTypes } from '@/types/post/postType';
 
@@ -24,14 +23,14 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
   let notice: NoticeDetail | null = null;
 
   try {
-    const res = await fetcher<BaseResponse<NoticeDetail>>(`/v1/notices/${id}`, {
+    const res = await fetcher<NoticeDetail>(`/v1/notices/${id}`, {
       method: 'GET',
       headers: {
         Cookie: cookie,
       },
     });
 
-    if (res) notice = res.data.data;
+    if (res) notice = res.data;
   } catch (e) {
     console.error('fetch failed:', e);
   }

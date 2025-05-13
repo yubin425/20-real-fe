@@ -43,7 +43,7 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<Ba
           // 리프레시 성공 → 원래 요청 재시도
           res = await fetchWithAuth();
           try {
-            responseBody = await res.json();
+            return await res.json();
           } catch (error) {
             console.error('Failed to parse JSON after refresh:', error);
           }

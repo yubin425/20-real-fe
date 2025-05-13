@@ -9,6 +9,26 @@ const meta: Meta<typeof MarkdownViewer> = {
   title: 'Common/MarkdownViewer',
   component: MarkdownViewer,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+프로젝트 전역에서 사용할 마크다운 렌더링 컴포넌트입니다.  
+입력된 마크다운 텍스트를 HTML로 변환하여 렌더링합니다.
+
+---
+
+### Props
+
+- **text** (필수)  
+  렌더링할 마크다운 문자열입니다. (string)
+
+- **className** (선택)  
+  추가적인 커스텀 스타일 클래스를 지정합니다. (string)
+      `,
+      },
+    },
+  },
 };
 
 export default meta;

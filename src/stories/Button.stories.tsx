@@ -15,7 +15,37 @@ const meta: Meta<typeof Button> = {
   parameters: {
     docs: {
       description: {
-        component: ``,
+        component: `
+프로젝트 전역에서 사용할 버튼 컴포넌트 입니다.
+
+---
+
+### Props
+
+- **variant** (선택, 기본값: 'primary')  
+  버튼 스타일을 지정합니다.  
+  'primary', 'secondary', 'outline', 'ghost', 'destructive', 'plain'
+
+- **size** (선택, 기본값: 'default')  
+  버튼 크기를 지정합니다.  
+  'default', 'sm', 'lg', 'icon'
+
+- **loading** (선택, 기본값: false)  
+  로딩 상태 여부입니다. true일 경우 스피너가 표시되고 클릭 비활성화됩니다.
+
+- **icon** (선택)  
+  버튼 내부 왼쪽에 표시할 아이콘을 지정합니다. (ReactNode)
+
+- **disabled** (선택, 기본값: false)  
+  버튼을 비활성화합니다.
+
+- **type** (선택, 기본값: 'button')  
+  버튼의 HTML 타입을 지정합니다.  
+  'button', 'submit', 'reset'
+
+- **children** (필수)  
+  버튼 내부에 표시할 콘텐츠입니다.
+      `,
       },
     },
   },

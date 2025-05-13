@@ -4,6 +4,8 @@ import Button from '@/components/common/Button';
 import Modal from '@/components/common/Modal';
 import { useModal } from '@/stores/modalStore';
 
+import '@/app/globals.css';
+
 const meta: Meta<typeof Modal> = {
   title: 'Common/Modal',
   component: Modal,

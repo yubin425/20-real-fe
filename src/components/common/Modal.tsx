@@ -2,18 +2,25 @@ import { X } from 'lucide-react';
 
 import React, { ReactNode, useEffect } from 'react';
 
-import Button from '@/components/common/Button';
+import Button, { ButtonVariant } from '@/components/common/Button';
+
+export interface ModalAction {
+  label: string;
+  variant: ButtonVariant;
+  onClick?: () => void;
+  autoClose?: boolean;
+}
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  children: ReactNode;
-  width?: 'sm' | 'md' | 'lg';
+  children?: ReactNode;
+  actions?: ModalAction[];
   showCloseButton?: boolean;
 }
 
-export default function Modal({ isOpen, onClose, title, children, showCloseButton = true }: ModalProps) {
+export default function Modal({ isOpen, onClose, title, children, actions = [], showCloseButton = true }: ModalProps) {
   // ESC 키로 모달 닫기
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -52,6 +59,7 @@ export default function Modal({ isOpen, onClose, title, children, showCloseButto
         shadow-[0_10px_25px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.4)] 
         transition-all duration-300 transform
         ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* 모달 헤더 */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
@@ -70,6 +78,24 @@ export default function Modal({ isOpen, onClose, title, children, showCloseButto
 
         {/* 모달 내용 */}
         <div className="p-6">{children}</div>
+
+        {/* Actions */}
+        {actions.length > 0 && (
+          <div className="flex justify-end gap-2 px-6 pb-6">
+            {actions.map(({ label, variant = 'primary', onClick, autoClose = true }, idx) => (
+              <Button
+                key={idx}
+                variant={variant}
+                onClick={() => {
+                  if (onClick) onClick();
+                  if (autoClose) onClose();
+                }}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+        )}
 
         {/* 바닥 그래디언트 효과 */}
         <div className="h-1 bg-gradient-to-r gradient-lg rounded-b-xl opacity-75"></div>

@@ -4,11 +4,11 @@ import clsx from 'clsx';
 
 import React from 'react';
 
-type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'plain';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'plain';
 type Size = 'default' | 'sm' | 'lg' | 'icon';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: Variant;
+  variant?: ButtonVariant;
   size?: Size;
   loading?: boolean;
   icon?: React.ReactNode;
@@ -30,7 +30,7 @@ export default function Button({
   const baseClasses =
     'inline-flex items-center justify-center gap-2 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
 
-  const variantClasses: Record<Variant, string> = {
+  const variantClasses: Record<ButtonVariant, string> = {
     primary: 'bg-primary-500 hover:bg-primary-600 text-white',
     secondary: 'bg-secondary-500 hover:bg-secondary-600 text-white',
     destructive: 'bg-error-500 hover:bg-error-600 text-white',

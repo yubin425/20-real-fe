@@ -134,6 +134,7 @@
     min-height: calc(100vh - 60px);
 }
 
-.pt-header {
-    padding-top: 60px;
+.mt-header {
+    margin-top: 60px;
 }
+

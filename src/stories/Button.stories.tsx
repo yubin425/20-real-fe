@@ -1,5 +1,6 @@
-import { Loader2, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
+import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
@@ -14,8 +15,37 @@ const meta: Meta<typeof Button> = {
   parameters: {
     docs: {
       description: {
-        // 추가
-        component: `type올 조절해 submit 버튼으로 활용도 가능하나 useForm을 사용한다면 SubmitButton이 따로 존재합니다.`,
+        component: `
+프로젝트 전역에서 사용할 버튼 컴포넌트 입니다.
+
+---
+
+### Props
+
+- **variant** (선택, 기본값: 'primary')  
+  버튼 스타일을 지정합니다.  
+  'primary', 'secondary', 'outline', 'ghost', 'destructive', 'plain'
+
+- **size** (선택, 기본값: 'default')  
+  버튼 크기를 지정합니다.  
+  'default', 'sm', 'lg', 'icon'
+
+- **loading** (선택, 기본값: false)  
+  로딩 상태 여부입니다. true일 경우 스피너가 표시되고 클릭 비활성화됩니다.
+
+- **icon** (선택)  
+  버튼 내부 왼쪽에 표시할 아이콘을 지정합니다. (ReactNode)
+
+- **disabled** (선택, 기본값: false)  
+  버튼을 비활성화합니다.
+
+- **type** (선택, 기본값: 'button')  
+  버튼의 HTML 타입을 지정합니다.  
+  'button', 'submit', 'reset'
+
+- **children** (필수)  
+  버튼 내부에 표시할 콘텐츠입니다.
+      `,
       },
     },
   },
@@ -28,9 +58,9 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Primary: Story = {
   args: {
-    variant: 'default',
+    variant: 'primary',
     size: 'default',
   },
 };
@@ -47,7 +77,7 @@ export const Destructive: Story = {
   args: {
     variant: 'destructive',
     size: 'default',
-    children: 'Delete',
+    children: 'Destructive',
   },
 };
 
@@ -64,14 +94,6 @@ export const Ghost: Story = {
     variant: 'ghost',
     size: 'default',
     children: 'Ghost',
-  },
-};
-
-export const Link: Story = {
-  args: {
-    variant: 'link',
-    size: 'default',
-    children: 'Link Button',
   },
 };
 
@@ -95,10 +117,21 @@ export const WithIcon: Story = {
   ),
 };
 
-export const Loading: Story = {
-  render: () => (
-    <Button disabled>
-      <Loader2 className="animate-spin" /> 로딩 중
+const LoadingButtonDemo = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2000); // 2초 후 loading 해제
+  };
+
+  return (
+    <Button loading={loading} onClick={handleClick}>
+      서버로 전송하기
     </Button>
-  ),
+  );
+};
+
+export const LoadingState: Story = {
+  render: () => <LoadingButtonDemo />,
 };

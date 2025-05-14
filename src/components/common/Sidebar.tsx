@@ -1,20 +1,22 @@
 'use client';
 
-import { Bell, ChevronRight, MessageCircle, Newspaper, X } from 'lucide-react';
+import { Bell, ChevronRight, LogOut, MessageCircle, Newspaper, X } from 'lucide-react';
 import Link from 'next/link';
 
 import { useEffect } from 'react';
 
+import { logout } from '@/api/auth';
 import Button from '@/components/common/Button';
 import SafeImage from '@/components/common/SafeImage';
 import { APP_WIDTH } from '@/constatns/ui';
-import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
+import { useSidebarStore } from '@/stores/sidebarStore';
+import { useToastStore } from '@/stores/toastStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';
 
 export default function Sidebar() {
-  const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);
-  const close = useSidebarStore((state: SidebarStore) => state.close);
-  const { user, isLoggedIn } = useUserPersistStore();
+  const { isOpen, close } = useSidebarStore();
+  const { user, isLoggedIn, cleanUser } = useUserPersistStore();
+  const { showToast } = useToastStore();
 
   const menuItems = [
     { label: '춘비서', href: '/chatbot', icon: <MessageCircle size={18} /> },
@@ -30,6 +32,15 @@ export default function Sidebar() {
       document.body.classList.remove('overflow-hidden');
     }
   }, [isOpen]);
+
+  const handleLogout = async () => {
+    const res = await logout();
+    if (res && res.code === 204) {
+      close();
+      cleanUser();
+      showToast('로그아웃 되었습니다.', 'success');
+    }
+  };
 
   return (
     <>
@@ -109,6 +120,17 @@ export default function Sidebar() {
               </Link>
             ))}
           </nav>
+
+          {isLoggedIn && (
+            <Button
+              onClick={handleLogout}
+              variant="secondary"
+              className="flex items-center justify-center py-2 px-3 rounded-xl mb-10 mx-6"
+            >
+              <LogOut size={14} className="mr-2" />
+              로그아웃
+            </Button>
+          )}
         </div>
       </aside>
     </>

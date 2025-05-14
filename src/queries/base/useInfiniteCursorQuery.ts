@@ -1,16 +1,16 @@
 import { useInfiniteQuery, UseInfiniteQueryOptions, UseInfiniteQueryResult } from '@tanstack/react-query';
 
-import { BaseResponse, CursorParam, CursorResponse } from '@/types/common/base';
+import { CursorParam, CursorResponse } from '@/types/common/base';
 
 interface UseInfiniteCursorQueryParams<TItem> {
   queryKey: string[];
-  queryFn: (params: CursorParam) => Promise<BaseResponse<CursorResponse<TItem>>>;
+  queryFn: (params: CursorParam) => Promise<CursorResponse<TItem>>;
   options?: Omit<
     UseInfiniteQueryOptions<
-      BaseResponse<CursorResponse<TItem>>, // queryFn으로 가져오는 데이터
+      CursorResponse<TItem>, // queryFn으로 가져오는 데이터
       Error,
       TItem[], // select 후 반환하는 데이터
-      BaseResponse<CursorResponse<TItem>>, // getNextPageParam의 lastPage 타입
+      CursorResponse<TItem>, // getNextPageParam의 lastPage 타입
       string[], // query key 타입
       CursorParam | null // queryFn의 pageParam 타입
     >,
@@ -23,7 +23,7 @@ export function useInfiniteCursorQuery<TItem>({
   queryFn,
   options,
 }: UseInfiniteCursorQueryParams<TItem>): UseInfiniteQueryResult<TItem[], Error> {
-  return useInfiniteQuery<BaseResponse<CursorResponse<TItem>>, Error, TItem[], string[], CursorParam | null>({
+  return useInfiniteQuery<CursorResponse<TItem>, Error, TItem[], string[], CursorParam | null>({
     queryKey,
     queryFn: ({ pageParam }) =>
       queryFn({
@@ -32,13 +32,13 @@ export function useInfiniteCursorQuery<TItem>({
       }),
     initialPageParam: null,
     getNextPageParam: (lastPage) => {
-      if (!lastPage.data.hasNext) return undefined;
+      if (!lastPage?.hasNext) return undefined;
       return {
-        cursorId: lastPage.data.nextCursorId,
-        cursorStandard: lastPage.data.nextCursorStandard,
+        cursorId: lastPage.nextCursorId,
+        cursorStandard: lastPage.nextCursorStandard,
       };
     },
-    select: (data) => data.pages.flatMap((page) => page.data.items),
+    select: (data) => data.pages.flatMap((page) => page.items),
     ...options,
   });
 }

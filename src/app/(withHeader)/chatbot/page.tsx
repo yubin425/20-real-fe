@@ -66,16 +66,17 @@ export default function ChatbotPage() {
     ]);
 
     setCurrentInput('');
-    const answer = await postQuestion(text);
-
-    setChats((prev) => [
-      ...prev,
-      {
-        id: uuidv4(),
-        text: answer.data.answer,
-        type: 'answer',
-      },
-    ]);
+    const res = await postQuestion(text);
+    if (res && res.data) {
+      setChats((prev) => [
+        ...prev,
+        {
+          id: uuidv4(),
+          text: res.data.answer,
+          type: 'answer',
+        },
+      ]);
+    }
   };
 
   useEffect(() => {

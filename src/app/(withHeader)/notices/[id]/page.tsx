@@ -3,13 +3,14 @@ import { cookies } from 'next/headers';
 import { fetcher } from '@/api/fetcher';
 import ImageCarousel from '@/components/common/ImageCarousel';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
+import NotFound from '@/components/common/NotFound';
+import RedirectWithModal from '@/components/common/RedirectWithModal';
 import PostCommentForm from '@/components/post/PostCommentForm';
 import PostCommentList from '@/components/post/PostCommentList';
 import PostFileItem from '@/components/post/PostFileItem';
 import PostHeader from '@/components/post/PostHeader';
 import PostLikeButton from '@/components/post/PostLikeButton';
 import PostSummary from '@/components/post/PostSummary';
-import { BaseResponse } from '@/types/common/base';
 import { NoticeDetail } from '@/types/post/noticeDetail';
 import { PostTypes } from '@/types/post/postType';
 
@@ -23,19 +24,23 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
   let notice: NoticeDetail | null = null;
 
   try {
-    const { data } = await fetcher<BaseResponse<NoticeDetail>>(`/v1/notices/${id}`, {
+    const res = await fetcher<NoticeDetail>(`/v1/notices/${id}`, {
       method: 'GET',
       headers: {
         Cookie: cookie,
       },
     });
 
-    if (data) notice = data;
+    if (res?.code === 401 || res?.code === 403) {
+      return <RedirectWithModal />;
+    }
+
+    if (res) notice = res.data;
   } catch (e) {
     console.error('fetch failed:', e);
   }
 
-  if (!notice) return null;
+  if (!notice) return <NotFound />;
 
   return (
     <div className="flex justify-center items-center w-full">

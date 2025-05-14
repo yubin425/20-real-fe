@@ -2,11 +2,20 @@ import { create } from 'zustand';
 
 import { ReactNode } from 'react';
 
+import { ModalAction } from '@/components/common/Modal';
+
+interface OpenModalParams {
+  title: string;
+  content?: ReactNode;
+  actions?: ModalAction[];
+}
+
 interface ModalState {
   isOpen: boolean;
   title: string;
-  content: ReactNode;
-  openModal: (title: string, content: ReactNode) => void;
+  content: ReactNode | null;
+  actions: ModalAction[];
+  openModal: (params: OpenModalParams) => void;
   closeModal: () => void;
 }
 
@@ -14,6 +23,9 @@ export const useModal = create<ModalState>((set) => ({
   isOpen: false,
   title: '',
   content: null,
-  openModal: (title, content) => set({ isOpen: true, title, content }),
-  closeModal: () => set({ isOpen: false, title: '', content: null }),
+  actions: [],
+  openModal: ({ title, content = null, actions = [] }: OpenModalParams) => {
+    set({ isOpen: true, title, content, actions });
+  },
+  closeModal: () => set({ isOpen: false, title: '', content: null, actions: [] }),
 }));

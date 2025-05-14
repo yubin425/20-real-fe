@@ -7,7 +7,7 @@ const useNewsListQuery = (sort: 'popular' | 'latest', limit = 10) => {
   return useQuery({
     queryKey: [queryKeys.news, sort, limit],
     queryFn: () => getNewsList({ limit, sort }),
-    select: (data) => data.data.items,
+    select: (data) => data.items,
   });
 };
 

@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@/components/common/Button';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import PostCommentItem from '@/components/post/PostCommentItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
@@ -42,15 +41,14 @@ export default function PostCommentList({ type, postId }: PostCommentListProps) 
 
   // 댓글 삭제 버튼 클릭 시
   const handleDeleteComment = (commentId: number) => {
-    openModal(
-      '댓글을 삭제하시겠어요?',
-      <div className="flex justify-end gap-2">
-        <Button variant="ghost" onClick={closeModal}>
-          취소
-        </Button>
-        <Button
-          variant="destructive"
-          onClick={() => {
+    openModal({
+      title: '댓글을 삭제하시겠어요?',
+      actions: [
+        { label: '취소', variant: 'ghost', autoClose: true },
+        {
+          label: '삭제',
+          variant: 'destructive',
+          onClick: () => {
             if (type === PostTypes.Notice) {
               deleteNoticeComment(
                 { noticeId: postId.toString(), commentId: commentId.toString() },
@@ -63,12 +61,10 @@ export default function PostCommentList({ type, postId }: PostCommentListProps) 
               );
             }
             closeModal();
-          }}
-        >
-          삭제
-        </Button>
-      </div>,
-    );
+          },
+        },
+      ],
+    });
   };
 
   return (

@@ -4,6 +4,7 @@ import { fetcher } from '@/api/fetcher';
 import ImageCarousel from '@/components/common/ImageCarousel';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
 import NotFound from '@/components/common/NotFound';
+import RedirectWithModal from '@/components/common/RedirectWithModal';
 import PostCommentForm from '@/components/post/PostCommentForm';
 import PostCommentList from '@/components/post/PostCommentList';
 import PostFileItem from '@/components/post/PostFileItem';
@@ -29,6 +30,10 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
         Cookie: cookie,
       },
     });
+
+    if (res?.code === 401 || res?.code === 403) {
+      return <RedirectWithModal />;
+    }
 
     if (res) notice = res.data;
   } catch (e) {

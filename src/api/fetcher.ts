@@ -25,6 +25,7 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<Ba
     responseBody = await res.json();
   } catch (error) {
     console.error('Failed to parse JSON response:', error);
+    return undefined;
   }
 
   if (!res.ok) {
@@ -51,12 +52,10 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<Ba
           // 리프레시 실패 → 로그아웃
           useUserPersistStore.getState().cleanUser();
           useToastStore.getState().showToast(errors.TOKEN_EXPIRED, 'error');
-          return undefined;
         }
       } catch (refreshError) {
         console.error('Token refresh failed:', refreshError);
         useToastStore.getState().showToast(errors.DEFAULT, 'error');
-        return undefined;
       }
     } else if (res.status === 401) {
       // 토큰이 없는 경우
@@ -70,8 +69,6 @@ export async function fetcher<T>(url: string, options?: RequestInit): Promise<Ba
       console.error(`Error Status: ${res.status}`);
       useToastStore.getState().showToast(errors.DEFAULT, 'error');
     }
-
-    return undefined;
   }
 
   return responseBody;

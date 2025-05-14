@@ -28,7 +28,7 @@ export default function Button({
   const isDisabled = disabled || loading;
 
   const baseClasses =
-    'inline-flex items-center justify-center gap-2 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center gap-2 rounded transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variantClasses: Record<ButtonVariant, string> = {
     primary: 'bg-primary-500 hover:bg-primary-600 text-white',

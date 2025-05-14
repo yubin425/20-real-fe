@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { fetcher } from '@/api/fetcher';
 import MarkdownViewer from '@/components/common/MarkdownViewer';
 import NotFound from '@/components/common/NotFound';
+import RedirectWithModal from '@/components/common/RedirectWithModal';
 import SingleImage from '@/components/common/SingleImage';
 import PostCommentForm from '@/components/post/PostCommentForm';
 import PostCommentList from '@/components/post/PostCommentList';
@@ -28,6 +29,10 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         Cookie: cookie,
       },
     });
+
+    if (res?.code === 401 || res?.code === 403) {
+      return <RedirectWithModal />;
+    }
 
     if (res) news = res.data;
   } catch (e) {

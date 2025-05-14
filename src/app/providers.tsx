@@ -9,13 +9,13 @@ import { queryClient } from '@/queries/base/queryClient';
 import { useModal } from '@/stores/modalStore';
 
 export default function Providers({ children }: { children: ReactNode }) {
-  const { isOpen, title, content, closeModal } = useModal();
+  const { isOpen, title, content, actions, closeModal } = useModal();
 
   return (
     <QueryClientProvider client={queryClient}>
       {children}
       <ReactQueryDevtools initialIsOpen={false} />
-      <Modal isOpen={isOpen} title={title} onClose={closeModal}>
+      <Modal isOpen={isOpen} title={title} actions={actions} onClose={closeModal}>
         {content}
       </Modal>
     </QueryClientProvider>

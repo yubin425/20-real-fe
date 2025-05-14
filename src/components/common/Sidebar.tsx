@@ -9,13 +9,12 @@ import { logout } from '@/api/auth';
 import Button from '@/components/common/Button';
 import SafeImage from '@/components/common/SafeImage';
 import { APP_WIDTH } from '@/constatns/ui';
-import { SidebarStore, useSidebarStore } from '@/stores/sidebarStore';
+import { useSidebarStore } from '@/stores/sidebarStore';
 import { useToastStore } from '@/stores/toastStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';
 
 export default function Sidebar() {
-  const isOpen = useSidebarStore((state: SidebarStore) => state.isOpen);
-  const close = useSidebarStore((state: SidebarStore) => state.close);
+  const { isOpen, close } = useSidebarStore();
   const { user, isLoggedIn, cleanUser } = useUserPersistStore();
   const { showToast } = useToastStore();
 

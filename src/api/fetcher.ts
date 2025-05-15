@@ -1,4 +1,6 @@
 import { errors } from '@/constatns/errors';
+import { AppError } from '@/lib/errors/appError';
+import { ErrorTags } from '@/lib/errors/errorTags';
 import { useToastStore } from '@/stores/toastStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';
 import { BaseResponse } from '@/types/common/base';
@@ -19,6 +21,14 @@ async function parseJSON<T>(res: Response): Promise<BaseResponse<T> | undefined>
   try {
     return await res.json();
   } catch (err) {
+    new AppError({
+      message: 'JSON 파싱 실패',
+      code: 'JSON_PARSE_ERROR',
+      level: 'warning',
+      tags: [ErrorTags.API],
+      extra: { status: res.status, url: res.url },
+      capture: true,
+    });
     console.error('Failed to parse JSON:', err);
     return undefined;
   }
@@ -47,7 +57,14 @@ async function handleTokenRefresh<T>(fetchFn: () => Promise<Response>): Promise<
     const retriedRes = await fetchFn();
     return await parseJSON<T>(retriedRes);
   } catch (err) {
-    console.error('Token refresh failed:', err);
+    new AppError({
+      message: '토큰 리프레시 처리 중 예외',
+      code: 'TOKEN_REFRESH_EXCEPTION',
+      level: 'error',
+      tags: [ErrorTags.AUTH, ErrorTags.API],
+      extra: { error: err },
+      capture: true,
+    });
     toast.showToast(errors.DEFAULT, 'error');
     return undefined;
   }
@@ -76,7 +93,14 @@ async function handleError<T>(
     toast.showToast(errors.FORBIDDEN, 'error');
   } else {
     // 기타 에러
-    console.error(`Error Status: ${res.status}`);
+    new AppError({
+      message: `Unhandled API Error: ${res.status}`,
+      code: 'API_UNHANDLED_ERROR',
+      level: res.status >= 500 ? 'error' : 'warning',
+      tags: [ErrorTags.API],
+      extra: { status: res.status, url: res.url, responseBody },
+      capture: true,
+    });
     toast.showToast(errors.DEFAULT, 'error');
   }
 

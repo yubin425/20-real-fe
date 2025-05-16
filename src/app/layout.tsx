@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
 import Providers from '@/app/providers';
+import { RouteChangeLogger } from '@/components/common/RouteChangeLogger';
 import ToastContainer from '@/components/common/ToastContainer';
 
 import './globals.css';
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${pretendard.className}`}>
       <body className="flex justify-center bg-gradient-to-br min-h-screen">
+        <RouteChangeLogger />
         <Background>
           <Providers>
             <div className="relative bg-white/80  shadow-soft min-h-screen max-w-app w-full">

@@ -5,6 +5,13 @@ import kakaoLogin from '@/assets/kakao-login.png';
 import logo from '@/assets/logo.png';
 import Button from '@/components/common/Button';
 import SafeImage from '@/components/common/SafeImage';
+import { EventName } from '@/lib/firebase/eventNames';
+import { firebaseLogging } from '@/lib/firebase/logEvent';
+
+const handleLogin = (provider: string) => {
+  firebaseLogging(EventName.LOGIN_BUTTON_CLICK);
+  oauthLogin(provider);
+};
 
 export default function LoginPage() {
   return (
@@ -25,7 +32,7 @@ export default function LoginPage() {
           <Button
             variant="plain"
             className="w-full py-3 rounded-xl hover:opacity-90 transition-opacity mt-2 mb-4"
-            onClick={() => oauthLogin('kakao')}
+            onClick={() => handleLogin('kakao')}
           >
             {kakaoLogin ? (
               <SafeImage src={kakaoLogin} alt="카카오 로그인" width={300} height={45} className="rounded-xl" />

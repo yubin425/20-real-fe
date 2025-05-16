@@ -15,6 +15,8 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import SafeImage from '@/components/common/SafeImage';
 import { useHeadlineData } from '@/hooks/useGetHeadLine';
+import { EventName } from '@/lib/firebase/eventNames';
+import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { usePostChatbotQuestion } from '@/queries/chatbot/usePostChatbotQuestion';
 import { useToastStore } from '@/stores/toastStore';
 import { ChatMessage } from '@/types/chatbot/chatMessage';
@@ -35,6 +37,9 @@ export default function ChatbotPage() {
 
   // 추천 검색어 클릭
   const handleSuggestQuestionClick = (text: string) => {
+    firebaseLogging(EventName.CHATBOT_RECOMMEND_QUESTION_CLICK, {
+      description: text,
+    });
     loadAnswer(text);
   };
 
@@ -51,6 +56,7 @@ export default function ChatbotPage() {
   // 채팅 전송 버튼 클릭
   const handleSendClick = (e: FormEvent) => {
     e.preventDefault();
+    firebaseLogging(EventName.CHATBOT_QUESTION_SEND_CLICK);
     loadAnswer(currentInput);
   };
 

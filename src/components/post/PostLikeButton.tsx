@@ -5,6 +5,8 @@ import { Heart } from 'lucide-react';
 import { useState } from 'react';
 
 import Button from '@/components/common/Button';
+import { EventName } from '@/lib/firebase/eventNames';
+import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { useToggleNewsLikeMutation } from '@/queries/news/useToggleNewsLikeMutation';
 import { useToggleNoticeLikeMutation } from '@/queries/post/useToggleNoticeLikeMutation';
 import { PostTypes } from '@/types/post/postType';
@@ -46,6 +48,9 @@ export default function PostLikeButton({
         { noticeId: postId.toString() },
         {
           onError: rollback,
+          onSuccess: (res) => {
+            if (res?.data) handleFirebaseLogging(res.data.userLike);
+          },
         },
       );
     } else if (type === PostTypes.News) {
@@ -53,9 +58,18 @@ export default function PostLikeButton({
         { newsId: postId.toString() },
         {
           onError: rollback,
+          onSuccess: (res) => {
+            if (res?.data) handleFirebaseLogging(res.data.userLike);
+          },
         },
       );
     }
+  };
+
+  const handleFirebaseLogging = (userLike: boolean) => {
+    firebaseLogging(EventName.POST_HEART_CLICK, {
+      description: `${type}-${postId}-${userLike}`,
+    });
   };
 
   return (

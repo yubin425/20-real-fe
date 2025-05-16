@@ -9,6 +9,8 @@ import { logout } from '@/api/auth';
 import Button from '@/components/common/Button';
 import SafeImage from '@/components/common/SafeImage';
 import { APP_WIDTH } from '@/constatns/ui';
+import { EventName } from '@/lib/firebase/eventNames';
+import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import { useToastStore } from '@/stores/toastStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';
@@ -34,6 +36,7 @@ export default function Sidebar() {
   }, [isOpen]);
 
   const handleLogout = async () => {
+    firebaseLogging(EventName.LOGOUT_BUTTON_CLICK);
     const res = await logout();
     if (res && res.code === 204) {
       close();

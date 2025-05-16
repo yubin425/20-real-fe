@@ -3,6 +3,8 @@
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import PostCommentItem from '@/components/post/PostCommentItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
+import { EventName } from '@/lib/firebase/eventNames';
+import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { useDeleteNewsCommentMutation } from '@/queries/news/useDeleteNewsCommentMutation';
 import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentListInfinityQuery';
 import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
@@ -49,6 +51,9 @@ export default function PostCommentList({ type, postId }: PostCommentListProps) 
           label: '삭제',
           variant: 'destructive',
           onClick: () => {
+            firebaseLogging(EventName.POST_COMMENT_DELETE_CLICK, {
+              description: `${type}-${postId}`,
+            });
             if (type === PostTypes.Notice) {
               deleteNoticeComment(
                 { noticeId: postId.toString(), commentId: commentId.toString() },

@@ -13,7 +13,7 @@ const getCommonParams = (): Record<string, string> => ({
   app_version: '1.0.0',
 });
 
-export const firebaseLogging = (eventName: EventName, eventParams: EventParams): void => {
+export const firebaseLogging = (eventName: EventName, eventParams?: EventParams): void => {
   if (!isProduction || !analytics) return;
 
   try {

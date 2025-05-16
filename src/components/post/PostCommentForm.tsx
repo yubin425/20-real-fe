@@ -6,6 +6,8 @@ import { FormEvent, useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import { EventName } from '@/lib/firebase/eventNames';
+import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { useCreateNewsCommentMutation } from '@/queries/news/useCreateNewsCommentMutation';
 import { useCreateNoticeCommentMutation } from '@/queries/post/useCreateNoticeCommentMutation';
 import { usePostCommentCountStore } from '@/stores/postCommentCountStore';
@@ -26,7 +28,9 @@ export default function PostCommentForm({ type, postId, commentCount }: PostComm
 
   const handleSubmitComment = (e: FormEvent) => {
     e.preventDefault();
-
+    firebaseLogging(EventName.POST_COMMENT_SEND_CLICK, {
+      description: `${type}-${postId}`,
+    });
     const payload = { content: comment };
     const commonOptions = {
       onSuccess: () => {

@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 import { useEffect, useState } from 'react';
 
+import { EventName } from '@/lib/firebase/eventNames';
+import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { Headline } from '@/types/common/headline';
 
 interface HeadlineBannerProps {
@@ -34,6 +36,13 @@ export default function HeadlineBanner({ items }: HeadlineBannerProps) {
 
   const href = currentNotice?.type === 'notice' ? `/notices/${currentNotice?.id}` : `/news/${currentNotice?.id}`;
 
+  const handleClick = () => {
+    console.log(currentNotice);
+    firebaseLogging(EventName.CHATBOT_RECENT_POST_CLICK, {
+      description: `${currentNotice.type}-${currentNotice.id}`,
+    });
+  };
+
   return (
     <div className="bg-white mx-4 mt-4 rounded-xl shadow-sm overflow-hidden">
       <div className="h-12 relative overflow-hidden">
@@ -42,6 +51,7 @@ export default function HeadlineBanner({ items }: HeadlineBannerProps) {
           className={`absolute inset-0 flex items-center px-4 w-full transition-all duration-300 ${
             visible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-full'
           }`}
+          onClick={handleClick}
         >
           <div className="w-6 h-6 rounded-full mr-2 flex-shrink-0 flex items-center justify-center">
             {currentNotice?.type === 'notice' ? (

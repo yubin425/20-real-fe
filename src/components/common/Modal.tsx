@@ -2,7 +2,7 @@ import { X } from 'lucide-react';
 
 import React, { ReactNode, useEffect } from 'react';
 
-import Button, { ButtonVariant } from '@/components/common/Button';
+import { Button, ButtonVariant } from '@/components/atoms/Button';
 
 export interface ModalAction {
   label: string;

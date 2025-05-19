@@ -4,8 +4,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { useState } from 'react';
 
-import Button from '@/components/common/Button';
-import SafeImage from '@/components/common/SafeImage';
+import { Button } from '@/components/atoms/Button';
+import { SafeImage } from '@/components/atoms/SafeImage';
 import { NoticeFile } from '@/types/post/noticeFile';
 
 interface ImageCarouselProps {

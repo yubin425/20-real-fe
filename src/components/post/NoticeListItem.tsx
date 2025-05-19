@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react';
 
 import helperRyan from '@/assets/helper-ryan.png';
-import SafeImage from '@/components/common/SafeImage';
+import { SafeImage } from '@/components/atoms/SafeImage';
 import { Notice } from '@/types/post/notice';
 import { formatTime, isRecent } from '@/utils/times';
 

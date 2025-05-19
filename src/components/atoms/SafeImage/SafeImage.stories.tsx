@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Logo from '@/assets/logo.png';
-import SafeImage from '@/components/common/SafeImage';
+import { SafeImage } from '@/components/atoms/SafeImage';
 
 import '@/app/globals.css';
 

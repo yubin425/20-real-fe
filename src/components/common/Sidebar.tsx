@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { logout } from '@/api/auth';
-import Button from '@/components/common/Button';
-import SafeImage from '@/components/common/SafeImage';
+import { Button } from '@/components/atoms/Button';
+import { SafeImage } from '@/components/atoms/SafeImage';
 import { APP_WIDTH } from '@/constatns/ui';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';

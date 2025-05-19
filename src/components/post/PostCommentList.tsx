@@ -1,6 +1,6 @@
 'use client';
 
-import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { LoadingIndicator } from '@/components/atoms/LoadingIndicator';
 import PostCommentItem from '@/components/post/PostCommentItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import { EventName } from '@/lib/firebase/eventNames';

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import Button from '@/components/common/Button';
+import { Button } from '@/components/atoms/Button';
 
 import '@/app/globals.css';
 

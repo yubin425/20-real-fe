@@ -1,5 +1,5 @@
 import choon from '@/assets/choon.png';
-import SafeImage from '@/components/common/SafeImage';
+import { SafeImage } from '@/components/atoms/SafeImage';
 
 export default function BotProfile() {
   return (

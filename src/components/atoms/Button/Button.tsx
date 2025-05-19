@@ -14,7 +14,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: React.ReactNode;
 }
 
-export default function Button({
+export function Button({
   className = '',
   variant = 'primary',
   size = 'default',

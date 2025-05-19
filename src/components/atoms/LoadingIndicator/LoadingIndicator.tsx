@@ -6,11 +6,7 @@ interface LoadingIndicatorProps {
   isFetchingNextPage: boolean;
 }
 
-export default function LoadingIndicator({
-                                           loadingRef,
-                                           hasNextPage,
-                                           isFetchingNextPage,
-                                         }: LoadingIndicatorProps) {
+export function LoadingIndicator({ loadingRef, hasNextPage, isFetchingNextPage }: LoadingIndicatorProps) {
   if (!hasNextPage) return null;
 
   return (

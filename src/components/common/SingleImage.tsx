@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import SafeImage from '@/components/common/SafeImage';
+import { SafeImage } from '@/components/atoms/SafeImage';
 
 interface SingleImageProps {
   imageUrl: string;

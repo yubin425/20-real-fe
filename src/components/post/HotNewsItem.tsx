@@ -1,4 +1,4 @@
-import SafeImage from '@/components/common/SafeImage';
+import { SafeImage } from '@/components/atoms/SafeImage';
 import { News } from '@/types/post/news';
 
 interface HotNewsItemProps {

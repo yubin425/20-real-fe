@@ -3,7 +3,7 @@
 import { Clock, Flame } from 'lucide-react';
 import Link from 'next/link';
 
-import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { LoadingIndicator } from '@/components/atoms/LoadingIndicator';
 import HotNewsItem from '@/components/post/HotNewsItem';
 import NewsListItem from '@/components/post/NewsListItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';

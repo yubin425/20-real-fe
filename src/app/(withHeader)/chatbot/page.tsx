@@ -6,14 +6,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 
 import logo from '@/assets/logo.png';
+import { Button } from '@/components/atoms/Button';
+import { SafeImage } from '@/components/atoms/SafeImage';
 import ChatItem from '@/components/chatbot/ChatItem';
 import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
 import HeadlineBannerSkeleton from '@/components/chatbot/HeadlineBannerSkeleton';
 import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
 import MyChatItem from '@/components/chatbot/MyChatItem';
-import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
-import SafeImage from '@/components/common/SafeImage';
 import { useHeadlineData } from '@/hooks/useGetHeadLine';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';

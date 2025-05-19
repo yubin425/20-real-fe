@@ -27,16 +27,7 @@ type SafeImageWithDimensions = SafeImageBaseProps & {
 
 type SafeImageProps = SafeImageWithFill | SafeImageWithDimensions;
 
-export default function SafeImage({
-  src,
-  alt,
-  className = '',
-  fallbackSrc,
-  fill,
-  width,
-  height,
-  ...props
-}: SafeImageProps) {
+export function SafeImage({ src, alt, className = '', fallbackSrc, fill, width, height, ...props }: SafeImageProps) {
   const [hasError, setHasError] = useState(false);
   const safeAlt = alt || '이미지';
   const isValidSrc = src && (typeof src !== 'string' || src.trim() !== '');

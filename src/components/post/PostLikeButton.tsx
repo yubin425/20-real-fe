@@ -4,7 +4,7 @@ import { Heart } from 'lucide-react';
 
 import { useState } from 'react';
 
-import Button from '@/components/common/Button';
+import { Button } from '@/components/atoms/Button';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { useToggleNewsLikeMutation } from '@/queries/news/useToggleNewsLikeMutation';

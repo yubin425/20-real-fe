@@ -3,7 +3,7 @@
 import { ArrowLeft, Menu } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 
-import Button from '@/components/common/Button';
+import { Button } from '@/components/atoms/Button';
 import { HEADER_HEIGHT } from '@/constatns/ui';
 import { useSidebarStore } from '@/stores/sidebarStore';
 

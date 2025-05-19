@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { LoadingIndicator } from '@/components/atoms/LoadingIndicator';
 import NoticeListItem from '@/components/post/NoticeListItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import { useNoticeListInfinityQuery } from '@/queries/post/useNoticeListInfinityQuery';

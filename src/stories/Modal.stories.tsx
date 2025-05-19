@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Button from '@/components/common/Button';
+import { Button } from '@/components/atoms/Button';
 import Modal from '@/components/common/Modal';
 import { useModal } from '@/stores/modalStore';
 

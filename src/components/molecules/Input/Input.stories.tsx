@@ -2,9 +2,9 @@ import { Lock, Mail } from 'lucide-react';
 
 import { Meta, StoryObj } from '@storybook/react';
 
-import Input from '@/components/common/Input';
+import { Input } from '@/components/molecules/Input';
 
-import '../app/globals.css';
+import '../../../app/globals.css';
 
 const meta: Meta<typeof Input> = {
   title: 'Common/Input',

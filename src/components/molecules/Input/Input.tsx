@@ -5,18 +5,12 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   error?: string;
   icon?: ReactNode;
   ref?: Ref<HTMLInputElement>;
-}
+};
 
-export default function Input(
-  { className = '', type = 'text', label, error, icon, ref, ...props }: InputProps,
-) {
+export function Input({ className = '', type = 'text', label, error, icon, ref, ...props }: InputProps) {
   return (
     <div className="w-full space-y-2">
-      {label && (
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
-      )}
+      {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
 
       <div className="relative">
         {icon && (
@@ -44,9 +38,7 @@ export default function Input(
         />
       </div>
 
-      {error && (
-        <p className="text-sm text-red-500 mt-1">{error}</p>
-      )}
+      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
     </div>
   );
 }

@@ -13,7 +13,7 @@ import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
 import HeadlineBannerSkeleton from '@/components/chatbot/HeadlineBannerSkeleton';
 import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
 import MyChatItem from '@/components/chatbot/MyChatItem';
-import Input from '@/components/common/Input';
+import { Input } from '@/components/molecules/Input';
 import { useHeadlineData } from '@/hooks/useGetHeadLine';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';

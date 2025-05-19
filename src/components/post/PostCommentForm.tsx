@@ -5,7 +5,7 @@ import { ArrowUp, MessageCircle } from 'lucide-react';
 import { FormEvent, useEffect, useState } from 'react';
 
 import { Button } from '@/components/atoms/Button';
-import Input from '@/components/common/Input';
+import { Input } from '@/components/molecules/Input';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { useCreateNewsCommentMutation } from '@/queries/news/useCreateNewsCommentMutation';

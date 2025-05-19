@@ -1,29 +1,27 @@
 'use client';
 
-import { Heart } from 'lucide-react';
-
 import { useState } from 'react';
 
-import { Button } from '@/components/atoms/Button';
+import { LikeButton } from '@/components/molecules/LikeButton';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { useToggleNewsLikeMutation } from '@/queries/news/useToggleNewsLikeMutation';
 import { useToggleNoticeLikeMutation } from '@/queries/post/useToggleNoticeLikeMutation';
 import { PostTypes } from '@/types/post/postType';
 
-interface PostLikeButtonProps {
+interface PostReactionProps {
   type: PostTypes;
   postId: number;
   userLike: boolean;
   likeCount: number;
 }
 
-export default function PostLikeButton({
+export function PostReaction({
   type,
   postId,
   userLike: initialUserLike,
   likeCount: initialLikeCount,
-}: PostLikeButtonProps) {
+}: PostReactionProps) {
   const [userLike, setUserLike] = useState(initialUserLike);
   const [likeCount, setLikeCount] = useState(initialLikeCount);
   const { mutate: toggleNoticeLike } = useToggleNoticeLikeMutation();
@@ -53,7 +51,7 @@ export default function PostLikeButton({
           },
         },
       );
-    } else if (type === PostTypes.News) {
+    } else {
       toggleNewsLike(
         { newsId: postId.toString() },
         {
@@ -72,16 +70,5 @@ export default function PostLikeButton({
     });
   };
 
-  return (
-    <div className="px-4 mb-4 flex justify-center">
-      <Button
-        variant="plain"
-        onClick={handleToggle}
-        className={`px-6 py-2 rounded-full ${userLike ? 'bg-secondary-100 text-secondary-400' : 'bg-gray-100 text-gray-500'} transition-all`}
-      >
-        <Heart size={16} className={`mr-2 ${userLike ? 'fill-secondary-500 text-secondary-400' : ''}`} />
-        <span className="font-medium">{likeCount}</span>
-      </Button>
-    </div>
-  );
+  return <LikeButton onClickAction={handleToggle} userLike={userLike} likeCount={likeCount} />;
 }

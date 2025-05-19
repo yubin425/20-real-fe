@@ -3,14 +3,13 @@ import { cookies } from 'next/headers';
 import { fetcher } from '@/api/fetcher';
 import { ImageCarousel } from '@/components/molecules/ImageCarousel';
 import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
+import { PostFileItem } from '@/components/molecules/PostFileItem';
+import { PostHeader } from '@/components/molecules/PostHeader';
+import { PostSummary } from '@/components/molecules/PostSummary';
+import { PostCommentSection } from '@/components/organisms/PostCommentSection';
+import { PostReaction } from '@/components/organisms/PostReaction/PostReaction';
 import { NotFoundPage } from '@/components/pages/NotFoundPage';
 import { RedirectWithLoginModalPage } from '@/components/pages/RedirectWithLoginModalPage';
-import PostCommentForm from '@/components/post/PostCommentForm';
-import PostCommentList from '@/components/post/PostCommentList';
-import PostFileItem from '@/components/post/PostFileItem';
-import PostHeader from '@/components/post/PostHeader';
-import PostLikeButton from '@/components/post/PostLikeButton';
-import PostSummary from '@/components/post/PostSummary';
 import { NoticeDetail } from '@/types/post/noticeDetail';
 import { PostTypes } from '@/types/post/postType';
 
@@ -64,23 +63,19 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
           {notice.files.length > 0 &&
             notice.files.map((file) => (
               <div key={file.id}>
-                <a href={file.fileUrl} download target="_blank" rel="noopener noreferrer">
-                  <PostFileItem file={file} />
-                </a>
+                <PostFileItem file={file} />
               </div>
             ))}
         </div>
 
-        <PostLikeButton
+        <PostReaction
           type={PostTypes.Notice}
           postId={notice.id}
           userLike={notice.userLike}
           likeCount={notice.likeCount}
         />
 
-        <PostCommentForm type={PostTypes.Notice} postId={notice.id} commentCount={notice.commentCount} />
-
-        <PostCommentList type={PostTypes.Notice} postId={notice.id} />
+        <PostCommentSection type={PostTypes.Notice} postId={notice.id} commentCount={notice.commentCount} />
       </div>
     </div>
   );

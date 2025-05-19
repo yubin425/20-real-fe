@@ -4,8 +4,8 @@ import { Clock, Flame } from 'lucide-react';
 import Link from 'next/link';
 
 import { LoadingIndicator } from '@/components/atoms/LoadingIndicator';
-import HotNewsItem from '@/components/post/HotNewsItem';
-import NewsListItem from '@/components/post/NewsListItem';
+import { HotNewsItem } from '@/components/molecules/HotNewsItem';
+import { NewsListItem } from '@/components/molecules/NewsListItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import { useNewsListInfinityQuery } from '@/queries/news/useNewsListInfinityQuery';
 import { useNewsListQuery } from '@/queries/news/useNewsListQuery';

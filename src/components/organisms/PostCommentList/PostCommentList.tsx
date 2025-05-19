@@ -1,7 +1,7 @@
 'use client';
 
 import { LoadingIndicator } from '@/components/atoms/LoadingIndicator';
-import PostCommentItem from '@/components/post/PostCommentItem';
+import { PostCommentItem } from '@/components/molecules/PostCommentItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';
@@ -10,15 +10,15 @@ import { useNewsCommentListInfinityQuery } from '@/queries/news/useNewsCommentLi
 import { useDeleteNoticeCommentMutation } from '@/queries/post/useDeleteNoticeCommentMutation';
 import { useNoticeCommentListInfinityQuery } from '@/queries/post/useNoticeCommentListInfinityQuery';
 import { useModal } from '@/stores/modalStore';
-import { usePostCommentCountStore } from '@/stores/postCommentCountStore';
 import { PostTypes } from '@/types/post/postType';
 
 interface PostCommentListProps {
   type: PostTypes;
   postId: number;
+  onDeleteCompleteAction: () => void;
 }
 
-export default function PostCommentList({ type, postId }: PostCommentListProps) {
+export function PostCommentList({ type, postId, onDeleteCompleteAction }: PostCommentListProps) {
   const { mutate: deleteNoticeComment } = useDeleteNoticeCommentMutation();
   const { mutate: deleteNewsComment } = useDeleteNewsCommentMutation();
 
@@ -38,7 +38,6 @@ export default function PostCommentList({ type, postId }: PostCommentListProps) 
     isFetchingNextPage,
   });
 
-  const { decrement } = usePostCommentCountStore();
   const { openModal, closeModal } = useModal();
 
   // 댓글 삭제 버튼 클릭 시
@@ -57,12 +56,12 @@ export default function PostCommentList({ type, postId }: PostCommentListProps) 
             if (type === PostTypes.Notice) {
               deleteNoticeComment(
                 { noticeId: postId.toString(), commentId: commentId.toString() },
-                { onSuccess: () => decrement() },
+                { onSuccess: onDeleteCompleteAction },
               );
             } else if (type === PostTypes.News) {
               deleteNewsComment(
                 { newsId: postId.toString(), commentId: commentId.toString() },
-                { onSuccess: () => decrement() },
+                { onSuccess: onDeleteCompleteAction },
               );
             }
             closeModal();

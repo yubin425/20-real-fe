@@ -3,13 +3,12 @@ import { cookies } from 'next/headers';
 import { fetcher } from '@/api/fetcher';
 import { ImageViewer } from '@/components/molecules/ImageViewer';
 import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
+import { PostHeader } from '@/components/molecules/PostHeader';
+import { PostSummary } from '@/components/molecules/PostSummary';
+import { PostCommentSection } from '@/components/organisms/PostCommentSection';
+import { PostReaction } from '@/components/organisms/PostReaction/PostReaction';
 import { NotFoundPage } from '@/components/pages/NotFoundPage';
 import { RedirectWithLoginModalPage } from '@/components/pages/RedirectWithLoginModalPage';
-import PostCommentForm from '@/components/post/PostCommentForm';
-import PostCommentList from '@/components/post/PostCommentList';
-import PostHeader from '@/components/post/PostHeader';
-import PostLikeButton from '@/components/post/PostLikeButton';
-import PostSummary from '@/components/post/PostSummary';
 import { NewsDetail } from '@/types/post/newsDetail';
 import { PostTypes } from '@/types/post/postType';
 
@@ -54,11 +53,9 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           <ImageViewer imageUrl={news.imageUrl} />
         </div>
 
-        <PostLikeButton type={PostTypes.News} postId={news.id} userLike={news.userLike} likeCount={news.likeCount} />
+        <PostReaction type={PostTypes.News} postId={news.id} userLike={news.userLike} likeCount={news.likeCount} />
 
-        <PostCommentForm type={PostTypes.News} postId={news.id} commentCount={news.commentCount} />
-
-        <PostCommentList type={PostTypes.News} postId={news.id} />
+        <PostCommentSection type={PostTypes.News} postId={news.id} commentCount={news.commentCount} />
       </div>
     </div>
   );

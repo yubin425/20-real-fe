@@ -8,7 +8,7 @@ interface NewsListItemProps {
   userRead: boolean;
 }
 
-export default function NewsListItem({ news, userRead }: NewsListItemProps) {
+export function NewsListItem({ news, userRead }: NewsListItemProps) {
   return (
     <div className="bg-white rounded-xl shadow-sm mb-3 hover:shadow-md transition-shadow">
       <div className="p-4 flex items-center justify-between">

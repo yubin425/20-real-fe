@@ -9,7 +9,7 @@ type NoticeItemProps = {
   notice: Notice;
 };
 
-export default function NoticeListItem({ notice }: NoticeItemProps) {
+export function NoticeListItem({ notice }: NoticeItemProps) {
   const renderAvatar = () => {
     if (notice.author.includes('helper.ryan')) {
       return <SafeImage src={helperRyan} alt="helper.ryan(헬퍼라이언)" width={64} height={64} />;

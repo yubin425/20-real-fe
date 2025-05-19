@@ -1,3 +1,4 @@
+import { Button } from '@/components/atoms/Button';
 import { PostPlatform } from '@/types/post/postPlatform';
 import { formatTime, isRecent } from '@/utils/times';
 
@@ -11,15 +12,7 @@ interface PostHeaderProps {
   originalUrl?: string | null;
 }
 
-export default function PostHeader({
-  tags = [],
-  title,
-  author,
-  viewCount,
-  createdAt,
-  originalUrl,
-  platform,
-}: PostHeaderProps) {
+export function PostHeader({ tags = [], title, author, viewCount, createdAt, originalUrl, platform }: PostHeaderProps) {
   const displayTags = isRecent(createdAt) ? ['최신', ...tags] : tags;
 
   return (
@@ -56,11 +49,11 @@ export default function PostHeader({
             <span>{formatTime(createdAt)}</span>
           </div>
           {originalUrl && platform && (
-            <div className="flex items-center px-3 py-1 bg-indigo-50 rounded-full">
-              <a href={originalUrl} className="text-xs font-medium text-primary-500 flex items-center">
+            <Button variant="plain" size="sm" className="flex items-center bg-indigo-50 rounded-full">
+              <a href={originalUrl} target="_blank" className="text-xs font-medium text-primary-500 flex items-center">
                 {platform}
               </a>
-            </div>
+            </Button>
           )}
         </div>
       </div>

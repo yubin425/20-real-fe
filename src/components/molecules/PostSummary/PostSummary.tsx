@@ -4,7 +4,7 @@ interface PostSummaryProps {
   summary: string;
 }
 
-export default function PostSummary({ summary }: PostSummaryProps) {
+export function PostSummary({ summary }: PostSummaryProps) {
   return (
     <div className="mx-4 mb-4 bg-gray-50 rounded-xl p-4">
       <div className="flex items-start">

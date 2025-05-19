@@ -10,7 +10,7 @@ interface PostCommentItemProps {
   onDelete: (commentId: number) => void;
 }
 
-export default function PostCommentItem({ comment, onDelete }: PostCommentItemProps) {
+export function PostCommentItem({ comment, onDelete }: PostCommentItemProps) {
   return (
     <div className="px-4 py-3 flex items-start">
       <div className="w-8 h-8 rounded-full overflow-hidden">

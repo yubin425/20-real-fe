@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '@/components/atoms/Button';
-import Modal from '@/components/common/Modal';
+import { Modal } from '@/components/organisms/Modal';
 import { useModal } from '@/stores/modalStore';
 
 import '@/app/globals.css';

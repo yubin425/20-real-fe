@@ -7,7 +7,7 @@ import { Button } from '@/components/atoms/Button';
 import { HEADER_HEIGHT } from '@/constatns/ui';
 import { useSidebarStore } from '@/stores/sidebarStore';
 
-export default function Header() {
+export function Header() {
   const router = useRouter();
   const openSidebar = useSidebarStore((state) => state.open);
   const pathname = usePathname();

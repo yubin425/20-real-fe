@@ -11,7 +11,7 @@ const iconMap = {
   warning: <AlertTriangle size={20} className="text-yellow-500" />,
 };
 
-export default function ToastContainer() {
+export function ToastContainer() {
   const { toast } = useToastStore();
 
   if (!toast) return null;

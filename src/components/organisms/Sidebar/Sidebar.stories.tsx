@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '@/components/atoms/Button';
-import Sidebar from '@/components/common/Sidebar';
-import ToastContainer from '@/components/common/ToastContainer';
+import { Sidebar } from '@/components/organisms/Sidebar/index';
+import { ToastContainer } from '@/components/organisms/ToastContainer';
 import { useSidebarStore } from '@/stores/sidebarStore';
 import { useToastStore } from '@/stores/toastStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';

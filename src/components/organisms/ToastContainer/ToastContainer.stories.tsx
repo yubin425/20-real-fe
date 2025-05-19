@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '@/components/atoms/Button';
-import ToastContainer from '@/components/common/ToastContainer';
+import { ToastContainer } from '@/components/organisms/ToastContainer';
 import { useToastStore } from '@/stores/toastStore';
 
 import '@/app/globals.css';

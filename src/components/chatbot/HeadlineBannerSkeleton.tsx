@@ -1,4 +1,4 @@
-import SkeletonBox from '@/components/common/SkeletonBox';
+import { SkeletonBox } from '@/components/atoms/SkeletonBox';
 
 export default function HeadlineBannerSkeleton() {
   return (

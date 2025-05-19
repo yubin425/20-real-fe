@@ -5,16 +5,15 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/atoms/Button';
-import { SafeImage } from '@/components/atoms/SafeImage';
+import { ImageViewer } from '@/components/molecules/ImageViewer';
 import { NoticeFile } from '@/types/post/noticeFile';
 
 interface ImageCarouselProps {
   images: NoticeFile[];
 }
 
-export default function ImageCarousel({ images }: ImageCarouselProps) {
+export function ImageCarousel({ images }: ImageCarouselProps) {
   const [current, setCurrent] = useState(0);
-  const [modalImage, setModalImage] = useState<NoticeFile | null>(null);
 
   const goTo = (index: number) => {
     setCurrent(index);
@@ -31,13 +30,10 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
               index === current ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
           >
-            <SafeImage
-              src={image.fileUrl}
-              alt={image.fileName}
+            <ImageViewer
               className="w-full h-full object-cover object-center cursor-pointer"
-              width={400}
-              height={200}
-              onClick={() => setModalImage(image)}
+              imageUrl={image.fileUrl}
+              imageName={image.fileName}
             />
           </div>
         ))}
@@ -79,24 +75,6 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
           ))}
         </div>
       </div>
-
-      {/* 모달 이미지 */}
-      {modalImage && (
-        <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center"
-          onClick={() => setModalImage(null)}
-        >
-          <div className="relative w-full max-w-3xl p-4">
-            <SafeImage
-              src={modalImage.fileUrl}
-              alt={modalImage.fileName}
-              width={1200}
-              height={800}
-              className="w-full h-auto object-contain"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

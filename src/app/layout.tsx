@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 import Providers from '@/app/providers';
 import { RouteChangeLogger } from '@/components/common/RouteChangeLogger';
-import ToastContainer from '@/components/common/ToastContainer';
+import { ToastContainer } from '@/components/organisms/ToastContainer';
 
 import './globals.css';
 

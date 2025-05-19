@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import MarkdownViewer from '@/components/common/MarkdownViewer';
+import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
 
 import '@/app/globals.css';
 

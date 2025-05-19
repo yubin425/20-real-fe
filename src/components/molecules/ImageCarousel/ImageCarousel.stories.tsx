@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import ImageCarousel from '@/components/common/ImageCarousel';
+import { ImageCarousel } from '@/components/molecules/ImageCarousel';
 import { NoticeFile } from '@/types/post/noticeFile';
 
 import '@/app/globals.css';

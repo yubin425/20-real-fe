@@ -1,10 +1,10 @@
 import { cookies } from 'next/headers';
 
 import { fetcher } from '@/api/fetcher';
-import MarkdownViewer from '@/components/common/MarkdownViewer';
 import NotFound from '@/components/common/NotFound';
 import RedirectWithModal from '@/components/common/RedirectWithModal';
-import SingleImage from '@/components/common/SingleImage';
+import { ImageViewer } from '@/components/molecules/ImageViewer';
+import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
 import PostCommentForm from '@/components/post/PostCommentForm';
 import PostCommentList from '@/components/post/PostCommentList';
 import PostHeader from '@/components/post/PostHeader';
@@ -51,7 +51,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         <div className="px-4 pb-3">
           <MarkdownViewer text={news.content} />
 
-          <SingleImage imageUrl={news.imageUrl} />
+          <ImageViewer imageUrl={news.imageUrl} />
         </div>
 
         <PostLikeButton type={PostTypes.News} postId={news.id} userLike={news.userLike} likeCount={news.likeCount} />

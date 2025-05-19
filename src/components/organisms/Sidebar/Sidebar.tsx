@@ -15,7 +15,7 @@ import { useSidebarStore } from '@/stores/sidebarStore';
 import { useToastStore } from '@/stores/toastStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';
 
-export default function Sidebar() {
+export function Sidebar() {
   const { isOpen, close } = useSidebarStore();
   const { user, isLoggedIn, cleanUser } = useUserPersistStore();
   const { showToast } = useToastStore();

@@ -1,5 +1,5 @@
 import BotProfile from '@/components/chatbot/BotProfile';
-import MarkdownViewer from '@/components/common/MarkdownViewer';
+import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
 
 type ChatItemProps = {
   text: string;

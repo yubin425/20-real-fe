@@ -14,7 +14,7 @@ interface MarkdownViewerProps {
   className?: string;
 }
 
-export default function MarkdownViewer({ text, className }: MarkdownViewerProps) {
+export function MarkdownViewer({ text, className }: MarkdownViewerProps) {
   return (
     <div className={cn(`text-black text-sm/6 break-all`, className)}>
       <Markdown

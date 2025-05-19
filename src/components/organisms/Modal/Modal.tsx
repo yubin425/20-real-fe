@@ -20,7 +20,7 @@ interface ModalProps {
   showCloseButton?: boolean;
 }
 
-export default function Modal({ isOpen, onClose, title, children, actions = [], showCloseButton = true }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, actions = [], showCloseButton = true }: ModalProps) {
   // ESC 키로 모달 닫기
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {

@@ -1,4 +1,4 @@
-import MarkdownViewer from '@/components/common/MarkdownViewer';
+import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
 
 type MyChatItemProps = {
   text: string;

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { ReactNode } from 'react';
 
-import { ModalAction } from '@/components/organisms/Modal';
+import { ModalAction } from '../components/common/organisms/Modal';
 
 interface OpenModalParams {
   title: string;

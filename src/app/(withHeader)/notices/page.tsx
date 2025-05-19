@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 
-import { LoadingIndicator } from '@/components/atoms/LoadingIndicator';
-import { NoticeListItem } from '@/components/molecules/NoticeListItem';
+import { LoadingIndicator } from '@/components/common/atoms/LoadingIndicator';
+import { NoticeListItem } from '@/components/post/molecules/NoticeListItem';
 import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
 import { useNoticeListInfinityQuery } from '@/queries/post/useNoticeListInfinityQuery';
 

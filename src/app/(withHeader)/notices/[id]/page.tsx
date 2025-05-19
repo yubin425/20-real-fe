@@ -1,15 +1,15 @@
 import { cookies } from 'next/headers';
 
 import { fetcher } from '@/api/fetcher';
-import { ImageCarousel } from '@/components/molecules/ImageCarousel';
-import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
-import { PostFileItem } from '@/components/molecules/PostFileItem';
-import { PostHeader } from '@/components/molecules/PostHeader';
-import { PostSummary } from '@/components/molecules/PostSummary';
-import { PostCommentSection } from '@/components/organisms/PostCommentSection';
-import { PostReaction } from '@/components/organisms/PostReaction/PostReaction';
-import { NotFoundPage } from '@/components/pages/NotFoundPage';
-import { RedirectWithLoginModalPage } from '@/components/pages/RedirectWithLoginModalPage';
+import { ImageCarousel } from '@/components/common/molecules/ImageCarousel';
+import { MarkdownViewer } from '@/components/common/molecules/MarkdownViewer';
+import { NotFoundPage } from '@/components/common/pages/NotFoundPage';
+import { RedirectWithLoginModalPage } from '@/components/common/pages/RedirectWithLoginModalPage';
+import { PostFileItem } from '@/components/post/molecules/PostFileItem';
+import { PostHeader } from '@/components/post/molecules/PostHeader';
+import { PostSummary } from '@/components/post/molecules/PostSummary';
+import { PostCommentSection } from '@/components/post/organisms/PostCommentSection';
+import { PostReaction } from '@/components/post/organisms/PostReaction/PostReaction';
 import { NoticeDetail } from '@/types/post/noticeDetail';
 import { PostTypes } from '@/types/post/postType';
 

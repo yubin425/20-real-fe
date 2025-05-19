@@ -1,14 +1,14 @@
 import { cookies } from 'next/headers';
 
 import { fetcher } from '@/api/fetcher';
-import { ImageViewer } from '@/components/molecules/ImageViewer';
-import { MarkdownViewer } from '@/components/molecules/MarkdownViewer';
-import { PostHeader } from '@/components/molecules/PostHeader';
-import { PostSummary } from '@/components/molecules/PostSummary';
-import { PostCommentSection } from '@/components/organisms/PostCommentSection';
-import { PostReaction } from '@/components/organisms/PostReaction/PostReaction';
-import { NotFoundPage } from '@/components/pages/NotFoundPage';
-import { RedirectWithLoginModalPage } from '@/components/pages/RedirectWithLoginModalPage';
+import { ImageViewer } from '@/components/common/molecules/ImageViewer';
+import { MarkdownViewer } from '@/components/common/molecules/MarkdownViewer';
+import { NotFoundPage } from '@/components/common/pages/NotFoundPage';
+import { RedirectWithLoginModalPage } from '@/components/common/pages/RedirectWithLoginModalPage';
+import { PostHeader } from '@/components/post/molecules/PostHeader';
+import { PostSummary } from '@/components/post/molecules/PostSummary';
+import { PostCommentSection } from '@/components/post/organisms/PostCommentSection';
+import { PostReaction } from '@/components/post/organisms/PostReaction/PostReaction';
 import { NewsDetail } from '@/types/post/newsDetail';
 import { PostTypes } from '@/types/post/postType';
 

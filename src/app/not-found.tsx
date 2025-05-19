@@ -1,4 +1,4 @@
-import { NotFoundPage } from '@/components/pages/NotFoundPage';
+import { NotFoundPage } from '@/components/common/pages/NotFoundPage';
 
 export default function Page() {
   return (

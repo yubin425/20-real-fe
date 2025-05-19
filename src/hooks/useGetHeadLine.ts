@@ -2,6 +2,7 @@ import { useNewsListQuery } from '@/queries/news/useNewsListQuery';
 import { useNoticeListInfinityQuery } from '@/queries/post/useNoticeListInfinityQuery';
 import { useUserPersistStore } from '@/stores/userPersistStore';
 import { Headline } from '@/types/common/headline';
+import { PostTypes } from '@/types/post/postType';
 
 export const useHeadlineData = () => {
   const { isLoggedIn, isApproved } = useUserPersistStore(); // 로그인 여부 가져오기
@@ -19,7 +20,7 @@ export const useHeadlineData = () => {
   const headlines = [
     ...(news?.map(
       (item): Headline => ({
-        type: 'news',
+        type: PostTypes.News,
         title: item.title,
         id: item.id,
       }),
@@ -28,7 +29,7 @@ export const useHeadlineData = () => {
     ...(isLoggedIn && notices
       ? notices.map(
           (item): Headline => ({
-            type: 'notice',
+            type: PostTypes.Notice,
             title: item.title,
             id: item.id,
           }),

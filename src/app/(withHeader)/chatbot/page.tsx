@@ -6,11 +6,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 
 import logo from '@/assets/logo.png';
-import { Button } from '@/components/atoms/Button';
-import { SafeImage } from '@/components/atoms/SafeImage';
-import { Input } from '@/components/molecules/Input';
-import { Chat } from '@/components/organisms/ChatItem';
-import { HeadlineBanner, HeadlineBannerSkeleton } from '@/components/organisms/HeadlineBanner';
+import { Chat } from '@/components/chatbot/organisms/ChatItem';
+import { HeadlineBanner, HeadlineBannerSkeleton } from '@/components/chatbot/organisms/HeadlineBanner';
+import { Button } from '@/components/common/atoms/Button';
+import { SafeImage } from '@/components/common/atoms/SafeImage';
+import { Input } from '@/components/common/molecules/Input';
 import { useHeadlineData } from '@/hooks/useGetHeadLine';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';

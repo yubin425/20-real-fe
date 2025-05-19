@@ -3,8 +3,8 @@
 import { oauthLogin } from '@/api/auth';
 import kakaoLogin from '@/assets/kakao-login.png';
 import logo from '@/assets/logo.png';
-import { Button } from '@/components/atoms/Button';
-import { SafeImage } from '@/components/atoms/SafeImage';
+import { Button } from '@/components/common/atoms/Button';
+import { SafeImage } from '@/components/common/atoms/SafeImage';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';
 

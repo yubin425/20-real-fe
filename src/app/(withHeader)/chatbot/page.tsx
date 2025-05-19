@@ -8,12 +8,9 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import logo from '@/assets/logo.png';
 import { Button } from '@/components/atoms/Button';
 import { SafeImage } from '@/components/atoms/SafeImage';
-import ChatItem from '@/components/chatbot/ChatItem';
-import HeadlineBanner from '@/components/chatbot/HeadlineBanner';
-import HeadlineBannerSkeleton from '@/components/chatbot/HeadlineBannerSkeleton';
-import LoadingChatItem from '@/components/chatbot/LoadingChatItem';
-import MyChatItem from '@/components/chatbot/MyChatItem';
 import { Input } from '@/components/molecules/Input';
+import { Chat } from '@/components/organisms/ChatItem';
+import { HeadlineBanner, HeadlineBannerSkeleton } from '@/components/organisms/HeadlineBanner';
 import { useHeadlineData } from '@/hooks/useGetHeadLine';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';
@@ -122,15 +119,17 @@ export default function ChatbotPage() {
 
         {/* 채팅 메시지 */}
         <div className="space-y-4">
-          {chats.map((chat) =>
-            chat.type === 'question' ? (
-              <MyChatItem key={chat.id} text={chat.text} />
-            ) : (
-              <ChatItem key={chat.id} text={chat.text} />
-            ),
-          )}
+          <Chat>
+            {chats.map((chat) =>
+              chat.type === 'question' ? (
+                <Chat.UserMessage key={chat.id} text={chat.text} />
+              ) : (
+                <Chat.BotMessage key={chat.id} text={chat.text} />
+              ),
+            )}
 
-          {isPending && <LoadingChatItem />}
+            {isPending && <Chat.BotLoading />}
+          </Chat>
         </div>
 
         <div ref={messagesEndRef} />

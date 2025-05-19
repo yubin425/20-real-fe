@@ -1,3 +1,5 @@
+'use client';
+
 import { Bell, Newspaper } from 'lucide-react';
 import Link from 'next/link';
 
@@ -6,12 +8,13 @@ import { useEffect, useState } from 'react';
 import { EventName } from '@/lib/firebase/eventNames';
 import { firebaseLogging } from '@/lib/firebase/logEvent';
 import { Headline } from '@/types/common/headline';
+import { PostTypes } from '@/types/post/postType';
 
 interface HeadlineBannerProps {
   items: Headline[];
 }
 
-export default function HeadlineBanner({ items }: HeadlineBannerProps) {
+export function HeadlineBanner({ items }: HeadlineBannerProps) {
   const [currentNoticeIndex, setCurrentNoticeIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -34,10 +37,10 @@ export default function HeadlineBanner({ items }: HeadlineBannerProps) {
 
   const currentNotice = items[currentNoticeIndex];
 
-  const href = currentNotice?.type === 'notice' ? `/notices/${currentNotice?.id}` : `/news/${currentNotice?.id}`;
+  const href =
+    currentNotice?.type === PostTypes.Notice ? `/notices/${currentNotice?.id}` : `/news/${currentNotice?.id}`;
 
   const handleClick = () => {
-    console.log(currentNotice);
     firebaseLogging(EventName.CHATBOT_RECENT_POST_CLICK, {
       description: `${currentNotice.type}-${currentNotice.id}`,
     });
@@ -54,7 +57,7 @@ export default function HeadlineBanner({ items }: HeadlineBannerProps) {
           onClick={handleClick}
         >
           <div className="w-6 h-6 rounded-full mr-2 flex-shrink-0 flex items-center justify-center">
-            {currentNotice?.type === 'notice' ? (
+            {currentNotice?.type === PostTypes.Notice ? (
               <Bell size={16} className="text-primary-500" />
             ) : (
               <Newspaper size={16} className="text-accent-400" />

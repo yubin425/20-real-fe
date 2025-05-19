@@ -1,6 +1,6 @@
 import { SkeletonBox } from '@/components/atoms/SkeletonBox';
 
-export default function HeadlineBannerSkeleton() {
+export function HeadlineBannerSkeleton() {
   return (
     <div className="bg-white mx-4 mt-4 rounded-xl shadow-sm overflow-hidden animate-pulse">
       <div className="h-12 px-4 flex items-center space-x-3">

@@ -1,7 +1,7 @@
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 
-export default function NotFound() {
+export function NotFoundPage() {
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16">
@@ -20,7 +20,7 @@ export default function NotFound() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/"
+              href="/public"
               className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center"
             >
               <Home className="mr-2" size={20} />

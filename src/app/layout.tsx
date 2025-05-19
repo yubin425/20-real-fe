@@ -4,7 +4,7 @@ import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
 import Providers from '@/app/providers';
-import { RouteChangeLogger } from '@/components/common/RouteChangeLogger';
+import { RouteChangeLogger } from '@/app/RouteChangeLogger';
 import { ToastContainer } from '@/components/organisms/ToastContainer';
 
 import './globals.css';

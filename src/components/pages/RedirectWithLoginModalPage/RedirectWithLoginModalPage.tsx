@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 import { useModal } from '@/stores/modalStore';
 
-export default function LoginModal() {
+export function RedirectWithLoginModalPage() {
   const { push, back } = useRouter();
   const { openModal } = useModal();
 

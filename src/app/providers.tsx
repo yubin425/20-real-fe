@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import Modal from '@/components/common/Modal';
+import { Modal } from '@/components/common/organisms/Modal';
 import { queryClient } from '@/queries/base/queryClient';
 import { useModal } from '@/stores/modalStore';
 

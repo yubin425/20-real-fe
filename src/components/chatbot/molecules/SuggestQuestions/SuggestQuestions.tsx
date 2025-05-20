@@ -11,7 +11,7 @@ export function SuggestedQuestions({ onSelect }: SuggestedQuestionsProps) {
         <div
           key={text}
           onClick={() => onSelect(text)}
-          className="bg-white border p-3 rounded-2xl text-sm text-gray-700 hover:bg-gray-100 cursor-pointer shadow-sm"
+          className="bg-white border border-gray-100 p-3 rounded-xl text-sm text-gray-700 hover:bg-gray-100 cursor-pointer shadow-sm"
         >
           {text}
         </div>

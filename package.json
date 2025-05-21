@@ -10,8 +10,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "cypress open --config-file cypress.config.development.ts",
+    "cypress:run": "cypress run --config-file cypress.config.production.ts"
   },
   "dependencies": {
     "@sentry/nextjs": "^9.19.0",

@@ -12,7 +12,8 @@ describe('Chatbot 유저 플로우 E2E', () => {
       },
     });
 
-    mockGetNoticeList(2);
+    mockGetNewsList();
+    mockGetNoticeList();
   });
 
   it('1. 추천 질문 클릭 시 챗봇 응답이 렌더링된다', () => {
@@ -36,8 +37,6 @@ describe('Chatbot 유저 플로우 E2E', () => {
   });
 
   it('3. 페이지 진입 시 헤드라인 배너가 렌더링된다', () => {
-    mockGetNewsList(2, 'latest');
-
     cy.wait('@GET-Notices');
     cy.wait('@GET-News');
 

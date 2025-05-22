@@ -36,7 +36,7 @@ const getNoticeList = async ({
 };
 
 // 공지 상세 조회
-const getNoticeDetail = async (noticeId: string): Promise<BaseResponse<NoticeDetail> | undefined> => {
+const getNoticeDetail = async (noticeId: string): Promise<BaseResponse<NoticeDetail>> => {
   return await fetcher(`/v1/notices/${noticeId}`, { method: 'GET' });
 };
 
@@ -88,7 +88,7 @@ const postNoticeComment = async ({ noticeId, content }: postNoticeCommentRequest
 };
 
 // 공지 좋아요 토글
-const toggleNoticeLike = async (noticeId: string): Promise<BaseResponse<PostLike> | undefined> => {
+const toggleNoticeLike = async (noticeId: string): Promise<BaseResponse<PostLike>> => {
   return await fetcher(`/v1/notices/${noticeId}/likes`, { method: 'PUT' });
 };
 

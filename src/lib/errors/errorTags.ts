@@ -1,10 +1,16 @@
 export const ErrorTags = {
-  AUTH: { feature: 'auth' },
-  API: { feature: 'api' },
+  AUTH: 'auth',
+  API: 'api',
 } as const;
 
 export type ErrorTag = (typeof ErrorTags)[keyof typeof ErrorTags];
 
-export function mergeTags(...tags: ErrorTag[]): Record<string, string> {
-  return Object.assign({}, ...tags);
+export function convertTagsToRecord(tags: ErrorTag[]): Record<string, string> {
+  return tags.reduce(
+    (acc, tag) => {
+      acc[tag] = 'true';
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 }

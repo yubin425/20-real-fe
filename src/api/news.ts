@@ -39,7 +39,7 @@ const getNewsList = async ({
 };
 
 // 뉴스 상세 조회
-const getNewsDetail = async (newsId: string): Promise<BaseResponse<NewsDetail> | undefined> => {
+const getNewsDetail = async (newsId: string): Promise<BaseResponse<NewsDetail>> => {
   return await fetcher(`/v1/news/${newsId}`, { method: 'GET' });
 };
 
@@ -89,7 +89,7 @@ const postNewsComment = async ({ newsId, content }: postNewsCommentRequest) => {
 };
 
 // 뉴스 좋아요 토글
-const toggleNewsLike = async (newsId: string): Promise<BaseResponse<PostLike> | undefined> => {
+const toggleNewsLike = async (newsId: string): Promise<BaseResponse<PostLike>> => {
   return await fetcher(`/v1/news/${newsId}/likes`, { method: 'PUT' });
 };
 

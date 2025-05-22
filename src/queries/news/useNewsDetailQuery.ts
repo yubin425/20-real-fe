@@ -1,13 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-
 import { getNewsDetail } from '@/api/news';
 import { queryKeys } from '@/constatns/keys';
+import { useApiQuery } from '@/queries/base/useApiQuery';
 
 const useNewsDetailQuery = (id: string) => {
-  return useQuery({
+  return useApiQuery({
     queryKey: [queryKeys.news, id],
     queryFn: () => getNewsDetail(id),
-    select: (data) => data?.data,
+    select: (res) => res.data,
   });
 };
 

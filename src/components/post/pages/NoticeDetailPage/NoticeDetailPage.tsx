@@ -1,8 +1,10 @@
-import { cookies } from 'next/headers';
+'use client';
 
-import { fetcher } from '@/api/fetcher';
+import { useParams } from 'next/navigation';
+
 import { ImageCarousel } from '@/components/common/molecules/ImageCarousel';
 import { MarkdownViewer } from '@/components/common/molecules/MarkdownViewer';
+import { ErrorPage } from '@/components/common/pages/ErrorPage';
 import { NotFoundPage } from '@/components/common/pages/NotFoundPage';
 import { RedirectWithLoginModalPage } from '@/components/common/pages/RedirectWithLoginModalPage';
 import { PostFileItem } from '@/components/post/molecules/PostFileItem';
@@ -10,36 +12,26 @@ import { PostHeader } from '@/components/post/molecules/PostHeader';
 import { PostSummary } from '@/components/post/molecules/PostSummary';
 import { PostCommentSection } from '@/components/post/organisms/PostCommentSection';
 import { PostReaction } from '@/components/post/organisms/PostReaction/PostReaction';
-import { NoticeDetail } from '@/types/post/noticeDetail';
+import { useNoticeDetailQuery } from '@/queries/post/useNoticeDetailQuery';
 import { PostTypes } from '@/types/post/postType';
 
-interface NoticeDetailPageProps {
-  params: Promise<{ id: string }>;
-}
+export function NoticeDetailPage() {
+  const params = useParams();
+  const id: string = params?.id as string;
+  const { data: notice, isLoading, isError, error } = useNoticeDetailQuery(id);
 
-export async function NoticeDetailPage({ params }: NoticeDetailPageProps) {
-  const cookie = (await cookies()).toString();
-  const { id } = await params;
-  let notice: NoticeDetail | null = null;
-
-  try {
-    const res = await fetcher<NoticeDetail>(`/v1/notices/${id}`, {
-      method: 'GET',
-      headers: {
-        Cookie: cookie,
-      },
-    });
-
-    if (res?.code === 401 || res?.code === 403) {
-      return <RedirectWithLoginModalPage />;
+  if (isLoading) return null;
+  if (isError) {
+    switch (error?.code) {
+      case 'UNAUTHORIZED':
+        return <RedirectWithLoginModalPage />;
+      case 'NOT_FOUND':
+        return <NotFoundPage />;
+      default:
+        return <ErrorPage />;
     }
-
-    if (res) notice = res.data;
-  } catch (e) {
-    console.error('fetch failed:', e);
   }
-
-  if (!notice) return <NotFoundPage />;
+  if (!notice) return <ErrorPage />;
 
   return (
     <div className="flex justify-center items-center w-full">

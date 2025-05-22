@@ -1,49 +1,51 @@
-import { ErrorTag, mergeTags } from '@/lib/errors/errorTags';
-
-export type ErrorLevel = 'fatal' | 'error' | 'warning' | 'info' | 'debug';
+import { ErrorLevel } from './errorLevels';
+import { ErrorCode, Errors } from './errors';
+import { convertTagsToRecord } from './errorTags';
 
 export interface AppErrorOptions {
-  message: string;
-  code?: string;
-  level?: ErrorLevel;
-  tags?: ErrorTag[];
+  code: ErrorCode;
+  messageOverride?: string;
   extra?: Record<string, unknown>;
   capture?: boolean;
 }
 
 export class AppError extends Error {
-  code?: string;
-  level: ErrorLevel;
-  tags?: Record<string, string>;
-  extra?: Record<string, unknown>;
+  readonly code: ErrorCode;
+  readonly level: ErrorLevel;
+  readonly tags: Record<string, string>;
+  readonly extra?: Record<string, unknown>;
 
-  constructor({ message, code, level = 'error', tags, extra, capture = false }: AppErrorOptions) {
-    super(message);
+  constructor(options: AppErrorOptions) {
+    const meta = Errors[options.code];
+    super(options.messageOverride ?? meta.message);
+
     this.name = 'AppError';
-    this.code = code;
-    this.level = level;
-    this.tags = tags ? mergeTags(...tags) : {};
-    this.extra = extra;
+    this.code = options.code;
+    this.level = meta.level;
+    this.tags = convertTagsToRecord([...(meta.tags ?? [])]);
+    this.extra = options.extra;
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, AppError);
     }
 
-    if (capture) {
-      this.capture(); // 자동 Sentry 로깅
+    if (options.capture) {
+      this.capture();
     }
   }
 
-  capture() {
-    // 동적 import
-    import('@sentry/nextjs').then((Sentry) => {
+  static create(options: AppErrorOptions): AppError {
+    return new AppError(options);
+  }
+
+  capture(): this {
+    import('@sentry/nextjs').then((Sentry) =>
       Sentry.captureException(this, {
         level: this.level,
         tags: this.tags,
         extra: this.extra,
-      });
-    });
-
-    return this; // 체이닝
+      }),
+    );
+    return this;
   }
 }

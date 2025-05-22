@@ -1,6 +1,5 @@
-import { errors } from '@/constatns/errors';
 import { AppError } from '@/lib/errors/appError';
-import { ErrorTags } from '@/lib/errors/errorTags';
+import { Errors } from '@/lib/errors/errors';
 import { useToastStore } from '@/stores/toastStore';
 import { useUserPersistStore } from '@/stores/userPersistStore';
 import { BaseResponse } from '@/types/common/base';
@@ -17,24 +16,20 @@ function fetchWithAuth(url: string, timeout: number, options?: RequestInit) {
   });
 }
 
-async function parseJSON<T>(res: Response): Promise<BaseResponse<T> | undefined> {
+async function parseJSON<T>(res: Response): Promise<BaseResponse<T>> {
   try {
     return await res.json();
   } catch (err) {
-    new AppError({
-      message: 'JSON 파싱 실패',
-      code: 'JSON_PARSE_ERROR',
-      level: 'warning',
-      tags: [ErrorTags.API],
-      extra: { status: res.status, url: res.url },
+    throw AppError.create({
+      code: 'UNKNOWN',
+      messageOverride: 'JSON 파싱 실패',
+      extra: { status: res.status, url: res.url, originalError: err },
       capture: true,
     });
-    console.error('Failed to parse JSON:', err);
-    return undefined;
   }
 }
 
-async function handleTokenRefresh<T>(fetchFn: () => Promise<Response>): Promise<BaseResponse<T> | undefined> {
+async function handleTokenRefresh<T>(fetchFn: () => Promise<Response>): Promise<BaseResponse<T>> {
   const toast = useToastStore.getState();
   const userStore = useUserPersistStore.getState();
 
@@ -49,24 +44,20 @@ async function handleTokenRefresh<T>(fetchFn: () => Promise<Response>): Promise<
     // 리프레시 실패 시 토큰 만료로 로그아웃 처리
     if (!refreshRes.ok) {
       userStore.cleanUser();
-      toast.showToast(errors.TOKEN_EXPIRED, 'error');
-      return undefined;
+      toast.showToast(Errors.TOKEN_EXPIRED.message, 'error');
     }
 
     // 리프레시 성공 시 원 요청 재호출
     const retriedRes = await fetchFn();
     return await parseJSON<T>(retriedRes);
   } catch (err) {
-    new AppError({
-      message: '토큰 리프레시 처리 중 예외',
-      code: 'TOKEN_REFRESH_EXCEPTION',
-      level: 'error',
-      tags: [ErrorTags.AUTH, ErrorTags.API],
+    toast.showToast(Errors.UNKNOWN.message, 'error');
+    throw AppError.create({
+      code: 'UNKNOWN',
+      messageOverride: '토큰 리프레시 실패',
       extra: { error: err },
       capture: true,
     });
-    toast.showToast(errors.DEFAULT, 'error');
-    return undefined;
   }
 }
 
@@ -74,7 +65,7 @@ async function handleError<T>(
   res: Response,
   responseBody: BaseResponse<T> | undefined,
   retryFetch: () => Promise<Response>,
-): Promise<BaseResponse<T> | undefined> {
+): Promise<BaseResponse<T>> {
   const { message } = responseBody || {};
   const toast = useToastStore.getState();
   const userStore = useUserPersistStore.getState();
@@ -86,28 +77,30 @@ async function handleError<T>(
     }
     // 토큰이 아예 없는 경우
     userStore.cleanUser();
-    toast.showToast(errors.UNAUTHORIZED, 'error');
-  } else if (res.status === 403) {
-    // 인증받지 못한 유저의 경우
-    userStore.setIsApproved(false);
-    toast.showToast(errors.FORBIDDEN, 'error');
-  } else {
-    // 기타 에러
-    new AppError({
-      message: `Unhandled API Error: ${res.status}`,
-      code: 'API_UNHANDLED_ERROR',
-      level: res.status >= 500 ? 'error' : 'warning',
-      tags: [ErrorTags.API],
-      extra: { status: res.status, url: res.url, responseBody },
-      capture: true,
+    throw AppError.create({
+      code: 'UNAUTHORIZED',
     });
-    toast.showToast(errors.DEFAULT, 'error');
   }
 
-  return responseBody;
+  if (res.status === 403) {
+    // 인증받지 못한 유저의 경우
+    userStore.setIsApproved(false);
+    throw AppError.create({
+      code: 'FORBIDDEN',
+    });
+  }
+
+  // 기타 에러
+  toast.showToast(Errors.UNKNOWN.message, 'error');
+  throw AppError.create({
+    code: 'UNKNOWN',
+    messageOverride: 'Unhandled API Error: ${res.status}',
+    extra: { status: res.status, url: res.url, responseBody },
+    capture: true,
+  });
 }
 
-export async function fetcher<T>(url: string, options?: RequestInit): Promise<BaseResponse<T> | undefined> {
+export async function fetcher<T>(url: string, options?: RequestInit): Promise<BaseResponse<T>> {
   // AI 응답만 타임아웃 1분, 나머지는 10초
   const timeout = url.includes('/v1/chatbots') ? 60000 : 10000;
   const fetchFn = () => fetchWithAuth(url, timeout, options);

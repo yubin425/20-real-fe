@@ -1,44 +1,33 @@
-import { cookies } from 'next/headers';
+'use client';
 
-import { fetcher } from '@/api/fetcher';
+import { useParams } from 'next/navigation';
+
 import { ImageViewer } from '@/components/common/molecules/ImageViewer';
 import { MarkdownViewer } from '@/components/common/molecules/MarkdownViewer';
+import { ErrorPage } from '@/components/common/pages/ErrorPage';
 import { NotFoundPage } from '@/components/common/pages/NotFoundPage';
 import { RedirectWithLoginModalPage } from '@/components/common/pages/RedirectWithLoginModalPage';
 import { PostHeader } from '@/components/post/molecules/PostHeader';
 import { PostSummary } from '@/components/post/molecules/PostSummary';
 import { PostCommentSection } from '@/components/post/organisms/PostCommentSection';
 import { PostReaction } from '@/components/post/organisms/PostReaction/PostReaction';
-import { NewsDetail } from '@/types/post/newsDetail';
+import { useNewsDetailQuery } from '@/queries/news/useNewsDetailQuery';
 import { PostTypes } from '@/types/post/postType';
 
-interface NewsDetailPageProps {
-  params: Promise<{ id: string }>;
-}
+export function NewsDetailPage() {
+  const params = useParams();
+  const id: string = params?.id as string;
+  const { data: news, isLoading, isError, error } = useNewsDetailQuery(id);
 
-export async function NewsDetailPage({ params }: NewsDetailPageProps) {
-  const cookie = (await cookies()).toString();
-  const { id } = await params;
-  let news: NewsDetail | null = null;
-
-  try {
-    const res = await fetcher<NewsDetail>(`/v1/news/${id}`, {
-      method: 'GET',
-      headers: {
-        Cookie: cookie,
-      },
-    });
-
-    if (res?.code === 401 || res?.code === 403) {
-      return <RedirectWithLoginModalPage />;
+  if (isLoading) return null;
+  if (isError) {
+    switch (error?.code) {
+      case 'UNAUTHORIZED': return <RedirectWithLoginModalPage/>
+      case 'NOT_FOUND': return <NotFoundPage/>
+      default: return <ErrorPage/>
     }
-
-    if (res) news = res.data;
-  } catch (e) {
-    console.error('fetch failed:', e);
   }
-
-  if (!news) return <NotFoundPage />;
+  if (!news) return <ErrorPage />;
 
   return (
     <div className="flex justify-center items-center w-full">

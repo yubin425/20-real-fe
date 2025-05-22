@@ -39,6 +39,9 @@ export function useInfiniteCursorQuery<TItem>({
       };
     },
     select: (data) => data.pages.flatMap((page) => page.items),
+    retry: () => {
+      return false;
+    },
     ...options,
   });
 }

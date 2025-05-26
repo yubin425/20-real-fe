@@ -1,4 +1,4 @@
-import { WikiDetailPage } from '@/components/wiki/pages/WikiDetailPage';
+import { WikiEditPage } from '@/components/wiki/pages/WikiEditPage';
 
 interface PageParams {
   params: Promise<{ title: string }>;
@@ -7,5 +7,5 @@ interface PageParams {
 export default async function Page({ params }: PageParams) {
   const { title } = await params;
 
-  return <WikiDetailPage title={title} />;
+  return <WikiEditPage title={title} />;
 }

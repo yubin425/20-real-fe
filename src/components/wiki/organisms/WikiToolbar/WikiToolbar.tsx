@@ -12,6 +12,17 @@ import {
   useRef,
   useState,
 } from 'react';
+import * as React from 'react';
+
+import { BlockQuoteButton } from '@/components/tiptap-editor/tiptap-ui/blockquote-button';
+import { CodeBlockButton } from '@/components/tiptap-editor/tiptap-ui/code-block-button';
+import { HeadingDropdownMenu } from '@/components/tiptap-editor/tiptap-ui/heading-dropdown-menu';
+import { ImageUploadButton } from '@/components/tiptap-editor/tiptap-ui/image-upload-button';
+import { LinkPopover } from '@/components/tiptap-editor/tiptap-ui/link-popover';
+import { ListDropdownMenu } from '@/components/tiptap-editor/tiptap-ui/list-dropdown-menu';
+import { MarkButton } from '@/components/tiptap-editor/tiptap-ui/mark-button';
+import { Spacer } from '@/components/tiptap-editor/tiptap-ui-primitive/spacer';
+import { ToolbarGroup, ToolbarSeparator } from '@/components/tiptap-editor/tiptap-ui-primitive/toolbar';
 
 type BaseProps = HTMLAttributes<HTMLDivElement>;
 
@@ -206,3 +217,39 @@ export const WikiToolbar = forwardRef<HTMLDivElement, ToolbarProps>(
 );
 
 WikiToolbar.displayName = 'WikiToolbar';
+
+export const MainToolbarContent = () => {
+  return (
+    <>
+      <Spacer />
+
+      <ToolbarSeparator />
+
+      <ToolbarGroup>
+        <HeadingDropdownMenu levels={[1, 2, 3, 4]} />
+        <ListDropdownMenu types={['bulletList', 'orderedList', 'taskList']} />
+        <BlockQuoteButton />
+        <CodeBlockButton />
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
+
+      <ToolbarGroup>
+        <MarkButton type="bold" />
+        <MarkButton type="italic" />
+        <MarkButton type="strike" />
+        <MarkButton type="code" />
+        <MarkButton type="underline" />
+        <LinkPopover />
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
+
+      <ToolbarGroup>
+        <ImageUploadButton text="Add" />
+      </ToolbarGroup>
+
+      <Spacer />
+    </>
+  );
+};

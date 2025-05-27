@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import Header from '@/components/common/Header';
-import Sidebar from '@/components/common/Sidebar';
+import { Header } from '@/components/common/organisms/Header';
+import { Sidebar } from '@/components/common/organisms/Sidebar';
 
 export default function WithHeaderLayout({
   children,

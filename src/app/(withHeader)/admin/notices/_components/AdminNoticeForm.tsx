@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { getNoticeDetail } from '@/api/post';
-import MarkdownViewer from '@/components/common/MarkdownViewer';
+import { MarkdownViewer } from '@/components/common/molecules/MarkdownViewer';
 
 const userNames = [
   { value: 'helper.ryan(헬퍼라이언)' },
